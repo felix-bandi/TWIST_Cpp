@@ -253,9 +253,9 @@ void MainWindow::OnPaint()
 				pRenderTarget->DrawLine(mouse, p1, Brush, 1.0, pStrokeStyle);
 			}
 		}
-		p1.x = -sin(delta_) * 500 + mouse.x; p1.y = -cos(delta_) * 500 + mouse.y;
-		Brush->SetColor(D2D1::ColorF(D2D1::ColorF::DarkGray));
-		pRenderTarget->DrawLine(mouse, p1, Brush, 5.0, pStrokeStyle);
+		/*p1.x = -sin(delta_) * 500 + mouse.x; p1.y = -cos(delta_) * 500 + mouse.y;
+		Brush->SetColor(D2D1::ColorF(D2D1::ColorF::Green));
+		pRenderTarget->DrawLine(mouse, p1, Brush, 5.0, pStrokeStyle);*/
 
 		EL_lyuk_rajzol();
 		SQ_lyuk_rajzol();
