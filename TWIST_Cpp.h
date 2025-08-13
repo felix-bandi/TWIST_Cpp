@@ -22,7 +22,7 @@ class MainWindow : public BaseWindow<MainWindow>
 	ID2D1DCRenderTarget*	m_pDCRT;
 	ID2D1SolidColorBrush	*Brush, *bv[2][2], *bp[2][2], *fekete, *fehér, *cyan;
 	IDWriteFactory*			pDWriteFactory;
-	IDWriteTextFormat*		TF1, *TF2;
+	IDWriteTextFormat		*TF1, *TF2, *TF2_dir;
 	ID2D1StrokeStyle*		pStrokeStyle;
 	ID2D1PathGeometry*		pPathGeometry;
 	ID2D1PathGeometry*		pPathGeometry_2;
@@ -80,7 +80,8 @@ class MainWindow : public BaseWindow<MainWindow>
 	vector<GOMB_2>			drivers; GOMB_2 driver, save1, save2, load;
 	vector<WIN32_FIND_DATA>	File_vector;
 	GC						gc;
-	WCHAR					text[MAX_PATH], kiv_drv;
+	WCHAR					text[MAX_PATH], kiv_drv, dialog_path[260];
+	DWORD					dialog_last_click_time = 0;
 	RECT					rc, BOX_GC, BOX_XY, BOX_ALAK, BOX_CUSTOM, BOX_MODE, BOX_SZINT, BOX_FILE;
 	D2D1_MATRIX_3X2_F		sc, tr, sc_alk, tr_alk;
 	HDC						hdc;
@@ -94,7 +95,7 @@ class MainWindow : public BaseWindow<MainWindow>
 	float r, rx, rrx, ry, rry, nagyitas, n_sz, dx, dy, szög = 1.0;
 	int xe, ye, xxx, yyy, xx, yy, x, y, wheel, count, metsz, sz_sz, NN = 0, sz[2], kk;
 	int ALAK_k = -1, ALAK_kk = 0, GC_k = -1, GC_kk = 0, hossz, MODE_k = -1, MODE_kk = 0, SZINT_k = -1, SZINT_kk = 0, alk_sz = 0;
-	int FILE_k = -1, FILE_kk = -1;
+	int FILE_k = -1, FILE_kk = -1, dialog_last_click_index = -1;
 	D2D1_POINT_2F eltolas, hely, ak, av, f, m, p, mouse_grid, p1, p2, p3, p4, f1, f2, mouse;
 	D2D1_SIZE_F meret;
 	D2D1_POINT_2F pontok[100];
@@ -196,6 +197,7 @@ public:
 	void	alk_krv_rajzol(int alk);
 	void	alk_letesz(int alk);
 	void	Nyomtat();
+	void	UpdateDialogContents();
 
 public:
 
@@ -205,4 +207,7 @@ public:
 
 	PCWSTR  ClassName() const { return L"Circle Window Class"; }
 	LRESULT HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam);
+
+	enum DialogSortMode { DIALOG_SORT_DIR_FIRST = 0, DIALOG_SORT_MIXED = 1 };
+	DialogSortMode dialogSortMode = DIALOG_SORT_DIR_FIRST;
 };

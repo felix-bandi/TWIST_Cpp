@@ -1,6 +1,9 @@
 #ifndef _BASEWIN_H
 #define _BASEWIN_H
 
+// (Ha még nincs máshol, érdemes biztosítani, hogy a Windows definíciók elérhetõk legyenek)
+// #include <Windows.h>
+
 template <class DERIVED_TYPE> 
 class BaseWindow
 {
@@ -14,7 +17,6 @@ public:
             CREATESTRUCT* pCreate = (CREATESTRUCT*)lParam;
             pThis = (DERIVED_TYPE*)pCreate->lpCreateParams;
             SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)pThis);
-
             pThis->m_hwnd = hwnd;
         }
         else
@@ -22,13 +24,8 @@ public:
             pThis = (DERIVED_TYPE*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
         }
         if (pThis)
-        {
             return pThis->HandleMessage(uMsg, wParam, lParam);
-        }
-        else
-        {
-            return DefWindowProc(hwnd, uMsg, wParam, lParam);
-        }
+        return DefWindowProc(hwnd, uMsg, wParam, lParam);
     }
 
     BaseWindow() : m_hwnd(NULL) { }
@@ -45,26 +42,33 @@ public:
         HMENU hMenu = 0
         )
     {
-        WNDCLASS wc = {};
+        // Ellenõrizzük, hogy már regisztrálták-e a class-t (hogy elkerüljük az ütközést).
+        WNDCLASS existing = {};
+        HINSTANCE hInst = GetModuleHandle(NULL);
+        if (!GetClassInfo(hInst, ClassName(), &existing))
+        {
+            WNDCLASS wc = {};
+            wc.style         = CS_HREDRAW | CS_VREDRAW | CS_DBLCLKS;   // <- dupla kattintás engedélyezése
+            wc.lpfnWndProc   = DERIVED_TYPE::WindowProc;
+            wc.hInstance     = hInst;
+            wc.lpszClassName = ClassName();
+            // (Igény szerint lehet: wc.hCursor = LoadCursor(NULL, IDC_ARROW); wc.hbrBackground = (HBRUSH)(COLOR_WINDOW+1);)
 
-        wc.lpfnWndProc   = DERIVED_TYPE::WindowProc;
-        wc.hInstance     = GetModuleHandle(NULL);
-        wc.lpszClassName = ClassName();
-
-        RegisterClass(&wc);
+            if (!RegisterClass(&wc))
+                return FALSE;
+        }
 
         m_hwnd = CreateWindowEx(
             dwExStyle, ClassName(), lpWindowName, dwStyle, x, y,
-            nWidth, nHeight, hWndParent, hMenu, GetModuleHandle(NULL), this
-            );
+            nWidth, nHeight, hWndParent, hMenu, hInst, this
+        );
 
-        return (m_hwnd ? TRUE : FALSE);
+        return m_hwnd != NULL;
     }
 
     HWND Window() const { return m_hwnd; }
 
 protected:
-
     virtual PCWSTR  ClassName() const = 0;
     virtual LRESULT HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam) = 0;
 

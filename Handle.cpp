@@ -64,6 +64,80 @@ LRESULT MainWindow::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		dialog.cs.kk = false;
 		return 0;
 
+	case WM_LBUTTONDBLCLK:
+	{
+		// Duplakatt kezelés – könyvtárba belépés fájl módnál
+		if (mode == _file)
+		{
+			int mx = GET_X_LPARAM(lParam);
+			int my = GET_Y_LPARAM(lParam);
+
+			// Ellenõrizzük hogy a lista kliens területén belül vagyunk-e
+			if (mx >= dialog.client.left && mx <= dialog.client.right &&
+				my >= dialog.client.top && my < dialog.client.bottom)
+			{
+				const int sorMag = 16;
+				int relatívSor = (my - (int)dialog.client.top) / sorMag;
+				if (relatívSor >= 0)
+				{
+					// Görgetési offset kiszámítása
+					size_t scrollOffset = 0;
+					if (dialog.cs.range > 0)
+					{
+						float rel = (dialog.cs.p - dialog.cs.min) / dialog.cs.range;
+						if (rel < 0) rel = 0;
+						if (rel > 1) rel = 1;
+						scrollOffset = (size_t)lround(dialog.out_N * rel);
+						if (scrollOffset > (size_t)dialog.out_N) scrollOffset = dialog.out_N;
+					}
+					size_t absIndex = scrollOffset + (size_t)relatívSor;
+					if (absIndex < File_vector.size())
+					{
+						WIN32_FIND_DATA &ffd = File_vector[absIndex];
+						bool isDir = (ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) != 0;
+						if (isDir)
+						{
+							const WCHAR* name = ffd.cFileName;
+							if (wcscmp(name, L".") == 0)
+							{
+								// maradunk
+							}
+							else if (wcscmp(name, L"..") == 0)
+							{
+								// vissza egy szinttel
+								size_t len = wcslen(dialog_path);
+								if (len > 0)
+								{
+									if (dialog_path[len - 1] == L'/') len--;
+									while (len > 0 && dialog_path[len - 1] != L'/') len--;
+									dialog_path[len] = 0;
+								}
+							}
+							else
+							{
+								// belépünk: hozzáfûzés név + '/'
+								size_t cur = wcslen(dialog_path);
+								size_t nlen = wcslen(name);
+								if (cur + nlen + 2 < 260)
+								{
+									for (size_t i = 0; i < nlen; ++i)
+										dialog_path[cur + i] = name[i];
+									cur += nlen;
+									dialog_path[cur++] = L'/';
+									dialog_path[cur] = 0;
+								}
+							}
+							dialog.dirchange = true;
+							dialog.ini = true;
+							InvalidateRect(m_hwnd, NULL, FALSE);
+						}
+					}
+				}
+			}
+		}
+		return 0;
+	}
+
 	case WM_RBUTTONDOWN:
 		OnRButtonDown(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam), (DWORD)wParam);
 		return 0;
@@ -79,23 +153,23 @@ LRESULT MainWindow::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 	case WM_KEYDOWN:
 		if (!edit.sz && !dialog.edit.sz)
 		{
-			if (wParam == 0x4d) Save(rajz);		// 'M'
+			if (wParam == 0x4D) Save(rajz);		// 'M'
 			if (wParam == 0x41) Save(alkatrész);// 'A'
-			if (wParam == 0x4c) Load(rajz);		// 'L'
+			if (wParam == 0x4C) Load(rajz);		// 'L'
 			if (wParam == 0x44) Load(alkatrész);// 'D'
 			if (wParam == VK_DELETE && mode == _töröl) Töröl();
 			if (wParam == VK_ESCAPE)  DestroyWindow(m_hwnd);
 		}
 		if (wParam == VK_ESCAPE)  DestroyWindow(m_hwnd);
-		return 0;
-
-	/*case WM_SETCURSOR:
-		if (LOWORD(lParam) == HTCLIENT)
+		if (wParam == VK_F6)
 		{
-			//SetCursor(Cursor_system);
-			return true;
+			dialogSortMode = (dialogSortMode == DIALOG_SORT_DIR_FIRST)
+				? DIALOG_SORT_MIXED
+				: DIALOG_SORT_DIR_FIRST;
+			dialog.ini = true;          // újrarendezés
+			InvalidateRect(m_hwnd, nullptr, FALSE);
 		}
-		break;*/
+		return 0;
 
 	case WM_COMMAND:
 		if (!krv && !dialog.edit.sz)
@@ -137,10 +211,8 @@ LRESULT MainWindow::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			if (wParam == VK_BACK) dialog.edit.c.pop_back();
 			else
 			{
-				char w = wParam;
-				//if (w > 65535) w -= 65536;				
-				//if (isalnum(w) || w == 336 || w == 337 || w == 368 || w == 369) 
-				if (isalnum(w)) dialog.edit.c.push_back(w);
+				char w = (char)wParam;
+				if (isalnum((unsigned char)w)) dialog.edit.c.push_back(w);
 				int2 = w;
 			}
 		}
@@ -158,14 +230,14 @@ LRESULT MainWindow::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 				case 0x37: if (edit.c.size() < 4) edit.c.push_back('7'); break;
 				case 0x38: if (edit.c.size() < 4) edit.c.push_back('8'); break;
 				case 0x39: if (edit.c.size() < 4) edit.c.push_back('9'); break;
-				case VK_BACK: if (edit.c.size() > 0) edit.c.pop_back(); break;
+				case VK_BACK: if (!edit.c.empty()) edit.c.pop_back(); break;
 				case VK_RETURN: 
 				{
 					edit_sz = false;				
-					if (edit.c.size() == 0) edit.c.push_back('1');
+					if (edit.c.empty()) edit.c.push_back('1');
 					if (grid.sz)
 					{
-						int h = edit.c.size();
+						int h = (int)edit.c.size();
 						grid.c.clear();
 						for (int n = 0; n < h; n++) grid.c.push_back(edit.c[n]);
 						grid.sz = false;
@@ -175,13 +247,13 @@ LRESULT MainWindow::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 					}
 					if (custom_sz)
 					{
-						int s = CUSTOM[ALAK_kk].size();
+						int s = (int)CUSTOM[ALAK_kk].size();
 						int i = 0;
 						while (s >= 1)
 						{
 							if (CUSTOM_vector[i].sz)
 							{
-								int h = edit.c.size();
+								int h = (int)edit.c.size();
 								CUSTOM[ALAK_kk][i].c.clear();
 								for (int n = 0; n < h; n++) CUSTOM[ALAK_kk][i].c.push_back(edit.c[n]);
 								custom_sz = false;
@@ -212,6 +284,7 @@ LRESULT MainWindow::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			if (arc.i == D2D1_SWEEP_DIRECTION_CLOCKWISE) { arc.i = D2D1_SWEEP_DIRECTION_COUNTER_CLOCKWISE; }
 			else { arc.i = D2D1_SWEEP_DIRECTION_CLOCKWISE; }
 		}
+		return 0;
 	}
 	return DefWindowProc(m_hwnd, uMsg, wParam, lParam);
 }

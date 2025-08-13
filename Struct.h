@@ -251,6 +251,7 @@ struct Dialog :D2D1_RECT_F
 	D2D1_RECT_F client;
 	EDIT edit;
 	D2D1_POINT_2F p1, p2;
+	DWORD lastEnumError = 0; // új
 };
 
 struct List :D2D1_RECT_F

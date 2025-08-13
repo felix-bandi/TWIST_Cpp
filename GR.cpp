@@ -121,12 +121,24 @@ HRESULT MainWindow::CreateGraphicsResources()
 				DWRITE_FONT_WEIGHT_REGULAR,
 				DWRITE_FONT_STYLE_NORMAL,
 				DWRITE_FONT_STRETCH_NORMAL,
-				15.0f,
+				17.0f,
 				L"",
 				&TF2
 			);
 			TF2->SetTextAlignment(DWRITE_TEXT_ALIGNMENT_LEADING);
 			TF2->SetParagraphAlignment(DWRITE_PARAGRAPH_ALIGNMENT_CENTER);
+			pDWriteFactory->CreateTextFormat(
+				L"Georgia",                // Font family name.
+				NULL,                       // Font collection (NULL sets it to use the system font collection).
+				DWRITE_FONT_WEIGHT_BOLD,
+				DWRITE_FONT_STYLE_NORMAL,
+				DWRITE_FONT_STRETCH_NORMAL,
+				17.0f,
+				L"",
+				&TF2_dir
+			);
+			TF2_dir->SetTextAlignment(DWRITE_TEXT_ALIGNMENT_LEADING);
+			TF2_dir->SetParagraphAlignment(DWRITE_PARAGRAPH_ALIGNMENT_CENTER);
 			pFactory->CreatePathGeometry(&pPathGeometry);
 			pFactory->CreatePathGeometry(&pPathGeometry_2);
 			pFactory->CreatePathGeometry(&pPathGeometry_3);
@@ -583,6 +595,7 @@ void MainWindow::DiscardGraphicsResources()
 	SafeRelease(&pDWriteFactory);
 	SafeRelease(&TF1);
 	SafeRelease(&TF2);
+	SafeRelease(&TF2_dir);
 	SafeRelease(&fekete);
 	SafeRelease(&fehér);
 	SafeRelease(&cyan);

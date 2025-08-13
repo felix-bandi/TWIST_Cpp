@@ -18,7 +18,32 @@ using namespace std;
 #include "TWIST_Cpp.h"
 #include <strsafe.h>
 #include <stdio.h>
-//#include <filesystem>
+#include <algorithm>
+
+static bool IsDriveReady(wchar_t letter)
+{
+	wchar_t root[] = L"X:\\";
+	root[0] = letter;
+	DWORD attrs = GetFileAttributesW(root);
+	if (attrs == INVALID_FILE_ATTRIBUTES)
+	{
+		// Próbáljuk eszköz handle-lal
+		std::wstring dev = L"\\\\.\\"; dev += letter; dev += L":";
+		HANDLE h = CreateFileW(dev.c_str(), 0,
+			FILE_SHARE_READ | FILE_SHARE_WRITE, nullptr,
+			OPEN_EXISTING, 0, nullptr);
+		if (h == INVALID_HANDLE_VALUE)
+		{
+			DWORD err = GetLastError();
+			if (err == ERROR_NOT_READY || err == ERROR_PATH_NOT_FOUND ||
+				err == ERROR_DEVICE_NOT_CONNECTED)
+				return false;
+			return false;
+		}
+		CloseHandle(h);
+	}
+	return true;
+}
 
 void MainWindow::ALAK_rajzol()
 {
@@ -158,244 +183,220 @@ void MainWindow::Filedialog_rajzol()
 	pRenderTarget->FillRectangle(dialog, Brush);
 	Brush->SetColor(D2D1::ColorF(D2D1::ColorF::DarkGreen));
 	pRenderTarget->DrawRectangle(dialog, Brush, 2);
-	DWORD dr = GetLogicalDrives();
-	int j = 0;
+
+	// Meghajtó gombok felépítése
 	dialog.kd = -1;
 	drivers.clear();
-	for (char i = 0; i < 32; i++)
+	DWORD mask = GetLogicalDrives();
+	int col = 0;
+	for (int i = 0; i < 26; ++i)
 	{
-		if (dr & 1 << i)
+		if (mask & (1 << i))
 		{
-			driver.left = dialog.left + 10 + 40 * j;
+			driver.left = dialog.left + 10 + 40 * col;
 			driver.top = dialog.top + 10;
 			driver.right = driver.left + 30;
 			driver.bottom = driver.top + 30;
-			driver.ch = 'A' + i;
-			drivers.push_back(driver);	
-			j++;
+			driver.ch = (wchar_t)('A' + i);
+			drivers.push_back(driver);
+			col++;
 		}
 	}
 
 	Brush->SetColor(D2D1::ColorF(D2D1::ColorF::DarkGreen));
 	pRenderTarget->DrawLine(dialog.p1, dialog.p2, Brush, 2);
-	int1 = dialog.kkd;
-	boolean v = false;
 
-	for(int i=0; i<drivers.size(); i++)
+	// Ellenõrizzük a kiválasztott meghajtót (ha nincs, fallback 0)
+	bool talált = false;
+	for (int i = 0; i < (int)drivers.size(); ++i)
 	{
-		if (drivers[i].ch == kiv_drv) { v = true; dialog.kkd = i; }
+		if (drivers[i].ch == kiv_drv) { talált = true; dialog.kkd = i; break; }
+	}
+	if (!talált && !drivers.empty())
+	{
+		dialog.kkd = 0;
+		kiv_drv = drivers[0].ch;
+		dialog.dirchange = true;
 	}
 
-	if (!v) 
-	{ 
-		dialog.kkd = 0; 
-		kiv_drv = drivers[dialog.kkd].ch;
-		dialog.dirchange = true; 
-	}
-
-	for (int i=0; i < drivers.size(); i++)
+	// Meghajtó gombok kirajzolása
+	for (int i = 0; i < (int)drivers.size(); i++)
 	{
+		bool ready = IsDriveReady(drivers[i].ch);
 		driver = drivers[i];
-		rrect.rect = driver;  rrect.radiusX = 5;  rrect.radiusY = 5;
-		if (driver.left <= mouse.x && driver.right >= mouse.x && driver.bottom >= mouse.y && driver.top < mouse.y)
-		{
-			dialog.kd = i;
+		rrect.rect = driver; rrect.radiusX = 5; rrect.radiusY = 5;
+
+		bool hover = (driver.left <= mouse.x && driver.right >= mouse.x &&
+			driver.top <= mouse.y && driver.bottom >= mouse.y);
+		if (hover) dialog.kd = i;
+
+		if (!ready)
+			Brush->SetColor(D2D1::ColorF(D2D1::ColorF::DarkRed));
+		else if (dialog.kkd == i)
+			Brush->SetColor(D2D1::ColorF(D2D1::ColorF::Green));
+		else if (hover)
 			Brush->SetColor(D2D1::ColorF(D2D1::ColorF::LightGray));
-		}
-		else Brush->SetColor(D2D1::ColorF(D2D1::ColorF::Gray));
-		if (dialog.kkd == i) Brush->SetColor(D2D1::ColorF(D2D1::ColorF::Green));
+		else
+			Brush->SetColor(D2D1::ColorF(D2D1::ColorF::Gray));
+
 		pRenderTarget->FillRoundedRectangle(rrect, Brush);
 		Brush->SetColor(D2D1::ColorF(D2D1::ColorF::DarkCyan));
 		pRenderTarget->DrawRoundedRectangle(rrect, Brush, 1);
+
 		text[0] = drivers[i].ch; text[1] = ' '; text[2] = ':';
 		Brush->SetColor(D2D1::ColorF(D2D1::ColorF::White));
 		pRenderTarget->DrawText(text, 3, TF1, driver, Brush);
 	}
 
-	WCHAR a[260] = L"C:/", b[260] = L"*.*";// , c[260] = L"*.*";
-	a[0] = drivers[dialog.kkd].ch;
-	wcscat_s(a, b);
+	// --- RÉGI enumerációs kód TÖRÖLVE ---
+	// Helyette: központosított frissítés
+	UpdateDialogContents();
 
-	if (dialog.dirchange)
-	{
-		dialog.hFind = FindFirstFile(a, &dialog.FindFileData);
-		File_vector.clear();
-		if (dialog.hFind != INVALID_HANDLE_VALUE)
-			do
-			{
-				File_vector.push_back(dialog.FindFileData);
-			} while (FindNextFile(dialog.hFind, &dialog.FindFileData));
-		FindClose(dialog.hFind);
-		dialog.ini = true;
-		dialog.dirchange = false;
-	}
-	size_t TF, Hely_N, File_N;
-	if (dialog.ini)
-	{
-		dialog.cs.v = false;
-		TF = 16, Hely_N = (dialog.client.bottom - dialog.client.top) / TF, File_N = File_vector.size();
-		if (Hely_N < File_N) { NN = Hely_N; dialog.cs.v = true; dialog.out_N = File_N - Hely_N; }
-			else NN = File_N;
-		float const arány = float(Hely_N) / float(File_N);
-		dialog.cs.length = arány * (dialog.client.bottom - dialog.client.top);
-		dialog.cs.min = dialog.cs.p = dialog.cs.top + 3;
-		//int2 = File_N; int3 = Hely_N; //int1 = File_N - Hely_N; akarmi = int1;
-		if (File_N > 1)
-		{
-			size_t a = 0, b = File_N - 1, A, B;
-			WIN32_FIND_DATA t;
-			do
-			{
-				if (File_vector[a].dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) A = 0; else A = 1;
-				if (File_vector[b].dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) B = 0; else B = 2;
-				switch (A+B)
-				{
-				case 0:
-					a++;
-					break;
-				case 1:
-					t = File_vector[a];
-					File_vector[a] = File_vector[b];
-					File_vector[b] = t;
-					a++; b--;
-					break;
-				case 2:
-					a++; b--;
-					break;
-				case 3:
-					b--;
-				}
-			} while (a <= b);
-			if(a>1)
-			{
-				wchar_t* copy1=nullptr, * copy2=nullptr;
-				errno_t err;
-				for(int i=0; i < a-1; i++)
-					for(int j=i+1; j < a; j++)
-					{
-						err = _wcslwr_s(copy1 = _wcsdup(File_vector[i].cFileName),1+ std::wcslen(File_vector[i].cFileName));
-						err = _wcslwr_s(copy2 = _wcsdup(File_vector[j].cFileName),1+ std::wcslen(File_vector[j].cFileName));
-						if(wcscmp(copy1,copy2)>0)
-						{
-							t = File_vector[i];
-							File_vector[i] = File_vector[j];
-							File_vector[j] = t;
-						}
-						free(copy1);
-						free(copy2);
-					}
-			}
-			if ((File_N - a) > 1)
-			{
-				wchar_t* copy1 = nullptr, * copy2 = nullptr;
-				errno_t err;
-				for (int i = a; i < File_N - 1; i++)
-					for (int j = i + 1; j < File_N; j++)
-					{
-						err = _wcslwr_s(copy1 = _wcsdup(File_vector[i].cFileName), 1 + std::wcslen(File_vector[i].cFileName));
-						err = _wcslwr_s(copy2 = _wcsdup(File_vector[j].cFileName), 1 + std::wcslen(File_vector[j].cFileName));
-						if (wcscmp(copy1, copy2) > 0)
-						{
-							t = File_vector[i];
-							File_vector[i] = File_vector[j];
-							File_vector[j] = t;
-						}
-						free(copy1);
-						free(copy2);
-					}
-			}
-		}
-		dialog.ini = false;
-	}
-
+	// Görgetõsáv (ha kell)
 	if (dialog.cs.v)
 	{
 		dialog.cs.k = false;
-		if (dialog.cs.left <= mouse.x && dialog.cs.right >= mouse.x && dialog.cs.bottom >= mouse.y && dialog.cs.top <= mouse.y) dialog.cs.k = true;
-		
+		if (dialog.cs.left <= mouse.x && dialog.cs.right >= mouse.x &&
+			dialog.cs.top <= mouse.y && dialog.cs.bottom >= mouse.y)
+			dialog.cs.k = true;
+
 		dialog.cs.max = dialog.cs.bottom - dialog.cs.length - 3;
 		dialog.cs.range = dialog.cs.max - dialog.cs.min;
 		dialog.cs.value = dialog.cs.p - dialog.cs.min;
+
 		pRenderTarget->DrawRectangle(dialog.cs, Brush, 2);
 
-		dialog.cs.bar.right = dialog.cs.right - 3;
 		dialog.cs.bar.left = dialog.cs.left + 3;
+		dialog.cs.bar.right = dialog.cs.right - 3;
 		dialog.cs.bar.top = dialog.cs.p;
-		dialog.cs.bar.bottom = dialog.cs.length + dialog.cs.p;
-		if(dialog.cs.kk) Brush->SetColor(D2D1::ColorF(D2D1::ColorF::Yellow));
-			else if(dialog.cs.k) Brush->SetColor(D2D1::ColorF(D2D1::ColorF::YellowGreen));
-			else Brush->SetColor(D2D1::ColorF(D2D1::ColorF::Goldenrod));
+		dialog.cs.bar.bottom = dialog.cs.p + dialog.cs.length;
+
+		if (dialog.cs.kk) Brush->SetColor(D2D1::ColorF(D2D1::ColorF::Yellow));
+		else if (dialog.cs.k) Brush->SetColor(D2D1::ColorF(D2D1::ColorF::YellowGreen));
+		else Brush->SetColor(D2D1::ColorF(D2D1::ColorF::Goldenrod));
+
 		pRenderTarget->FillRectangle(dialog.cs.bar, Brush);
 		Brush->SetColor(D2D1::ColorF(D2D1::ColorF::YellowGreen));
 	}
-	
-	WCHAR dir[] = L"<DIR>  ", w[MAX_PATH];
-	size_t const h1 = std::wcslen(dir);
-	size_t k = round(dialog.out_N * (dialog.cs.value / dialog.cs.range));
-	if (k > dialog.out_N) k = dialog.out_N;
-	flo1 = dialog.cs.value; flo2 = dialog.cs.range; flo3 = flo1 / flo2;
+
+	// Fájl lista
 	dialog.k = -1;
+	WCHAR dirPrefix[] = L"<DIR>  ";
+	WCHAR sorBuf[260];
+	size_t prefixLen = wcslen(dirPrefix);
+
+	size_t fileN = File_vector.size();
+	size_t kOffset = 0;
+	if (dialog.cs.v && dialog.cs.range > 0.0001f)
+	{
+		float rel = (dialog.cs.p - dialog.cs.min) / dialog.cs.range;
+		if (rel < 0) rel = 0;
+		if (rel > 1) rel = 1;
+		kOffset = (size_t)lround(dialog.out_N * rel);
+		if (kOffset > (size_t)dialog.out_N) kOffset = dialog.out_N;
+	}
+
 	for (int i = 0; i < NN; i++)
 	{
+		if (kOffset + i >= fileN) break;
+
 		rect.left = dialog.client.left + 10;
 		rect.right = dialog.client.right - 20;
 		rect.top = dialog.client.top + i * 16;
-		rect.bottom = dialog.client.top + (i + 1) * 16;
-		if (rect.left <= mouse.x && rect.right >= mouse.x && rect.bottom >= mouse.y && rect.top < mouse.y)
+		rect.bottom = rect.top + 16;
+
+		bool hover = (rect.left <= mouse.x && rect.right >= mouse.x &&
+			rect.top < mouse.y && rect.bottom >= mouse.y);
+
+		if (hover)
 		{
 			dialog.k = i;
 			Brush->SetColor(D2D1::ColorF(D2D1::ColorF::White));
 		}
 		else Brush->SetColor(D2D1::ColorF(D2D1::ColorF::Gray));
 
-		size_t const h2 = std::wcslen(File_vector[i+k].cFileName);
-		for (size_t n = 0; n < h2; n++) text[n] = File_vector[i+k].cFileName[n];
-		for (size_t n = h2; n < 260; n++) text[n] = ' ';
-		if (File_vector[i+k].dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
+		const WIN32_FIND_DATA &ffd = File_vector[kOffset + i];
+		const WCHAR* fname = ffd.cFileName;
+		size_t nameLen = wcslen(fname);
+
+		if (ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
 		{
-			for (size_t n = 0; n < h1; n++) w[n] = dir[n];
-			for (size_t n = h1; n < 260; n++) w[n] = text[n - h1];
-			pRenderTarget->DrawText(w, 56, TF2, rect, Brush);
+			if (dialogSortMode == DIALOG_SORT_DIR_FIRST)
+			{
+				// Régi: <DIR> elõtag
+				for (size_t n = 0; n < prefixLen; n++) sorBuf[n] = dirPrefix[n];
+				for (size_t n = 0; n < nameLen && (n + prefixLen) < 255; n++)
+					sorBuf[prefixLen + n] = fname[n];
+				size_t total = prefixLen + nameLen;
+				if (total > 255) total = 255;
+				pRenderTarget->DrawText(sorBuf, (UINT32)total, TF2_dir, rect, Brush);
+			}
+			else
+			{
+				// Kevert mód: név + <DIR> utótag
+				size_t maxLen = 255;
+				size_t n = (nameLen > maxLen) ? maxLen : nameLen;
+				for (size_t k = 0; k < n; ++k) sorBuf[k] = fname[k];
+				const wchar_t tag[] = L"  <DIR>";
+				size_t tagLen = wcslen(tag);
+				size_t total = n;
+				for (size_t k = 0; k < tagLen && total < maxLen; ++k) sorBuf[total++] = tag[k];
+				pRenderTarget->DrawText(sorBuf, (UINT32)total, TF2_dir, rect, Brush);
+			}
 		}
 		else
 		{
-			pRenderTarget->DrawText(text, 56, TF2, rect, Brush);
+			pRenderTarget->DrawText(fname, (UINT32)nameLen, TF2, rect, Brush);
 		}
 	}
+
+	// Hiba kijelzés
+	if (fileN == 0 && dialog.lastEnumError != 0)
+	{
+		D2D1_RECT_F rr = dialog.client;
+		rr.bottom = rr.top + 18;
+		Brush->SetColor(D2D1::ColorF(D2D1::ColorF::OrangeRed));
+		const wchar_t* msg = (dialog.lastEnumError == ERROR_NOT_READY)
+			? L"Meghajtó nem elérhetõ"
+			: L"Hiba az olvasás során";
+		pRenderTarget->DrawText(msg, (UINT32)wcslen(msg), TF2, rr, Brush);
+	}
+
+	// Edit mezõ
 	dialog.edit.k = false;
-	if (dialog.edit.left <= mouse.x && dialog.edit.right >= mouse.x && dialog.edit.bottom >= mouse.y && dialog.edit.top <= mouse.y) dialog.edit.k = true;
+	if (dialog.edit.left <= mouse.x && dialog.edit.right >= mouse.x &&
+		dialog.edit.top <= mouse.y && dialog.edit.bottom >= mouse.y)
+		dialog.edit.k = true;
+
 	if (dialog.edit.kk) Brush->SetColor(D2D1::ColorF(D2D1::ColorF::Yellow));
 	else if (dialog.edit.k) Brush->SetColor(D2D1::ColorF(D2D1::ColorF::YellowGreen));
 	else Brush->SetColor(D2D1::ColorF(D2D1::ColorF::Goldenrod));
+
 	pRenderTarget->DrawRectangle(dialog.edit, Brush, 1);
-	for (int i = 0; i < dialog.edit.c.size(); i++) dialog.filepath[i] = dialog.edit.c[i];
-	pRenderTarget->DrawText(dialog.filepath, dialog.edit.c.size(), TF2, dialog.edit, Brush);
+	for (int i = 0; i < (int)dialog.edit.c.size(); i++)
+		dialog.filepath[i] = dialog.edit.c[i];
+	pRenderTarget->DrawText(dialog.filepath, (UINT32)dialog.edit.c.size(), TF2, dialog.edit, Brush);
+
+	// Mentés gomb
 	save1.bottom = dialog.bottom - 10;
 	save1.top = save1.bottom - 30;
 	save1.left = dialog.client.left;
 	save1.right = save1.left + 170;
 	save1.t = L"Mentés alkatrészként";
-	//save1.tt = L"ezeaz";
 	rrect.rect = save1;  rrect.radiusX = 5;  rrect.radiusY = 5;
-	if (save1.left <= mouse.x && save1.right >= mouse.x && save1.bottom >= mouse.y && save1.top < mouse.y)
-	{
-		save1.k = true;
-		Brush->SetColor(D2D1::ColorF(D2D1::ColorF::LightGray));
-	}
-	else 
-	{
-		save1.k = false;
-		Brush->SetColor(D2D1::ColorF(D2D1::ColorF::Gray));
-	}
-	//if (dialog.kkd == j) Brush->SetColor(D2D1::ColorF(D2D1::ColorF::Green));
+
+	bool saveHover = (save1.left <= mouse.x && save1.right >= mouse.x &&
+		save1.top < mouse.y && save1.bottom >= mouse.y);
+	save1.k = saveHover;
+	if (saveHover) Brush->SetColor(D2D1::ColorF(D2D1::ColorF::LightGray));
+	else Brush->SetColor(D2D1::ColorF(D2D1::ColorF::Gray));
+
 	pRenderTarget->FillRoundedRectangle(rrect, Brush);
 	Brush->SetColor(D2D1::ColorF(D2D1::ColorF::DarkCyan));
 	pRenderTarget->DrawRoundedRectangle(rrect, Brush, 1);
-	//text[0] = drivers[j].ch; text[1] = ' '; text[2] = ':';
 	Brush->SetColor(D2D1::ColorF(D2D1::ColorF::White));
-	for (int i = 0; i < save1.t.size(); i++) text[i] = save1.t[i];
-	//for (int i = 0; i < save1.t.size(); i++) save1.tt[i] = save1.t[i];
-	pRenderTarget->DrawText(text, save1.t.size(), TF1, save1, Brush);
+	for (int i = 0; i < (int)save1.t.size(); i++) text[i] = save1.t[i];
+	pRenderTarget->DrawText(text, (UINT32)save1.t.size(), TF1, save1, Brush);
 }
 
 void MainWindow::CUSTOM_rajzol()
@@ -644,4 +645,102 @@ void MainWindow::XY_rajzol()
 	rect.left = BOX_XY.left + 100;
 	rect.right = BOX_XY.right;
 	Kiir("Y = ", yy, rect);
+}
+
+void MainWindow::UpdateDialogContents()
+{
+
+	WCHAR base[260];
+	if (dialog_path[0] == 0)
+		swprintf_s(base, L"%c:\\", drivers[dialog.kkd].ch);
+	else
+		swprintf_s(base, L"%c:\\%s", drivers[dialog.kkd].ch, dialog_path);
+
+	WCHAR pattern[260];
+	swprintf_s(pattern, L"%s*.*", base);
+
+	if (dialog.dirchange)
+	{
+		File_vector.clear();
+		dialog.lastEnumError = 0;
+		// Csak ha a meghajtó ready
+		if (IsDriveReady(drivers[dialog.kkd].ch))
+		{
+			dialog.hFind = FindFirstFileW(pattern, &dialog.FindFileData);
+			if (dialog.hFind != INVALID_HANDLE_VALUE)
+			{
+				do {
+					if (wcscmp(dialog.FindFileData.cFileName, L".") == 0)
+						continue;
+					File_vector.push_back(dialog.FindFileData);
+				} while (FindNextFileW(dialog.hFind, &dialog.FindFileData));
+				FindClose(dialog.hFind);
+			}
+			else
+			{
+				dialog.lastEnumError = GetLastError();
+			}
+		}
+		else
+		{
+			dialog.lastEnumError = ERROR_NOT_READY;
+		}
+
+		dialog.edit.c.clear();
+		std::wstring ws(base);
+		for (auto ch : ws) if (ch < 128) dialog.edit.c.push_back((byte)ch);
+
+		dialog.ini = true;
+		dialog.dirchange = false;
+	}
+
+	if (dialog.ini)
+	{
+		dialog.cs.v = false;
+		size_t TF = 16;
+		size_t fileN = File_vector.size();
+		size_t helyN = (size_t)((dialog.client.bottom - dialog.client.top) / TF);
+
+		if (fileN == 0)
+		{
+			NN = 0;
+			dialog.out_N = 0;
+			dialog.cs.length = 0;
+			dialog.cs.min = dialog.cs.max = dialog.cs.p = dialog.cs.top;
+			dialog.cs.range = 1;
+		}
+		else
+		{
+			if (helyN < fileN) { NN = helyN; dialog.cs.v = true; dialog.out_N = (int)(fileN - helyN); }
+			else { NN = fileN; dialog.out_N = 0; }
+			float arany = (float)helyN / (float)fileN;
+			dialog.cs.length = arany * (dialog.client.bottom - dialog.client.top);
+			dialog.cs.min = dialog.cs.p = dialog.cs.top + 3;
+
+			// Rendelés csak ha >1
+			if (fileN > 1)
+			{
+				if (dialogSortMode == DIALOG_SORT_DIR_FIRST)
+				{
+					std::sort(File_vector.begin(), File_vector.end(),
+						[](const WIN32_FIND_DATA &a, const WIN32_FIND_DATA &b)
+						{
+							bool ad = (a.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) != 0;
+							bool bd = (b.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) != 0;
+							if (ad != bd) return ad > bd; // könyvtárak elõre
+							return _wcsicmp(a.cFileName, b.cFileName) < 0;
+						});
+				}
+				else // DIALOG_SORT_MIXED
+				{
+					std::sort(File_vector.begin(), File_vector.end(),
+						[](const WIN32_FIND_DATA &a, const WIN32_FIND_DATA &b)
+						{
+							return _wcsicmp(a.cFileName, b.cFileName) < 0;
+						});
+				}
+			}
+		}
+		dialog.ini = false;
+	}
 }

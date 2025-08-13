@@ -448,3 +448,5 @@ void MainWindow::Kiir(const char* s, float v, int x, int y)
 
 
 
+
+
