@@ -1,0 +1,39 @@
+# User-specific files
+*.user
+*.userosscache
+*.suo
+*.sln.docstates
+
+# Build results
+[Dd]ebug/
+[Rr]elease/
+x64/
+[Bb]uild/
+[Bb]in/
+[Oo]bj/
+
+# Visual Studio cache
+.vs/
+*/.vs
+
+# Visual Studio Code cache
+.vscode/
+
+# Rider cache
+.idea/
+
+# Mac files
+.DS_Store
+
+# NuGet packages
+*.nupkg
+# The packages folder can be ignored because of Package Restore
+**/packages/*
+# except build/, which is used as an MSBuild target.
+!**/packages/build/
+# Uncomment if you don't want to check in every restored package
+#!**/packages/
+
+# Other
+*.log
+*.tlog

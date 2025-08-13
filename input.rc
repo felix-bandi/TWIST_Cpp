@@ -1,0 +1,14 @@
+//<Snippetinput_rc>
+#include "resource.h"
+
+HOTKEYS ACCELERATORS
+{
+	0x56,   a_VONAL, VIRTKEY	// V
+	0x4B,   a_KORIV, VIRTKEY	// K
+	0x50,	a_POLIGON, VIRTKEY  // P
+	0x45,   a_EL, VIRTKEY		// E
+	0x53,	a_SQ, VIRTKEY		// S
+	0x52,	a_RR, VIRTKEY		// R
+}
+//</Snippetinput_rc>
+	
