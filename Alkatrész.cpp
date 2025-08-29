@@ -19,7 +19,7 @@ using namespace std;
 
 void MainWindow::alk_krv_rajzol(int alk)
 {
-	ALKATRÉSZ a = Alkatresz[alk];
+	ALKATRESZ a = Alkatresz[alk];
 	for (int k = 0; k <= 1; k++)
 	{
 		if (a.v.size() > 0)
@@ -184,7 +184,7 @@ void MainWindow::alk_krv_rajzol(int alk)
 
 void MainWindow::alk_letesz(int alk)
 {
-	ALKATRÉSZ a = Alkatresz[alk];
+	ALKATRESZ a = Alkatresz[alk];
 	if (a.v.size() > 0)
 		for (int i = 0; i < a.v.size(); i++)
 		{

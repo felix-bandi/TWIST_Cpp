@@ -47,7 +47,7 @@ class MainWindow : public BaseWindow<MainWindow>
 	vector<EL_VIA>				ELVIA_vector, ELVIA_v, ELVIA_betolt, ELVIA_alkatresz;
 	vector<SQ_VIA>				SQVIA_vector, SQVIA_v, SQVIA_betolt, SQVIA_alkatresz;
 	vector<RR_VIA>				RRVIA_vector, RRVIA_v, RRVIA_betolt, RRVIA_alkatresz;
-	vector<ALKATRÉSZ>			Alkatresz;
+	vector<ALKATRESZ>			Alkatresz;
 	vector<GOMB>			ALAK_vector, CUSTOM_vector, gt, MODE_vector, SZINT_vector, FILE_vector;
 	vector<vector<GOMB>>	CUSTOM;	
 	vector<GC>				GC_vector;

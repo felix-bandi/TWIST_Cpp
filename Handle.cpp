@@ -157,7 +157,7 @@ LRESULT MainWindow::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			if (wParam == 0x41) Save(alkatresz);// 'A'
 			if (wParam == 0x4C) Load(rajz);		// 'L'
 			if (wParam == 0x44) Load(alkatresz);// 'D'
-			if (wParam == VK_DELETE && mode == _töröl) Torol();
+			if (wParam == VK_DELETE && mode == _torol) Torol();
 			if (wParam == VK_ESCAPE)  DestroyWindow(m_hwnd);
 		}
 		if (wParam == VK_ESCAPE)  DestroyWindow(m_hwnd);

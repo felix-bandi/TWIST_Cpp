@@ -32,14 +32,14 @@ using namespace std;
 void MainWindow::Save(mentes ment)
 {
 	boolean a = false;
-	ofstream f;
+	std::wofstream f;
 	switch (ment)
 	{
 	case mentes::rajz:
-		f.open("rajz.twist");
+		f.open(L"rajz.twist");
 		break;
 	case mentes::alkatresz:
-		f.open("alkatrészek.alkatrész", ios::app);
+		f.open(L"alkatrészek.alkatrész", std::ios::app);
 		a = true;
 			break;
 	}
@@ -170,20 +170,20 @@ void MainWindow::Save(mentes ment)
 void MainWindow::Load(mentes tölt)
 {
 	boolean alk = false;
-	ifstream f;
+	std::wifstream f;
 	if(tölt==rajz)
 	{
-		f.open("rajz.twist");
+		f.open(L"rajz.twist");
 	}
 	if(tölt==alkatresz)
 	{
-		f.open("alkatrészek.alkatrész");
+		f.open(L"alkatrészek.alkatrész");
 		alk = true;
 	}
 	int alk_sz = -1;
-	string sor;
+	std::string sor;
 	char s[100], *a, *b, ss[100];
-	ALKATRÉSZ alkatresz;
+	ALKATRESZ alkatresz;
 
 	if (f.is_open())
 	{
@@ -192,8 +192,8 @@ void MainWindow::Load(mentes tölt)
 		while (f.good())
 		{
 			getline(f, sor);
-			strcpy_s(s, sor.c_str());
-			strcpy_s(ss, sor.c_str());
+			strcpy_s(s, sizeof(s), sor.c_str());
+			strcpy_s(ss, sizeof(ss), sor.c_str());
 			a = strtok_s(s, " ", &b);
 			if (ss[0] == '_')
 			{

@@ -259,7 +259,7 @@ void MainWindow::OnLButtonDown(int X, int Y, DWORD flags)
 			mode = _rajzol;
 			break;
 		case 1:
-			mode = _töröl;
+			mode = _torol;
 			break;
 		case 2:
 			mode = _file;

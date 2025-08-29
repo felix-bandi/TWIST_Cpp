@@ -218,7 +218,7 @@ void MainWindow::OnPaint()
 			}
 		}
 		//Találat.clear();
-		if (mode == _töröl)
+		if (mode == _torol)
 		{
 			Talalat.clear();
 			VONAL_keres();

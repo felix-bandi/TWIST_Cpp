@@ -17,7 +17,7 @@ enum ALAK
 
 enum MODE
 {
-	_töröl,
+	_torol,
 	_rajzol,
 	_file,
 	_print
@@ -151,7 +151,7 @@ struct RR_VIA
 	int blokk;
 };
 
-struct ALKATRÉSZ
+struct ALKATRESZ
 {
 	vector<char> nev;
 	vector<VONAL> v;
@@ -222,7 +222,7 @@ struct GC
 	int r;
 };
 
-struct Találat
+struct Talalat
 {
 	int a;
 	int i;
@@ -250,7 +250,7 @@ struct Dialog :D2D1_RECT_F
 	D2D1_RECT_F client;
 	EDIT edit;
 	D2D1_POINT_2F p1, p2;
-	DWORD lastEnumError = 0; // új
+	DWORD lastEnumError = 0; 
 };
 
 struct List :D2D1_RECT_F
