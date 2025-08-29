@@ -56,25 +56,25 @@ void MainWindow::OnLButtonDown(int X, int Y, DWORD flags)
 					arcfolyamatban = true;
 					arc.kpx = xx; arc.kpy = yy;
 					arc.i = D2D1_SWEEP_DIRECTION_CLOCKWISE;
-					körfázis = kettõ;
+					korfazis = ketto;
 				}
 				else
 				{
-					if (körfázis == kettõ)
+					if (korfazis == ketto)
 					{
 						arc.xk = xx;
 						arc.yk = yy;
 						arc.rx = sqrt((arc.kpx - xx) * (arc.kpx - xx) + (arc.kpy - yy) * (arc.kpy - yy));
 						arc.ry = arc.rx;
 						arc.ksz = atan2((arc.kpx - arc.xk), (arc.kpy - arc.yk));
-						körfázis = három;
+						korfazis = harom;
 					}
-					else if (körfázis == három)
+					else if (korfazis == harom)
 					{
 						arc.xv = av.x;
 						arc.yv = av.y;
 						arc.vsz = atan2((arc.kpx - arc.xv), (arc.kpy - arc.yv));
-						arc.v = kör_t[0];
+						arc.v = kor_t[0];
 						arc.blokk = 0;
 						arc.szint = SZINT_kk;
 						arc.alk = -1;
@@ -82,7 +82,7 @@ void MainWindow::OnLButtonDown(int X, int Y, DWORD flags)
 						ARC_rajzol(ARC_vector);
 						krv = false;
 						arcfolyamatban = false;
-						körfázis = egy;
+						korfazis = egy;
 					}
 				}
 				break;
@@ -268,7 +268,7 @@ void MainWindow::OnLButtonDown(int X, int Y, DWORD flags)
 			break;
 		case 3:
 			mode = _print;
-			ny_kép = true;
+			ny_kep = true;
 			/*PRINTDLG pd;
 			
 			ZeroMemory(&pd, sizeof(pd));
@@ -340,7 +340,7 @@ void MainWindow::OnLButtonDown(int X, int Y, DWORD flags)
 	if (SZINT_k >= 0 && !krv) { SZINT_kk = SZINT_k; }
 
 	if (origo.k && !origo.kk && !krv) origo.kk = true;
-	else if (origo.kk && !krv) Origo_áthelyez();
+	else if (origo.kk && !krv) Origo_athelyez();
 
 	if (dialog.k >= 0) dialog.kk = dialog.k;
 	if (dialog.kd >= 0) { dialog.kkd = dialog.kd; dialog.ini = true;  dialog.dirchange = true; kiv_drv = drivers[dialog.kkd].ch; }
@@ -354,7 +354,7 @@ void MainWindow::OnLButtonDown(int X, int Y, DWORD flags)
 	if (save1.k)
 	{
 		for (int i = 0; i < dialog.edit.c.size(); i++) dialog.edit.tt[i] = dialog.edit.c[i];
-		Save(alkatrész);
+		Save(alkatresz);
 		//dialog.v = false;
 	}
 	if (grid.k && edit_sz == false)

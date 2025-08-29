@@ -17,7 +17,7 @@
 using namespace std;
 #include "TWIST_Cpp.h"
 
-void MainWindow::Töröl()
+void MainWindow::Torol()
 {
 	BOOLEAN t;
 	int s;
@@ -27,7 +27,7 @@ void MainWindow::Töröl()
 	for (int i = 0; i < s; i++)
 	{
 		t = false;
-		for (int k = 0; k < Találat[0].size(); k++) if (i == Találat[0][k]) t = true;
+		for (int k = 0; k < Talalat[0].size(); k++) if (i == Talalat[0][k]) t = true;
 		if (!t) VONAL_v.push_back(VONAL_vector[i]); 
 	}
 	VONAL_vector.clear();
@@ -38,7 +38,7 @@ void MainWindow::Töröl()
 	for (int i = 0; i < s; i++)
 	{
 		t = false;
-		for (int k = 0; k < Találat[1].size(); k++) if (i == Találat[1][k]) t = true;
+		for (int k = 0; k < Talalat[1].size(); k++) if (i == Talalat[1][k]) t = true;
 		if (!t) EL_v.push_back(EL_vector[i]);
 	}
 	EL_vector.clear();
@@ -49,7 +49,7 @@ void MainWindow::Töröl()
 	for (int i = 0; i < s; i++)
 	{
 		t = false;
-		for (int k = 0; k < Találat[2].size(); k++) if (i == Találat[2][k]) t = true;
+		for (int k = 0; k < Talalat[2].size(); k++) if (i == Talalat[2][k]) t = true;
 		if (!t) SQ_v.push_back(SQ_vector[i]);
 	}
 	SQ_vector.clear();
@@ -60,7 +60,7 @@ void MainWindow::Töröl()
 	for (int i = 0; i < s; i++)
 	{
 		t = false;
-		for (int k = 0; k < Találat[3].size(); k++) if (i == Találat[3][k]) t = true;
+		for (int k = 0; k < Talalat[3].size(); k++) if (i == Talalat[3][k]) t = true;
 		if (!t) RR_v.push_back(RR_vector[i]);
 	}
 	RR_vector.clear();
@@ -71,7 +71,7 @@ void MainWindow::Töröl()
 	for (int i = 0; i < s; i++)
 	{
 		t = false;
-		for (int k = 0; k < Találat[4].size(); k++) if (i == Találat[4][k]) t = true;
+		for (int k = 0; k < Talalat[4].size(); k++) if (i == Talalat[4][k]) t = true;
 		if (!t) ARC_v.push_back(ARC_vector[i]); else SafeRelease(&ARC_vector[i].pg);
 	}
 	ARC_vector.clear();
@@ -82,7 +82,7 @@ void MainWindow::Töröl()
 	for (int i = 0; i < s; i++)
 	{
 		t = false;
-		for (int k = 0; k < Találat[5].size(); k++) if (i == Találat[5][k]) t = true;
+		for (int k = 0; k < Talalat[5].size(); k++) if (i == Talalat[5][k]) t = true;
 		if (!t) POLIGON_v.push_back(POLIGON_vector[i]); else SafeRelease(&POLIGON_vector[i].pg);
 	}
 	POLIGON_vector.clear();
@@ -93,7 +93,7 @@ void MainWindow::Töröl()
 	for (int i = 0; i < s; i++)
 	{
 		t = false;
-		for (int k = 0; k < Találat[6].size(); k++) if (i == Találat[6][k]) t = true;
+		for (int k = 0; k < Talalat[6].size(); k++) if (i == Talalat[6][k]) t = true;
 		if (!t) ELVIA_v.push_back(ELVIA_vector[i]);
 	}
 	ELVIA_vector.clear();
@@ -104,7 +104,7 @@ void MainWindow::Töröl()
 	for (int i = 0; i < s; i++)
 	{
 		t = false;
-		for (int k = 0; k < Találat[7].size(); k++) if (i == Találat[7][k]) t = true;
+		for (int k = 0; k < Talalat[7].size(); k++) if (i == Talalat[7][k]) t = true;
 		if (!t) SQVIA_v.push_back(SQVIA_vector[i]);
 	}
 	SQVIA_vector.clear();
@@ -115,7 +115,7 @@ void MainWindow::Töröl()
 	for (int i = 0; i < s; i++)
 	{
 		t = false;
-		for (int k = 0; k < Találat[8].size(); k++) if (i == Találat[8][k]) t = true;
+		for (int k = 0; k < Talalat[8].size(); k++) if (i == Talalat[8][k]) t = true;
 		if (!t) RRVIA_v.push_back(RRVIA_vector[i]);
 	}
 	RRVIA_vector.clear();

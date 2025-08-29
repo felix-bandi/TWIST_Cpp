@@ -62,7 +62,7 @@ HRESULT MainWindow::CreateGraphicsResources()
 			D2D1_COLOR_F color = D2D1::ColorF(0, 0, 0);
 			pRenderTarget->CreateSolidColorBrush(color, &fekete);
 			color = D2D1::ColorF(1.0f, 1.0f, 1.0);
-			pRenderTarget->CreateSolidColorBrush(color, &fehér);
+			pRenderTarget->CreateSolidColorBrush(color, &feher);
 			pRenderTarget->CreateSolidColorBrush(color, &Brush);
 			color = D2D1::ColorF(0, 1.0f, 1.0f);
 			pRenderTarget->CreateSolidColorBrush(color, &cyan);
@@ -154,7 +154,7 @@ HRESULT MainWindow::CreateGraphicsResources()
 			MODE_init();
 			FILE_init();
 			SZINT_init();
-			Load(alkatrész);
+			Load(alkatresz);
 			List_init();
 			List2_init();
 		}
@@ -263,8 +263,8 @@ void MainWindow::CUSTOM_init()
 		gomb.y1 = i * 25 + 5;
 		gomb.x2 = 120;
 		gomb.y2 = i * 25 + 29;
-		gomb.t = ws_kör[i-1];
-		gomb.i = kör_t[i - 1];
+		gomb.t = ws_kor[i-1];
+		gomb.i = kor_t[i - 1];
 		gomb.k = false;
 		gomb.kk = false;
 		gomb.sz = false;
@@ -459,7 +459,7 @@ void MainWindow::List_init()
 	int m, H, N;
 	m = 25;
 	H = (list.bottom - list.top) / m;
-	N = Alkatrész.size();
+	N = Alkatresz.size();
 	if (N == 0) N = 2;
 	float arány = float(H) / float(N);
 	list.cs.length = list.cs.bottom - list.cs.top - 4;
@@ -568,17 +568,17 @@ void MainWindow::XY_init()
 
 }
 
-void MainWindow::Betölt_clear()
+void MainWindow::Betolt_clear()
 {
-	VONAL_betölt.clear();
-	ARC_betölt.clear();
-	POLIGON_betölt.clear();
-	EL_betölt.clear();
-	SQ_betölt.clear();
-	RR_betölt.clear();
-	ELVIA_betölt.clear();
-	SQVIA_betölt.clear();
-	RRVIA_betölt.clear();
+	VONAL_betolt.clear();
+	ARC_betolt.clear();
+	POLIGON_betolt.clear();
+	EL_betolt.clear();
+	SQ_betolt.clear();
+	RR_betolt.clear();
+	ELVIA_betolt.clear();
+	SQVIA_betolt.clear();
+	RRVIA_betolt.clear();
 }
 
 void MainWindow::DiscardGraphicsResources()
@@ -597,7 +597,7 @@ void MainWindow::DiscardGraphicsResources()
 	SafeRelease(&TF2);
 	SafeRelease(&TF2_dir);
 	SafeRelease(&fekete);
-	SafeRelease(&fehér);
+	SafeRelease(&feher);
 	SafeRelease(&cyan);
 	SafeRelease(&pStrokeStyle);
 	SafeRelease(&bv[0][0]);
@@ -612,9 +612,9 @@ void MainWindow::DiscardGraphicsResources()
 	for (int i = 0; i < POLIGON_vector.size(); i++) SafeRelease(&POLIGON_vector[i].pg);
 	for (int i = 0; i < ARC_v.size(); i++) SafeRelease(&ARC_v[i].pg);
 	for (int i = 0; i < POLIGON_v.size(); i++) SafeRelease(&POLIGON_v[i].pg);
-	for (int i = 0; i < Alkatrész.size(); i++)
+	for (int i = 0; i < Alkatresz.size(); i++)
 	{
-		for (int j = 0; j < Alkatrész[i].a.size(); j++) SafeRelease(&Alkatrész[i].a[j].pg);
-		for (int j = 0; j < Alkatrész[i].p.size(); j++) SafeRelease(&Alkatrész[i].p[j].pg);
+		for (int j = 0; j < Alkatresz[i].a.size(); j++) SafeRelease(&Alkatresz[i].a[j].pg);
+		for (int j = 0; j < Alkatresz[i].p.size(); j++) SafeRelease(&Alkatresz[i].p[j].pg);
 	}
 }

@@ -21,28 +21,28 @@ using namespace std;
 
 void MainWindow::OnPaint()
 {
-	if (betöltés)
+	if (betoltes)
 	{
-		if (VONAL_betölt.size() > 0) for (int i = 0; i < VONAL_betölt.size(); i++)     VONAL_vector.push_back(VONAL_betölt[i]);
-		if (ARC_betölt.size() > 0)   for (int i = 0; i < ARC_betölt.size(); i++)       ARC_vector.push_back(ARC_betölt[i]);
-		if (POLIGON_betölt.size() > 0)
+		if (VONAL_betolt.size() > 0) for (int i = 0; i < VONAL_betolt.size(); i++)     VONAL_vector.push_back(VONAL_betolt[i]);
+		if (ARC_betolt.size() > 0)   for (int i = 0; i < ARC_betolt.size(); i++)       ARC_vector.push_back(ARC_betolt[i]);
+		if (POLIGON_betolt.size() > 0)
 		{
-			for (int i = 0; i < POLIGON_betölt.size(); i++)
+			for (int i = 0; i < POLIGON_betolt.size(); i++)
 			{
 				poli.pont.clear();
-				for (int p = 0; p < POLIGON_betölt[i].pont.size(); p++) poli.pont.push_back(POLIGON_betölt[i].pont[p]);
-				poli.pg = POLIGON_betölt[i].pg;
-				poli.szint = POLIGON_betölt[i].szint;
+				for (int p = 0; p < POLIGON_betolt[i].pont.size(); p++) poli.pont.push_back(POLIGON_betolt[i].pont[p]);
+				poli.pg = POLIGON_betolt[i].pg;
+				poli.szint = POLIGON_betolt[i].szint;
 				POLIGON_vector.push_back(poli);
 			}
 		}
-		if (EL_betölt.size() > 0)    for (int i = 0; i < EL_betölt.size(); i++)    EL_vector.push_back(EL_betölt[i]);
-		if (SQ_betölt.size() > 0)    for (int i = 0; i < SQ_betölt.size(); i++)    SQ_vector.push_back(SQ_betölt[i]);
-		if (RR_betölt.size() > 0)    for (int i = 0; i < RR_betölt.size(); i++)    RR_vector.push_back(RR_betölt[i]);
-		if (ELVIA_betölt.size() > 0) for (int i = 0; i < ELVIA_betölt.size(); i++) ELVIA_vector.push_back(ELVIA_betölt[i]);
-		if (SQVIA_betölt.size() > 0) for (int i = 0; i < SQVIA_betölt.size(); i++) SQVIA_vector.push_back(SQVIA_betölt[i]);
-		if (RRVIA_betölt.size() > 0) for (int i = 0; i < RRVIA_betölt.size(); i++) RRVIA_vector.push_back(RRVIA_betölt[i]);
-		betöltés = false;
+		if (EL_betolt.size() > 0)    for (int i = 0; i < EL_betolt.size(); i++)    EL_vector.push_back(EL_betolt[i]);
+		if (SQ_betolt.size() > 0)    for (int i = 0; i < SQ_betolt.size(); i++)    SQ_vector.push_back(SQ_betolt[i]);
+		if (RR_betolt.size() > 0)    for (int i = 0; i < RR_betolt.size(); i++)    RR_vector.push_back(RR_betolt[i]);
+		if (ELVIA_betolt.size() > 0) for (int i = 0; i < ELVIA_betolt.size(); i++) ELVIA_vector.push_back(ELVIA_betolt[i]);
+		if (SQVIA_betolt.size() > 0) for (int i = 0; i < SQVIA_betolt.size(); i++) SQVIA_vector.push_back(SQVIA_betolt[i]);
+		if (RRVIA_betolt.size() > 0) for (int i = 0; i < RRVIA_betolt.size(); i++) RRVIA_vector.push_back(RRVIA_betolt[i]);
+		betoltes = false;
 	}
 
 	HRESULT hr = CreateGraphicsResources();
@@ -115,22 +115,22 @@ void MainWindow::OnPaint()
 				p2.y = mouse_grid.y - b * ry / c;
 				pRenderTarget->DrawLine(p1, p2, Brush, 1.0, pStrokeStyle);
 			}
-			else if (arcfolyamatban && körfázis == kettõ)
+			else if (arcfolyamatban && korfazis == ketto)
 			{
 				hely.x = (arc.kpx + eltolas.x) * nagyitas;
 				hely.y = (arc.kpy + eltolas.y) * nagyitas;
 				rx = sqrt((arc.kpx - xx) * (arc.kpx - xx) + (arc.kpy - yy) * (arc.kpy - yy)) * nagyitas;
 				ry = sqrt((arc.kpx - xx) * (arc.kpx - xx) + (arc.kpy - yy) * (arc.kpy - yy)) * nagyitas;
-				szög = atan2(arc.kpx - xx, arc.kpy - yy);
+				szog = atan2(arc.kpx - xx, arc.kpy - yy);
 				ellipse = D2D1::Ellipse(hely, rx, ry);
 				Brush->SetColor(D2D1::ColorF(D2D1::ColorF::GreenYellow));
-				pRenderTarget->DrawEllipse(ellipse, Brush, kör_t[0] * nagyitas);
+				pRenderTarget->DrawEllipse(ellipse, Brush, kor_t[0] * nagyitas);
 			}
-			else if (arcfolyamatban && körfázis == három)
+			else if (arcfolyamatban && korfazis == harom)
 			{
 				ARC_rajzol_2();
 				pRenderTarget->SetTransform(sc * tr);
-				pRenderTarget->DrawGeometry(pPathGeometry_2, Brush, kör_t[0], pStrokeStyle);
+				pRenderTarget->DrawGeometry(pPathGeometry_2, Brush, kor_t[0], pStrokeStyle);
 				pRenderTarget->SetTransform(D2D1::Matrix3x2F::Identity());
 			}
 			else if (polifolyamatban)
@@ -220,7 +220,7 @@ void MainWindow::OnPaint()
 		//Találat.clear();
 		if (mode == _töröl)
 		{
-			Találat.clear();
+			Talalat.clear();
 			VONAL_keres();
 			EL_keres();
 			SQ_keres();
@@ -230,25 +230,25 @@ void MainWindow::OnPaint()
 			EV_keres();
 			SV_keres();
 			RV_keres();
-			Találat_rajzol();
+			Talalat_rajzol();
 		}
 
-		for (int i = 0; i < szögek.size(); i++)
+		for (int i = 0; i < szogek.size(); i++)
 		{
-			p1.x = -sin(szögek[i]) * 400 + mouse.x; p1.y = -cos(szögek[i]) * 400 + mouse.y;
+			p1.x = -sin(szogek[i]) * 400 + mouse.x; p1.y = -cos(szogek[i]) * 400 + mouse.y;
 			Brush->SetColor(D2D1::ColorF(D2D1::ColorF::Blue));
 			pRenderTarget->DrawLine(mouse, p1, Brush, 1.0, pStrokeStyle);
-			if (i == sz_sz || i == (sz_sz+1)%szögek.size()) {
+			if (i == sz_sz || i == (sz_sz+1)%szogek.size()) {
 				Brush->SetColor(D2D1::ColorF(D2D1::ColorF::Green));
 				pRenderTarget->DrawLine(mouse, p1, Brush, 5.0, pStrokeStyle);
 				
 			}
 			Brush->SetColor(D2D1::ColorF(D2D1::ColorF::White));
 			Kiir(i, p1.x-150, p1.y);
-			if (i < szögek.size() - 1)
+			if (i < szogek.size() - 1)
 			{
-				p1.x = -sin(szögek[i] - (szögek[i] - szögek[i + 1]) / 2.0) * 300 + mouse.x;
-				p1.y = -cos(szögek[i] - (szögek[i] - szögek[i + 1]) / 2.0) * 300 + mouse.y;
+				p1.x = -sin(szogek[i] - (szogek[i] - szogek[i + 1]) / 2.0) * 300 + mouse.x;
+				p1.y = -cos(szogek[i] - (szogek[i] - szogek[i + 1]) / 2.0) * 300 + mouse.y;
 				Brush->SetColor(D2D1::ColorF(D2D1::ColorF::Blue));
 				pRenderTarget->DrawLine(mouse, p1, Brush, 1.0, pStrokeStyle);
 			}
@@ -263,7 +263,7 @@ void MainWindow::OnPaint()
 		EV_lyuk_rajzol();
 		SV_lyuk_rajzol();
 		RV_lyuk_rajzol();
-		if (ny_kép)
+		if (ny_kep)
 		{
 			rect.top = eltolas.y * nagyitas;
 			rect.left = eltolas.x * nagyitas;

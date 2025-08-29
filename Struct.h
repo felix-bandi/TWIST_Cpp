@@ -1,6 +1,5 @@
 #include <vector>
-
-using namespace std;
+#include <Windows.h>
 
 enum ALAK
 {
@@ -24,17 +23,17 @@ enum MODE
 	_print
 };
 
-enum körfázis
+enum korfazis
 {
 	egy,
-	kettõ,
-	három
+	ketto,
+	harom
 };
 
-enum mentés
+enum mentes
 {
 	rajz,
-	alkatrész
+	alkatresz
 };
 
 struct VONAL
@@ -154,7 +153,7 @@ struct RR_VIA
 
 struct ALKATRÉSZ
 {
-	vector<char> név;
+	vector<char> nev;
 	vector<VONAL> v;
 	vector<ARC> a;
 	vector<POLI> p;
@@ -192,7 +191,7 @@ struct GOMB_2:D2D1_RECT_F
 {
 	char ch;
 	wstring t;
-	WCHAR tt[260];
+	WCHAR tt[MAX_PATH];
 	boolean k;
 };
 
@@ -200,14 +199,14 @@ struct EDIT :D2D1_RECT_F
 {
 	boolean sz, k, kk;
 	vector<byte> c;
-	byte tt[260];
+	byte tt[MAX_PATH];
 };
 
 struct EDIT_W :D2D1_RECT_F
 {
 	boolean sz, k, kk;
 	vector<WCHAR> c;
-	WCHAR tt[260];
+	WCHAR tt[MAX_PATH];
 };
 
 struct VEZ_C
@@ -246,8 +245,8 @@ struct Dialog :D2D1_RECT_F
 	BOOLEAN ini, dirchange;
 	WIN32_FIND_DATA FindFileData;
 	HANDLE hFind;
-	WCHAR filepath[260];
-	vector<WCHAR[260]> path;
+	WCHAR filepath[MAX_PATH];
+	vector<WCHAR[MAX_PATH]> path;
 	D2D1_RECT_F client;
 	EDIT edit;
 	D2D1_POINT_2F p1, p2;

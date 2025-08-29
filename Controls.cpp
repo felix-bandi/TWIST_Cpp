@@ -142,7 +142,7 @@ void MainWindow::List_rajzol()
 	pRenderTarget->FillRectangle(list.cs.bar, Brush);
 	int h;
 	list.k = -1;
-	for (int i = 0; i < Alkatrész.size(); i++)
+	for (int i = 0; i < Alkatresz.size(); i++)
 	{
 		rect.top = list.top + 4 + i * 25;
 		rect.bottom = rect.top + 24;
@@ -155,8 +155,8 @@ void MainWindow::List_rajzol()
 		}
 		else Brush->SetColor(D2D1::ColorF(D2D1::ColorF::Gray));
 		if (list.kk == i ) Brush->SetColor(D2D1::ColorF(D2D1::ColorF::Orange));
-		h = Alkatrész[i].név.size();
-		for (int j = 0; j < h; j++) text[j] = Alkatrész[i].név[j];
+		h = Alkatresz[i].nev.size();
+		for (int j = 0; j < h; j++) text[j] = Alkatresz[i].nev[j];
 		pRenderTarget->DrawText(text, h, TF2, rect, Brush);
 	}
 }
@@ -282,7 +282,7 @@ void MainWindow::Filedialog_rajzol()
 	// Fájl lista
 	dialog.k = -1;
 	WCHAR dirPrefix[] = L"<DIR>  ";
-	WCHAR sorBuf[260];
+	WCHAR sorBuf[MAX_PATH];
 	size_t prefixLen = wcslen(dirPrefix);
 
 	size_t fileN = File_vector.size();
@@ -495,7 +495,7 @@ void MainWindow::ORIGO_rajzol()
 	pRenderTarget->DrawText(text, hossz, TF1, origo, Brush);
 }
 
-void MainWindow::Origo_áthelyez()
+void MainWindow::Origo_athelyez()
 {
 	float x = -xx;
 	float y = -yy;
@@ -650,13 +650,13 @@ void MainWindow::XY_rajzol()
 void MainWindow::UpdateDialogContents()
 {
 
-	WCHAR base[260];
+	WCHAR base[MAX_PATH];
 	if (dialog_path[0] == 0)
 		swprintf_s(base, L"%c:\\", drivers[dialog.kkd].ch);
 	else
 		swprintf_s(base, L"%c:\\%s", drivers[dialog.kkd].ch, dialog_path);
 
-	WCHAR pattern[260];
+	WCHAR pattern[MAX_PATH];
 	swprintf_s(pattern, L"%s*.*", base);
 
 	if (dialog.dirchange)

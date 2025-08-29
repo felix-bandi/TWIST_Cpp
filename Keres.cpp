@@ -42,7 +42,7 @@ void MainWindow::VONAL_keres()
 		}
 		if (tl || VONAL_vector[i].v > 2 * h || VONAL_vector[i].v > 2 * h_) tali.push_back(i);
 	}
-	Találat.push_back(tali);
+	Talalat.push_back(tali);
 }
 
 void MainWindow::EL_keres()
@@ -68,7 +68,7 @@ void MainWindow::EL_keres()
 			+
 			sqrt((xx - f2.x) * (xx - f2.x) + (yy - f2.y) * (yy - f2.y))) <= (2 * max(rx, ry))) tali.push_back(i);
 	}
-	Találat.push_back(tali);
+	Talalat.push_back(tali);
 }
 
 void MainWindow::SQ_keres()
@@ -82,7 +82,7 @@ void MainWindow::SQ_keres()
 		ry = SQ_vector[i].ry;
 		if ((hely.x - rx) < xx && (hely.x + rx) > xx && (hely.y - ry) < yy && (hely.y + ry) > yy) tali.push_back(i);
 	}
-	Találat.push_back(tali);
+	Talalat.push_back(tali);
 }
 
 void MainWindow::RR_keres()
@@ -96,7 +96,7 @@ void MainWindow::RR_keres()
 		ry = RR_vector[i].ry;
 		if ((hely.x - rx) < xx && (hely.x + rx) > xx && (hely.y - ry) < yy && (hely.y + ry) > yy) tali.push_back(i);
 	}
-	Találat.push_back(tali);
+	Talalat.push_back(tali);
 }
 
 void MainWindow::EV_keres()
@@ -122,7 +122,7 @@ void MainWindow::EV_keres()
 			+
 			sqrt((xx - f2.x) * (xx - f2.x) + (yy - f2.y) * (yy - f2.y))) <= (2 * max(rx, ry))) tali.push_back(i);
 	}
-	Találat.push_back(tali);
+	Talalat.push_back(tali);
 }
 
 void MainWindow::SV_keres()
@@ -136,7 +136,7 @@ void MainWindow::SV_keres()
 		ry = SQVIA_vector[i].ry;
 		if ((hely.x - rx) < xx && (hely.x + rx) > xx && (hely.y - ry) < yy && (hely.y + ry) > yy) tali.push_back(i);
 	}
-	Találat.push_back(tali);
+	Talalat.push_back(tali);
 }
 
 void MainWindow::RV_keres()
@@ -150,7 +150,7 @@ void MainWindow::RV_keres()
 		ry = RRVIA_vector[i].ry;
 		if ((hely.x - rx) < xx && (hely.x + rx) > xx && (hely.y - ry) < yy && (hely.y + ry) > yy) tali.push_back(i);
 	}
-	Találat.push_back(tali);
+	Talalat.push_back(tali);
 }
 
 void MainWindow::POLIGON_keres()
@@ -177,7 +177,7 @@ void MainWindow::POLIGON_keres()
             tali.push_back(i);
         }
     }
-    Találat.push_back(tali);
+    Talalat.push_back(tali);
     POLIGON_rajzol_T();
 }
 
@@ -206,7 +206,7 @@ void MainWindow::ARC_keres()
 		if (h_ < ARC_vector[i].v / 2) f4 = true; else f4 = false;
 		if (f1 && f2 || f3 || f4) tali.push_back(i);
 	}
-	Találat.push_back(tali);
+	Talalat.push_back(tali);
 }
 
 void MainWindow::ALAK_keres()

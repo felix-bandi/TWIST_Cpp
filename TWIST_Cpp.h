@@ -4,6 +4,7 @@
 #include "resource.h"
 #include "Struct.h"
 #include <wincodec.h>
+#include <Windows.h>
 
 template <class T> void SafeRelease(T** ppT)
 {
@@ -20,7 +21,7 @@ class MainWindow : public BaseWindow<MainWindow>
 	ID2D1Factory*			pFactory;
 	ID2D1HwndRenderTarget*	pRenderTarget;
 	ID2D1DCRenderTarget*	m_pDCRT;
-	ID2D1SolidColorBrush	*Brush, *bv[2][2], *bp[2][2], *fekete, *fehér, *cyan;
+	ID2D1SolidColorBrush	*Brush, *bv[2][2], *bp[2][2], *fekete, *feher, *cyan;
 	IDWriteFactory*			pDWriteFactory;
 	IDWriteTextFormat		*TF1, *TF2, *TF2_dir;
 	ID2D1StrokeStyle*		pStrokeStyle;
@@ -35,18 +36,18 @@ class MainWindow : public BaseWindow<MainWindow>
 	D2D1_ROUNDED_RECT		rrect;
 	ALAK					alak = _vonal;
 	MODE					mode = _rajzol;
-	körfázis				körfázis = egy;
-	vector<VONAL>				VONAL_vector, VONAL_v, VONAL_betölt, Vonal_alkatrész;
-	vector<ARC>					ARC_vector, ARC_v, ARC_betölt, ARC_alkatrész;
-	vector<POLI>				POLIGON_vector, POLIGON_v, POLIGON_betölt, POLIGON_alkatrész;
+	korfazis				korfazis = egy;
+	vector<VONAL>				VONAL_vector, VONAL_v, VONAL_betolt, Vonal_alkatresz;
+	vector<ARC>					ARC_vector, ARC_v, ARC_betolt, ARC_alkatresz;
+	vector<POLI>				POLIGON_vector, POLIGON_v, POLIGON_betolt, POLIGON_alkatresz;
 	vector<D2D1_POINT_2F>		P;
-	vector<EL_PAD>				EL_vector, EL_v, EL_betölt, EL_alkatrész;
-	vector<SQ_PAD>				SQ_vector, SQ_v, SQ_betölt, SQ_alkatrész;
-	vector<RR_PAD>				RR_vector, RR_v, RR_betölt, RR_alkatrész;
-	vector<EL_VIA>				ELVIA_vector, ELVIA_v, ELVIA_betölt, ELVIA_alkatrész;
-	vector<SQ_VIA>				SQVIA_vector, SQVIA_v, SQVIA_betölt, SQVIA_alkatrész;
-	vector<RR_VIA>				RRVIA_vector, RRVIA_v, RRVIA_betölt, RRVIA_alkatrész;
-	vector<ALKATRÉSZ>			Alkatrész;
+	vector<EL_PAD>				EL_vector, EL_v, EL_betolt, EL_alkatresz;
+	vector<SQ_PAD>				SQ_vector, SQ_v, SQ_betolt, SQ_alkatresz;
+	vector<RR_PAD>				RR_vector, RR_v, RR_betolt, RR_alkatresz;
+	vector<EL_VIA>				ELVIA_vector, ELVIA_v, ELVIA_betolt, ELVIA_alkatresz;
+	vector<SQ_VIA>				SQVIA_vector, SQVIA_v, SQVIA_betolt, SQVIA_alkatresz;
+	vector<RR_VIA>				RRVIA_vector, RRVIA_v, RRVIA_betolt, RRVIA_alkatresz;
+	vector<ALKATRÉSZ>			Alkatresz;
 	vector<GOMB>			ALAK_vector, CUSTOM_vector, gt, MODE_vector, SZINT_vector, FILE_vector;
 	vector<vector<GOMB>>	CUSTOM;	
 	vector<GC>				GC_vector;
@@ -56,7 +57,7 @@ class MainWindow : public BaseWindow<MainWindow>
 	vector<wstring>			file_nevek = { L"Mentés", L"Alkatrész mentés", L"Betöltés", L"Betöltés új blokkba" };
 	wstring					ws;
 	wstring					ws_vonal[1] = { L"Width" }; int vonal_t[1] = { 40 };
-	wstring					ws_kör[1] = { L"Width" };   int kör_t[1] = { 40 };
+	wstring					ws_kor[1] = { L"Width" };   int kor_t[1] = { 40 };
 	wstring					ws_poli[1];
 	wstring					ws_EL[3] = { L"dx", L"dy", L"d" }; int EL_t[3] = { 80, 80, 20 };
 	wstring					ws_SQ[3] = { L"dx", L"dy", L"d" }; int SQ_t[3] = { 80, 80, 20 };
@@ -65,12 +66,12 @@ class MainWindow : public BaseWindow<MainWindow>
 	wstring					ws_SV[3] = { L"dx", L"dy", L"d" }; int SV_t[3] = { 80, 80, 20 };
 	wstring					ws_RV[5] = { L"Width", L"Height", L"rx", L"ry", L"d" }; int RV_t[5] = { 80, 80, 20, 20, 20 };
 	vector<int>				tali;
-	vector<vector<int>>		Találat;
+	vector<vector<int>>		Talalat;
 	D2D1_POINT_2F			pont, pont0, pont1;
 	VONAL					vonal;
 	ARC						arc;
 	vector<D2D1_POINT_2F>	poligon, Poligon_2;
-	vector<float>			szögek;
+	vector<float>			szogek;
 	POLI					poli;
 	EL_PAD					el; EL_VIA ev;
 	SQ_PAD					sq; SQ_VIA sv;
@@ -80,7 +81,7 @@ class MainWindow : public BaseWindow<MainWindow>
 	vector<GOMB_2>			drivers; GOMB_2 driver, save1, save2, load;
 	vector<WIN32_FIND_DATA>	File_vector;
 	GC						gc;
-	WCHAR					text[MAX_PATH], kiv_drv, dialog_path[260];
+	WCHAR					text[MAX_PATH], kiv_drv, dialog_path[MAX_PATH];
 	DWORD					dialog_last_click_time = 0;
 	RECT					rc, BOX_GC, BOX_XY, BOX_ALAK, BOX_CUSTOM, BOX_MODE, BOX_SZINT, BOX_FILE;
 	D2D1_MATRIX_3X2_F		sc, tr, sc_alk, tr_alk;
@@ -88,11 +89,11 @@ class MainWindow : public BaseWindow<MainWindow>
 	// ReSharper disable once IdentifierTypo
 	BOOLEAN krv = false, vonalfolyamatban = false, arcfolyamatban = false, polifolyamatban = false;
 	BOOLEAN EL_folyamatban = false, SQ_folyamatban = false, RR_folyamatban = false, BOX_GC_k = false, BOX_CUSTOM_k = false;
-	BOOLEAN EV_folyamatban = false, SV_folyamatban = false, RV_folyamatban = false, ny_kép = false;
-	BOOLEAN edit_k = false, edit_t = false, edit_sz = false, custom_sz = false, betöltés = false, vanrajz = false, XY_k=false;
+	BOOLEAN EV_folyamatban = false, SV_folyamatban = false, RV_folyamatban = false, ny_kep = false;
+	BOOLEAN edit_k = false, edit_t = false, edit_sz = false, custom_sz = false, betoltes = false, vanrajz = false, XY_k=false;
 	POINT ablak;
 	POINT* eger;
-	float r, rx, rrx, ry, rry, nagyitas, n_sz, dx, dy, szög = 1.0;
+	float r, rx, rrx, ry, rry, nagyitas, n_sz, dx, dy, szog = 1.0;
 	int xe, ye, xxx, yyy, xx, yy, x, y, wheel, count, metsz, sz_sz, NN = 0, sz[2], kk;
 	int ALAK_k = -1, ALAK_kk = 0, GC_k = -1, GC_kk = 0, hossz, MODE_k = -1, MODE_kk = 0, SZINT_k = -1, SZINT_kk = 0, alk_sz = 0;
 	int FILE_k = -1, FILE_kk = -1, dialog_last_click_index = -1;
@@ -171,18 +172,18 @@ public:
 	void	GRID_rajzol();
 	void	ORIGO_rajzol();
 	void	ORIGO_init();
-	void	Origo_áthelyez();
-	void	Találat_rajzol();
-	void	Save(mentés);
-	void	Load(mentés);
+	void	Origo_athelyez();
+	void	Talalat_rajzol();
+	void	Save(mentes);
+	void	Load(mentes);
 	void	MODE_init();
 	void	MODE_rajzol();
 	void	MODE_keres();
 	void	SZINT_init();
 	void	SZINT_rajzol();
 	void	SZINT_keres();
-	void	Töröl();
-	void	Betölt_clear();
+	void	Torol();
+	void	Betolt_clear();
 	void	Filedialog_init();
 	void	Filedialog_rajzol();
 	void	List_init();

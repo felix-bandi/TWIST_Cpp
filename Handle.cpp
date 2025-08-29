@@ -154,10 +154,10 @@ LRESULT MainWindow::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		if (!edit.sz && !dialog.edit.sz)
 		{
 			if (wParam == 0x4D) Save(rajz);		// 'M'
-			if (wParam == 0x41) Save(alkatrész);// 'A'
+			if (wParam == 0x41) Save(alkatresz);// 'A'
 			if (wParam == 0x4C) Load(rajz);		// 'L'
-			if (wParam == 0x44) Load(alkatrész);// 'D'
-			if (wParam == VK_DELETE && mode == _töröl) Töröl();
+			if (wParam == 0x44) Load(alkatresz);// 'D'
+			if (wParam == VK_DELETE && mode == _töröl) Torol();
 			if (wParam == VK_ESCAPE)  DestroyWindow(m_hwnd);
 		}
 		if (wParam == VK_ESCAPE)  DestroyWindow(m_hwnd);
@@ -266,7 +266,7 @@ LRESULT MainWindow::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 							s--;
 						}
 						vonal_t[0] = CUSTOM[0][0].i;
-						kör_t[0] = CUSTOM[1][0].i;
+						kor_t[0] = CUSTOM[1][0].i;
 						EL_t[0] = CUSTOM[3][0].i; EL_t[1] = CUSTOM[3][1].i; EL_t[2] = CUSTOM[3][2].i;
 						SQ_t[0] = CUSTOM[4][0].i; SQ_t[1] = CUSTOM[4][1].i; SQ_t[2] = CUSTOM[4][2].i;
 						RR_t[0] = CUSTOM[5][0].i; RR_t[1] = CUSTOM[5][1].i; RR_t[2] = CUSTOM[5][2].i;
@@ -279,7 +279,7 @@ LRESULT MainWindow::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 				} break;
 			}				
 		}
-		else if (körfázis == 2 && wParam == VK_SPACE)
+		else if (korfazis == 2 && wParam == VK_SPACE)
 		{
 			if (arc.i == D2D1_SWEEP_DIRECTION_CLOCKWISE) { arc.i = D2D1_SWEEP_DIRECTION_COUNTER_CLOCKWISE; }
 			else { arc.i = D2D1_SWEEP_DIRECTION_CLOCKWISE; }

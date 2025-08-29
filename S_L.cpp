@@ -29,16 +29,16 @@ using namespace std;
 	}
 }*/
 
-void MainWindow::Save(mentés ment)
+void MainWindow::Save(mentes ment)
 {
 	boolean a = false;
 	ofstream f;
 	switch (ment)
 	{
-	case mentés::rajz:
+	case mentes::rajz:
 		f.open("rajz.twist");
 		break;
-	case mentés::alkatrész:
+	case mentes::alkatresz:
 		f.open("alkatrészek.alkatrész", ios::app);
 		a = true;
 			break;
@@ -167,7 +167,7 @@ void MainWindow::Save(mentés ment)
 	else save = 88;
 }
 
-void MainWindow::Load(mentés tölt)
+void MainWindow::Load(mentes tölt)
 {
 	boolean alk = false;
 	ifstream f;
@@ -175,7 +175,7 @@ void MainWindow::Load(mentés tölt)
 	{
 		f.open("rajz.twist");
 	}
-	if(tölt==alkatrész)
+	if(tölt==alkatresz)
 	{
 		f.open("alkatrészek.alkatrész");
 		alk = true;
@@ -188,7 +188,7 @@ void MainWindow::Load(mentés tölt)
 	if (f.is_open())
 	{
 		save = 55;
-		Betölt_clear();
+		Betolt_clear();
 		while (f.good())
 		{
 			getline(f, sor);
@@ -198,7 +198,7 @@ void MainWindow::Load(mentés tölt)
 			if (ss[0] == '_')
 			{
 				alk_sz++;
-				for (int i = 1; i < std::strlen(ss); i++) alkatresz.név.push_back(ss[i]);
+				for (int i = 1; i < std::strlen(ss); i++) alkatresz.nev.push_back(ss[i]);
 				save = 111;
 			}
 			if(s[0] == 'V')
@@ -215,7 +215,7 @@ void MainWindow::Load(mentés tölt)
 				vonal.v = atof(a);
 				a = strtok_s(NULL, " ", &b);
 				vonal.szint = atoi(a);
-				VONAL_betölt.push_back(vonal);
+				VONAL_betolt.push_back(vonal);
 				//save = 40;
 			}
 			if (s[0] == 'K')
@@ -248,8 +248,8 @@ void MainWindow::Load(mentés tölt)
 				arc.yk = atof(a);
 				a = strtok_s(NULL, " ", &b);
 				arc.yv = atof(a);
-				ARC_betölt.push_back(arc);
-				ARC_rajzol(ARC_betölt);
+				ARC_betolt.push_back(arc);
+				ARC_rajzol(ARC_betolt);
 				//save = 41;
 			}
 			if (s[0] == 'P')
@@ -271,8 +271,8 @@ void MainWindow::Load(mentés tölt)
 					save++;
 				}
 				for (int i = 0; i < poli.pont.size(); i++) pontok[i] = poli.pont[i];
-				POLIGON_betölt.push_back(poli);
-				POLIGON_rajzol(POLIGON_betölt);
+				POLIGON_betolt.push_back(poli);
+				POLIGON_rajzol(POLIGON_betolt);
 				//save = 40;
 			}
 			if (s[0] == 'E' && s[1] == 'L')
@@ -290,7 +290,7 @@ void MainWindow::Load(mentés tölt)
 				el.x = atof(a);
 				a = strtok_s(NULL, " ", &b);
 				el.y = atof(a);
-				EL_betölt.push_back(el);
+				EL_betolt.push_back(el);
 			}//save = 50;
 			
 			if (s[0] == 'S' && s[1] == 'Q')
@@ -307,7 +307,7 @@ void MainWindow::Load(mentés tölt)
 				sq.x = atof(a);
 				a = strtok_s(NULL, " ", &b);
 				sq.y = atof(a);
-				SQ_betölt.push_back(sq);
+				SQ_betolt.push_back(sq);
 			}
 			if (s[0] == 'R' && s[1] == 'R')
 			{
@@ -327,7 +327,7 @@ void MainWindow::Load(mentés tölt)
 				rr.x = atof(a);
 				a = strtok_s(NULL, " ", &b);
 				rr.y = atof(a);
-				RR_betölt.push_back(rr);
+				RR_betolt.push_back(rr);
 			}
 			if (s[0] == 'E' && s[1] == 'V')
 			{
@@ -341,7 +341,7 @@ void MainWindow::Load(mentés tölt)
 				ev.x = atof(a);
 				a = strtok_s(NULL, " ", &b);
 				ev.y = atof(a);
-				ELVIA_betölt.push_back(ev);
+				ELVIA_betolt.push_back(ev);
 			}
 			if (s[0] == 'S' && s[1] == 'V')
 			{
@@ -355,7 +355,7 @@ void MainWindow::Load(mentés tölt)
 				sv.x = atof(a);
 				a = strtok_s(NULL, " ", &b);
 				sv.y = atof(a);
-				SQVIA_betölt.push_back(sv);
+				SQVIA_betolt.push_back(sv);
 			}
 			if (s[0] == 'R' && s[1] == 'V')
 			{
@@ -373,31 +373,31 @@ void MainWindow::Load(mentés tölt)
 				rv.x = atof(a);
 				a = strtok_s(NULL, " ", &b);
 				rv.y = atof(a);
-				RRVIA_betölt.push_back(rv);
+				RRVIA_betolt.push_back(rv);
 			}
 			if (alk && s[0]=='|')
 			{
-				if (VONAL_betölt.size() > 0) for (int i = 0; i < VONAL_betölt.size(); i++)     alkatresz.v.push_back(VONAL_betölt[i]);
-				if (ARC_betölt.size() > 0)   for (int i = 0; i < ARC_betölt.size(); i++)       alkatresz.a.push_back(ARC_betölt[i]);
-				if (POLIGON_betölt.size() > 0)
+				if (VONAL_betolt.size() > 0) for (int i = 0; i < VONAL_betolt.size(); i++)     alkatresz.v.push_back(VONAL_betolt[i]);
+				if (ARC_betolt.size() > 0)   for (int i = 0; i < ARC_betolt.size(); i++)       alkatresz.a.push_back(ARC_betolt[i]);
+				if (POLIGON_betolt.size() > 0)
 				{
-					for (int i = 0; i < POLIGON_betölt.size(); i++)
+					for (int i = 0; i < POLIGON_betolt.size(); i++)
 					{
 						poli.pont.clear();
-						for (int p = 0; p < POLIGON_betölt[i].pont.size(); p++) poli.pont.push_back(POLIGON_betölt[i].pont[p]);
-						poli.pg = POLIGON_betölt[i].pg;
-						poli.szint = POLIGON_betölt[i].szint;
-						alkatresz.p.push_back(POLIGON_betölt[i]);
+						for (int p = 0; p < POLIGON_betolt[i].pont.size(); p++) poli.pont.push_back(POLIGON_betolt[i].pont[p]);
+						poli.pg = POLIGON_betolt[i].pg;
+						poli.szint = POLIGON_betolt[i].szint;
+						alkatresz.p.push_back(POLIGON_betolt[i]);
 					}
 				}
-				if (EL_betölt.size() > 0)    for (int i = 0; i < EL_betölt.size(); i++)    alkatresz.ep.push_back(EL_betölt[i]);
-				if (SQ_betölt.size() > 0)    for (int i = 0; i < SQ_betölt.size(); i++)    alkatresz.sp.push_back(SQ_betölt[i]);
-				if (RR_betölt.size() > 0)    for (int i = 0; i < RR_betölt.size(); i++)    alkatresz.rp.push_back(RR_betölt[i]);
-				if (ELVIA_betölt.size() > 0) for (int i = 0; i < ELVIA_betölt.size(); i++) alkatresz.ev.push_back(ELVIA_betölt[i]);
-				if (SQVIA_betölt.size() > 0) for (int i = 0; i < SQVIA_betölt.size(); i++) alkatresz.sv.push_back(SQVIA_betölt[i]);
-				if (RRVIA_betölt.size() > 0) for (int i = 0; i < RRVIA_betölt.size(); i++) alkatresz.rv.push_back(RRVIA_betölt[i]);
-				Alkatrész.push_back(alkatresz);
-				alkatresz.név.clear();
+				if (EL_betolt.size() > 0)    for (int i = 0; i < EL_betolt.size(); i++)    alkatresz.ep.push_back(EL_betolt[i]);
+				if (SQ_betolt.size() > 0)    for (int i = 0; i < SQ_betolt.size(); i++)    alkatresz.sp.push_back(SQ_betolt[i]);
+				if (RR_betolt.size() > 0)    for (int i = 0; i < RR_betolt.size(); i++)    alkatresz.rp.push_back(RR_betolt[i]);
+				if (ELVIA_betolt.size() > 0) for (int i = 0; i < ELVIA_betolt.size(); i++) alkatresz.ev.push_back(ELVIA_betolt[i]);
+				if (SQVIA_betolt.size() > 0) for (int i = 0; i < SQVIA_betolt.size(); i++) alkatresz.sv.push_back(SQVIA_betolt[i]);
+				if (RRVIA_betolt.size() > 0) for (int i = 0; i < RRVIA_betolt.size(); i++) alkatresz.rv.push_back(RRVIA_betolt[i]);
+				Alkatresz.push_back(alkatresz);
+				alkatresz.nev.clear();
 				alkatresz.v.clear();
 				alkatresz.a.clear();
 				alkatresz.p.clear();
@@ -407,13 +407,22 @@ void MainWindow::Load(mentés tölt)
 				alkatresz.ev.clear();
 				alkatresz.sv.clear();
 				alkatresz.rv.clear();
-				Betölt_clear();
+				Betolt_clear();
 			}
 		}
 		
-		if (!alk) betöltés = true;
+		if (!alk) betoltes = true;
 		f.close();
 		//save = 33;
 	}
 	else save = 99;
+	wchar_t exePath[MAX_PATH];
+	GetModuleFileNameW(nullptr, exePath, MAX_PATH);
+	std::wstring root(exePath);
+	size_t pos = root.find_last_of(L"\\/");
+	if (pos != std::wstring::npos) root.erase(pos); // Debug/Release mappa
+	pos = root.find_last_of(L"\\/");
+	if (pos != std::wstring::npos) root.erase(pos); // Projekt fõkönyvtár
+	std::wstring alkDir = root + L"\\Alkatreszek";
+	std::wstring rajzDir = root + L"\\Rajzok";
 }
