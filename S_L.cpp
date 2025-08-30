@@ -64,7 +64,7 @@ void MainWindow::Save(mentes ment)
 		}
 		for (int i = 0; i < ARC_vector.size(); i++)
 		{
-			f << "Körív ";
+			f << "Koriv ";
 			f << ARC_vector[i].i << " ";
 			f << ARC_vector[i].kpx << " ";
 			f << ARC_vector[i].kpy << " ";
@@ -181,7 +181,7 @@ void MainWindow::Load(mentes tölt)
 		alk = true;
 	}
 	int alk_sz = -1;
-	std::string sor;
+	std::wstring wsor;
 	char s[100], *a, *b, ss[100];
 	ALKATRESZ alkatresz;
 
@@ -191,9 +191,11 @@ void MainWindow::Load(mentes tölt)
 		Betolt_clear();
 		while (f.good())
 		{
-			getline(f, sor);
-			strcpy_s(s, sizeof(s), sor.c_str());
-			strcpy_s(ss, sizeof(ss), sor.c_str());
+			getline(f, wsor);
+			std::wstring_convert<std::codecvt_utf8<wchar_t>> conv;
+			std::string sor = conv.to_bytes(wsor);
+			strncpy_s(s, sizeof(s), sor.c_str(), sizeof(s) - 1);
+			strncpy_s(ss, sizeof(ss), sor.c_str(), sizeof(ss) - 1);
 			a = strtok_s(s, " ", &b);
 			if (ss[0] == '_')
 			{
