@@ -182,7 +182,7 @@ void MainWindow::Load(mentes tölt)
 	}
 	int alk_sz = -1;
 	std::wstring wsor;
-	char s[100], *a, *b, ss[100];
+	char s[1000], *a, *b, ss[1000];
 	ALKATRESZ alkatresz;
 
 	if (f.is_open())
