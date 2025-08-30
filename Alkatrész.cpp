@@ -13,7 +13,7 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 #include <stdlib.h>
-#include <time.h>
+//#include <time.h>
 using namespace std;
 #include "TWIST_Cpp.h"
 

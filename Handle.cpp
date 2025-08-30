@@ -13,7 +13,7 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 #include <stdlib.h>
-#include <time.h>
+//#include <time.h>
 using namespace std;
 #include "TWIST_Cpp.h"
 #include <iostream>
@@ -175,7 +175,7 @@ LRESULT MainWindow::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		if (!krv && !dialog.edit.sz)
 		{
 			vonalfolyamatban = false;
-			for (int i = 0; i < alak_nevek.size(); i++) ALAK_vector[i].kk = false;
+			for (size_t i = 0; i < alak_nevek.size(); i++) ALAK_vector[i].kk = false;
 			switch (LOWORD(wParam))
 			{
 			case a_VONAL:

@@ -13,7 +13,7 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 #include <stdlib.h>
-#include <time.h>
+//#include <time.h>
 using namespace std;
 #include "TWIST_Cpp.h"
 #include "DPIScale.h"
@@ -337,7 +337,7 @@ void MainWindow::Resize()
 			mouse.x = eger->x;
 			mouse.y = eger->y;
 		}
-		ablak.x = rc.right - rc.left; ablak.y = rc.bottom - rc.top;
+		ablak.x = static_cast<float>(rc.right - rc.left); ablak.y = static_cast<float>(rc.bottom - rc.top);
 		BOX_GC.bottom = ablak.y;
 		BOX_GC.top = ablak.y - 40;
 		InvalidateRect(m_hwnd, NULL, FALSE);

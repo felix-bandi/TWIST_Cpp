@@ -13,14 +13,14 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 #include <stdlib.h>
-#include <time.h>
+//#include <time.h>
 using namespace std;
 #include "TWIST_Cpp.h"
 
 void MainWindow::Nyomtat()
 {
 	int x, y, x1, y1;
-	POINT p[100];
+	POINT p[100] = {};
 
 	for (int i = 0; i < VONAL_vector.size(); i++)
 		if (VONAL_vector[i].szint == 0)

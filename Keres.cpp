@@ -13,7 +13,7 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 #include <stdlib.h>
-#include <time.h>
+//#include <time.h>
 using namespace std;
 #include "TWIST_Cpp.h"
 
@@ -199,7 +199,7 @@ void MainWindow::ARC_keres()
 		if (sz < -M_PI) sz += 2 * M_PI;
 		if (sz > M_PI) sz -= 2 * M_PI;
 		if (sz > ksz && sz < vsz) f2 = true; else f2 = false;
-		if (ARC_vector[i].i == D2D1_SWEEP_DIRECTION_CLOCKWISE) f2 = !f2;
+		if (ARC_vector[i].i == D2D1_SWEEP_DIRECTION_CLOCKWISE) f2 = ~f2;
 		h = sqrt((ARC_vector[i].xk - xx) * (ARC_vector[i].xk - xx) + (ARC_vector[i].yk - yy) * (ARC_vector[i].yk - yy));
 		h_ = sqrt((ARC_vector[i].xv - xx) * (ARC_vector[i].xv - xx) + (ARC_vector[i].yv - yy) * (ARC_vector[i].yv - yy));
 		if (h < ARC_vector[i].v / 2) f3 = true; else f3 = false;
@@ -212,7 +212,7 @@ void MainWindow::ARC_keres()
 void MainWindow::ALAK_keres()
 {
 	ALAK_k = -1;
-	for (int i = 0; i < ALAK_vector.size(); i++)
+	for (size_t i = 0; i < ALAK_vector.size(); i++)
 	{
 		if ((BOX_ALAK.left <= mouse.x) && (BOX_ALAK.right >= mouse.x) &&
 			((ALAK_vector[i].y1 + BOX_ALAK.top) <= mouse.y) && ((ALAK_vector[i].y2 + BOX_ALAK.top) >= mouse.y))
@@ -286,7 +286,7 @@ void MainWindow::GC_keres()
 		(BOX_GC.top <= mouse.y) && (BOX_GC.bottom >= mouse.y))
 	{
 		BOX_GC_k = true;
-		for (int i = 0; i < GC_vector.size(); i++)
+		for (size_t i = 0; i < GC_vector.size(); i++)
 		{
 			dx = mouse.x - GC_vector[i].x - BOX_GC.left;
 			dy = mouse.y - GC_vector[i].y - BOX_GC.top;

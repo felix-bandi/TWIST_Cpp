@@ -17,7 +17,7 @@ template <class T> void SafeRelease(T** ppT)
 
 class MainWindow : public BaseWindow<MainWindow>
 {
-	HCURSOR                 Cursor_system = LoadCursor(NULL, NULL), Cursor_1 = LoadCursor(NULL, IDC_ARROW);
+	HCURSOR                 Cursor_system = LoadCursor(NULL, IDC_HAND), Cursor_1 = LoadCursor(NULL, IDC_ARROW);
 	ID2D1Factory*			pFactory;
 	ID2D1HwndRenderTarget*	pRenderTarget;
 	ID2D1DCRenderTarget*	m_pDCRT;
@@ -82,8 +82,8 @@ class MainWindow : public BaseWindow<MainWindow>
 	vector<WIN32_FIND_DATA>	File_vector;
 	GC						gc;
 	WCHAR					text[MAX_PATH], kiv_drv, dialog_path[MAX_PATH];
-	DWORD					dialog_last_click_time = 0;
-	RECT					rc, BOX_GC, BOX_XY, BOX_ALAK, BOX_CUSTOM, BOX_MODE, BOX_SZINT, BOX_FILE;
+	RECT					rc{};
+	D2D1_RECT_F				BOX_GC{}, BOX_XY{}, BOX_ALAK{}, BOX_CUSTOM{}, BOX_MODE{}, BOX_SZINT{}, BOX_FILE{};
 	D2D1_MATRIX_3X2_F		sc, tr, sc_alk, tr_alk;
 	HDC						hdc;
 	// ReSharper disable once IdentifierTypo
@@ -91,15 +91,16 @@ class MainWindow : public BaseWindow<MainWindow>
 	BOOLEAN EL_folyamatban = false, SQ_folyamatban = false, RR_folyamatban = false, BOX_GC_k = false, BOX_CUSTOM_k = false;
 	BOOLEAN EV_folyamatban = false, SV_folyamatban = false, RV_folyamatban = false, ny_kep = false;
 	BOOLEAN edit_k = false, edit_t = false, edit_sz = false, custom_sz = false, betoltes = false, vanrajz = false, XY_k=false;
-	POINT ablak;
+	//POINT ablak;
 	POINT* eger;
 	float r, rx, rrx, ry, rry, nagyitas, n_sz, dx, dy, szog = 1.0;
-	int xe, ye, xxx, yyy, xx, yy, x, y, wheel, count, metsz, sz_sz, NN = 0, sz[2], kk;
+	float xx, xxx, yy, yyy;
+	int xe, ye, x, y, wheel, count, metsz, sz_sz, NN = 0, sz[2], kk;
 	int ALAK_k = -1, ALAK_kk = 0, GC_k = -1, GC_kk = 0, hossz, MODE_k = -1, MODE_kk = 0, SZINT_k = -1, SZINT_kk = 0, alk_sz = 0;
 	int FILE_k = -1, FILE_kk = -1, dialog_last_click_index = -1;
 	D2D1_POINT_2F eltolas, hely, ak, av, f, m, p, mouse_grid, p1, p2, p3, p4, f1, f2, mouse;
 	D2D1_SIZE_F meret;
-	D2D1_POINT_2F pontok[100];
+	D2D1_POINT_2F pontok[100], ablak;
 	char w[10];
 	float vv = 10, szt, save=77, d, alfa, alfa_, beta, gamma, h, h_, delta, delta_, sz_max, flo1=0, flo2=0, flo3=0;
 	//int vonal_d = 40, arc_v = 40, EL_pad_dx = 40, EL_pad_dy = 40, EL_pad_d = 10, SQ_pad_dx = 40, SQ_pad_dy = 40, SQ_pad_d = 10;
@@ -202,7 +203,12 @@ public:
 
 public:
 
-	MainWindow() : pFactory(NULL), pRenderTarget(NULL), Brush(NULL)
+	MainWindow() 
+		: pFactory(NULL)
+		, pRenderTarget(NULL)
+		, Brush(NULL)
+		, ScreenWidth(0)          // Initialize ScreenWidth
+		, ScreenHeight(0)         // Initialize ScreenHeight
 	{
 	}
 

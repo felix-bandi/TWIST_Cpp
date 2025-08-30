@@ -13,7 +13,7 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 #include <stdlib.h>
-#include <time.h>
+//#include <time.h>
 using namespace std;
 #include "TWIST_Cpp.h"
 
@@ -36,7 +36,7 @@ HRESULT MainWindow::CreateGraphicsResources()
 	{
 		RECT rc;
 		GetClientRect(m_hwnd, &rc);
-		ablak.x = rc.right - rc.left; ablak.y = rc.bottom - rc.top;
+		ablak.x = static_cast<float>(rc.right - rc.left); ablak.y = static_cast<float>(rc.bottom - rc.top);
 		D2D1_SIZE_U size = D2D1::SizeU(rc.right, rc.bottom);
 
 		hr = pFactory->CreateHwndRenderTarget(
@@ -159,7 +159,6 @@ HRESULT MainWindow::CreateGraphicsResources()
 			List2_init();
 		}
 	}
-	srand(time(0));
 	return hr;
 }
 
@@ -181,7 +180,7 @@ void MainWindow::ALAK_init()
 		ALAK_vector.push_back(gomb);
 	}
 	ALAK_vector[0].kk = true;
-	for (int i = 0; i < alak_nevek.size(); i++) ALAK_vector[i].t = alak_nevek[i];
+	for (size_t i = 0; i < alak_nevek.size(); i++) ALAK_vector[i].t = alak_nevek[i];
 }
 
 
@@ -484,7 +483,7 @@ void MainWindow::List2_init()
 	list2.cs.bottom = list2.bottom - 4;
 	list2.cs.right = list2.right - 4;
 	list2.cs.left = list2.cs.right - 20;
-	int m, H, N;
+	int m=0, H=0, N=0;
 	m = 25;
 	H = (list2.bottom - list2.top) / m;
 	list2.cs.length = list2.cs.bottom - list2.cs.top - 4;

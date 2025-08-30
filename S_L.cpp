@@ -13,7 +13,7 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 #include <stdlib.h>
-#include <time.h>
+//#include <time.h>
 using namespace std;
 #include "TWIST_Cpp.h"
 #include <iostream>
@@ -49,7 +49,12 @@ void MainWindow::Save(mentes ment)
 		if (a)
 		{
 			//f << "/n";
-			f << "_" << dialog.edit.tt << ":\n";
+			std::wstring name;
+			for (size_t i = 0; i < MAX_PATH && dialog.edit.tt[i] != 0; ++i) {
+				name += static_cast<wchar_t>(dialog.edit.tt[i]);
+			}
+			f << L"_" << name.c_str() << L":\n";
+			///f << "_" << dialog.edit.tt << ":\n";
 		}
 		for (int i = 0; i < VONAL_vector.size(); i++)
 		{
