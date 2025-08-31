@@ -1,2 +1,2 @@
 #pragma once
-using Real = double;   // ha egyszer mégis float kell: csak ezt írd át
+using Real = float;   // ha egyszer mégis float kell: csak ezt írd át

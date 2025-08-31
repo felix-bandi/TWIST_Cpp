@@ -39,6 +39,9 @@
     <ClInclude Include="Precision.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="PrintHelpers.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TWIST_Cpp.cpp">
@@ -90,5 +93,8 @@
     <Image Include="TWIST_Cpp.ico">
       <Filter>Resource Files</Filter>
     </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include=".clang-tidy" />
   </ItemGroup>
 </Project>

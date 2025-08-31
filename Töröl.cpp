@@ -20,22 +20,19 @@ using namespace std;
 void MainWindow::Torol()
 {
 	BOOLEAN t;
-	size_t s;
 
-	s = VONAL_vector.size();
 	VONAL_v.clear();
-	for (size_t i = 0; i < s; i++)
+	for (int i = 0; i < static_cast<int>(VONAL_vector.size()); i++)
 	{
 		t = false;
-		for (size_t k = 0; k < Talalat[0].size(); k++) if (i == Talalat[0][k]) t = true;
+		for (int k = 0; k < static_cast<int>(Talalat[0].size()); k++) if (i == Talalat[0][k]) t = true;
 		if (!t) VONAL_v.push_back(VONAL_vector[i]); 
 	}
 	VONAL_vector.clear();
 	for (size_t i = 0; i < VONAL_v.size(); i++) VONAL_vector.push_back(VONAL_v[i]);
 
-	s = EL_vector.size();
 	EL_v.clear();
-	for (size_t i = 0; i < s; i++)
+	for (int i = 0; i < static_cast<int>(EL_vector.size()); i++)
 	{
 		t = false;
 		for (size_t k = 0; k < Talalat[1].size(); k++) if (i == Talalat[1][k]) t = true;
@@ -44,9 +41,8 @@ void MainWindow::Torol()
 	EL_vector.clear();
 	for (size_t i = 0; i < EL_v.size(); i++) EL_vector.push_back(EL_v[i]);
 
-	s = SQ_vector.size();
 	SQ_v.clear();
-	for (size_t i = 0; i < s; i++)
+	for (int i = 0; i < static_cast<int>(SQ_vector.size()); i++)
 	{
 		t = false;
 		for (size_t k = 0; k < Talalat[2].size(); k++) if (i == Talalat[2][k]) t = true;
@@ -55,9 +51,8 @@ void MainWindow::Torol()
 	SQ_vector.clear();
 	for (size_t i = 0; i < SQ_v.size(); i++) SQ_vector.push_back(SQ_v[i]);
 
-	s = RR_vector.size();
 	RR_v.clear();
-	for (size_t i = 0; i < s; i++)
+	for (int i = 0; i < static_cast<int>(RR_vector.size()); i++)
 	{
 		t = false;
 		for (size_t k = 0; k < Talalat[3].size(); k++) if (i == Talalat[3][k]) t = true;
@@ -66,9 +61,8 @@ void MainWindow::Torol()
 	RR_vector.clear();
 	for (size_t i = 0; i < RR_v.size(); i++) RR_vector.push_back(RR_v[i]);
 
-	s = ARC_vector.size();
 	ARC_v.clear();
-	for (size_t i = 0; i < s; i++)
+	for (int i = 0; i < static_cast<int>(ARC_vector.size()); i++)
 	{
 		t = false;
 		for (size_t k = 0; k < Talalat[4].size(); k++) if (i == Talalat[4][k]) t = true;
@@ -77,9 +71,8 @@ void MainWindow::Torol()
 	ARC_vector.clear();
 	for (size_t i = 0; i < ARC_v.size(); i++) ARC_vector.push_back(ARC_v[i]);
 
-	s = POLIGON_vector.size();
 	POLIGON_v.clear();
-	for (size_t i = 0; i < s; i++)
+	for (int i = 0; i < static_cast<int>(POLIGON_vector.size()); i++)
 	{
 		t = false;
 		for (size_t k = 0; k < Talalat[5].size(); k++) if (i == Talalat[5][k]) t = true;
@@ -88,9 +81,8 @@ void MainWindow::Torol()
 	POLIGON_vector.clear();
 	for (size_t i = 0; i < POLIGON_v.size(); i++) POLIGON_vector.push_back(POLIGON_v[i]);
 
-	s = ELVIA_vector.size();
 	ELVIA_v.clear();
-	for (size_t i = 0; i < s; i++)
+	for (int i = 0; i < static_cast<int>(ELVIA_vector.size()); i++)
 	{
 		t = false;
 		for (size_t k = 0; k < Talalat[6].size(); k++) if (i == Talalat[6][k]) t = true;
@@ -99,9 +91,8 @@ void MainWindow::Torol()
 	ELVIA_vector.clear();
 	for (size_t i = 0; i < ELVIA_v.size(); i++) ELVIA_vector.push_back(ELVIA_v[i]);
 
-	s = SQVIA_vector.size();
 	SQVIA_v.clear();
-	for (size_t i = 0; i < s; i++)
+	for (int i = 0; i < static_cast<int>(SQVIA_vector.size()); i++)
 	{
 		t = false;
 		for (size_t k = 0; k < Talalat[7].size(); k++) if (i == Talalat[7][k]) t = true;
@@ -110,9 +101,8 @@ void MainWindow::Torol()
 	SQVIA_vector.clear();
 	for (size_t i = 0; i < SQVIA_v.size(); i++) SQVIA_vector.push_back(SQVIA_v[i]);
 
-	s = RRVIA_vector.size();
 	RRVIA_v.clear();
-	for (size_t i = 0; i < s; i++)
+	for (int i = 0; i < static_cast<int>(RRVIA_vector.size()); i++)
 	{
 		t = false;
 		for (size_t k = 0; k < Talalat[8].size(); k++) if (i == Talalat[8][k]) t = true;

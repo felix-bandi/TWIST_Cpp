@@ -93,17 +93,17 @@ class MainWindow : public BaseWindow<MainWindow>
 	BOOLEAN edit_k = false, edit_t = false, edit_sz = false, custom_sz = false, betoltes = false, vanrajz = false, XY_k=false;
 	//POINT ablak;
 	POINT* eger;
-	float r, rx, rrx, ry, rry, nagyitas, n_sz, dx, dy, szog = 1.0;
+	float rx, rrx, ry, rry, nagyitas, n_sz;
 	float xx, xxx, yy, yyy;
-	int xe, ye, x, y, wheel, count, metsz, sz_sz, NN = 0, sz[2], kk;
+	int xe, ye, wheel, count, metsz, sz_sz, NN = 0, sz[2], kk;
 	int ALAK_k = -1, ALAK_kk = 0, GC_k = -1, GC_kk = 0, hossz, MODE_k = -1, MODE_kk = 0, SZINT_k = -1, SZINT_kk = 0, alk_sz = 0;
 	int FILE_k = -1, FILE_kk = -1, dialog_last_click_index = -1;
-	D2D1_POINT_2F eltolas, hely, ak, av, f, m, p, mouse_grid, p1, p2, p3, p4, f1, f2, mouse;
+	D2D1_POINT_2F eltolas, hely, ak, av, mouse_grid, p1, p2, p3, p4, f1, f2, mouse;
 	D2D1_SIZE_F meret;
 	D2D1_POINT_2F pontok[100], ablak;
-	char w[10];
-	double alfa, alfa_, beta, gamma, h, h_;
-	float vv = 10, szt, save=77, d, delta, delta_, sz_max, flo1=0, flo2=0, flo3=0;
+	
+	double alfa, alfa_, beta, gamma, h_;
+	float vv = 10, szt, save=77, delta, delta_, sz_max, flo1=0, flo2=0, flo3=0;
 	//int vonal_d = 40, arc_v = 40, EL_pad_dx = 40, EL_pad_dy = 40, EL_pad_d = 10, SQ_pad_dx = 40, SQ_pad_dy = 40, SQ_pad_d = 10;
 	//int RR_pad_dx = 40, RR_pad_dy = 40, RR_pad_rx = 10, RR_pad_ry = 10, RR_pad_d = 10;
 public: 
@@ -121,11 +121,11 @@ public:
 	void    OnRButtonDown(int pixelX, int pixelY, DWORD flags);
 	void    OnMouseMove(int pixelX, int pixelY, DWORD flags);
 	void	OnMouseWheel(int d);
-	void	Kiir(boolean v, int x, int y);
-	void	Kiir(int v, int x, int y);
+	void	Kiir(boolean v, float x, float y);
+	void	Kiir(int v, float x, float y);
 	void	Kiir(int v, D2D1_RECT_F t);
 	void	Kiir(const char* s, int v, D2D1_RECT_F t);
-	void	Kiir(const char* s, float v, int x, int y);
+	void	Kiir(const char* s, float v, float x, float y);
 	void	Kiir(const char* s, D2D1_RECT_F t);
 	void	XY_init();
 	void	XY_rajzol();

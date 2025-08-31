@@ -241,6 +241,7 @@ LRESULT MainWindow::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 						grid.c.clear();
 						for (int n = 0; n < h; n++) grid.c.push_back(edit.c[n]);
 						grid.sz = false;
+						char w[10];
 						for (int j = 0; j < 10; j++) w[j] = ' ';
 						for (int j = 0; j < h; j++) w[j] = grid.c[j];
 						grid.i = stoi(w);
@@ -258,6 +259,7 @@ LRESULT MainWindow::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 								for (int n = 0; n < h; n++) CUSTOM[ALAK_kk][i].c.push_back(edit.c[n]);
 								custom_sz = false;
 								CUSTOM_vector[i].sz = false;
+								char w[10];
 								for (int j = 0; j < 10; j++) w[j] = ' ';
 								for (int j = 0; j < h; j++) w[j] = CUSTOM[ALAK_kk][i].c[j];
 								CUSTOM[ALAK_kk][i].i = stoi(w);

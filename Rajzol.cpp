@@ -16,6 +16,12 @@
 //#include <time.h>
 using namespace std;
 #include "TWIST_Cpp.h"
+#undef M_PI
+#undef M_PI_2
+#define M_PI    3.14159265358979323846f
+#define M_PI_2  1.57079632679489661923f
+#include <wrl.h>
+using Microsoft::WRL::ComPtr;
 
 /*void MainWindow::ARC_rajzol()
 {
@@ -36,8 +42,9 @@ using namespace std;
 	pSink->Close();
 	SafeRelease(&pSink);
 }*/
-void MainWindow::ARC_rajzol(vector<ARC> &ARC)
+/*void MainWindow::ARC_rajzol(vector<ARC>& ARC)
 {
+	if (ARC.empty()) return; // üres védelem
 	int i = ARC.size() - 1;
 	pFactory->CreatePathGeometry(&ARC[i].pg);
 	ID2D1GeometrySink* pSink;
@@ -54,7 +61,34 @@ void MainWindow::ARC_rajzol(vector<ARC> &ARC)
 	pSink->EndFigure(D2D1_FIGURE_END_OPEN);
 	pSink->Close();
 	SafeRelease(&pSink);
+}*/
+
+
+void MainWindow::ARC_rajzol(std::vector<ARC>& ARC)
+{
+	if (ARC.empty()) return;
+	size_t i = ARC.size() - 1;
+
+	ComPtr<ID2D1PathGeometry> pg;
+	if (FAILED(pFactory->CreatePathGeometry(&pg))) return;
+
+	ComPtr<ID2D1GeometrySink> sink;
+	if (FAILED(pg->Open(&sink))) return;
+
+	sink->SetFillMode(D2D1_FILL_MODE_WINDING);
+
+	auto ak = D2D1::Point2F(ARC[i].xk, ARC[i].yk);
+	auto av = D2D1::Point2F(ARC[i].xv, ARC[i].yv);
+	auto sz = D2D1::SizeF(ARC[i].rx, ARC[i].ry);
+
+	sink->BeginFigure(ak, D2D1_FIGURE_BEGIN_HOLLOW);
+	sink->AddArc(D2D1::ArcSegment(av, sz, 0.0f, ARC[i].i, ARC[i].s));
+	sink->EndFigure(D2D1_FIGURE_END_OPEN);
+	if (FAILED(sink->Close())) return;
+
+	ARC[i].pg = pg.Detach();
 }
+
 /*void MainWindow::ARC_rajzol_betölt()
 {
 	int i = ARC_betölt.size() - 1;
@@ -138,9 +172,9 @@ void MainWindow::POLIGON_rajzol_T()
 	ID2D1GeometrySink* pSink;
 	pPathGeometry_5->Open(&pSink);
 	pSink->SetFillMode(D2D1_FILL_MODE_WINDING);
-	for (int i = 0; i < Talalat[5].size(); i++)
+	for (size_t i = 0; i < Talalat[5].size(); i++)
 	{
-		for (int j = 0; j < POLIGON_vector[Talalat[5][i]].pont.size(); j++) pontok[j] = POLIGON_vector[Talalat[5][i]].pont[j];
+		for (size_t j = 0; j < POLIGON_vector[Talalat[5][i]].pont.size(); j++) pontok[j] = POLIGON_vector[Talalat[5][i]].pont[j];
 		pSink->BeginFigure(POLIGON_vector[Talalat[5][i]].pont[0], D2D1_FIGURE_BEGIN_FILLED);
 		pSink->AddLines(pontok, POLIGON_vector[Talalat[5][i]].pont.size());
 		pSink->AddLine(POLIGON_vector[Talalat[5][i]].pont[0]);
@@ -169,7 +203,7 @@ void MainWindow::POLIGON_rajzol_2()
 
 void MainWindow::VONAL_rajzol()
 {
-	for (int i = 0; i < VONAL_vector.size(); i++)
+	for (size_t i = 0; i < VONAL_vector.size(); i++)
 		if (VONAL_vector[i].szint == sz[kk])
 		{
 			pont0.x = (VONAL_vector[i].x1 + eltolas.x) * nagyitas;
@@ -182,7 +216,7 @@ void MainWindow::VONAL_rajzol()
 
 void MainWindow::EL_rajzol()
 {
-	for (int i = 0; i < EL_vector.size(); i++)
+	for (size_t i = 0; i < EL_vector.size(); i++)
 		if (EL_vector[i].szint == sz[kk])
 		{
 			hely.x = (EL_vector[i].x + eltolas.x) * nagyitas;
@@ -199,7 +233,7 @@ void MainWindow::EL_rajzol()
 
 void MainWindow::SQ_rajzol()
 {
-	for (int i = 0; i < SQ_vector.size(); i++)
+	for (size_t i = 0; i < SQ_vector.size(); i++)
 		if (SQ_vector[i].szint == sz[kk])
 		{
 			rect.left = (SQ_vector[i].x - SQ_vector[i].rx + eltolas.x) * nagyitas;
@@ -215,7 +249,7 @@ void MainWindow::SQ_rajzol()
 
 void MainWindow::RR_rajzol()
 {
-	for (int i = 0; i < RR_vector.size(); i++)
+	for (size_t i = 0; i < RR_vector.size(); i++)
 		if (RR_vector[i].szint == sz[kk])
 		{
 			rect.left = (RR_vector[i].x - RR_vector[i].rx + eltolas.x) * nagyitas;
@@ -231,7 +265,7 @@ void MainWindow::RR_rajzol()
 }
 void MainWindow::EV_rajzol()
 {
-	for (int i = 0; i < ELVIA_vector.size(); i++)
+	for (size_t i = 0; i < ELVIA_vector.size(); i++)
 	{
 		hely.x = (ELVIA_vector[i].x + eltolas.x) * nagyitas;
 		hely.y = (ELVIA_vector[i].y + eltolas.y) * nagyitas;
@@ -247,7 +281,7 @@ void MainWindow::EV_rajzol()
 
 void MainWindow::SV_rajzol()
 {
-	for (int i = 0; i < SQVIA_vector.size(); i++)
+	for (size_t i = 0; i < SQVIA_vector.size(); i++)
 	{
 		rect.left = (SQVIA_vector[i].x - SQVIA_vector[i].rx + eltolas.x) * nagyitas;
 		rect.top = (SQVIA_vector[i].y - SQVIA_vector[i].ry + eltolas.y) * nagyitas;
@@ -262,7 +296,7 @@ void MainWindow::SV_rajzol()
 
 void MainWindow::RV_rajzol()
 {
-	for (int i = 0; i < RRVIA_vector.size(); i++)
+	for (size_t i = 0; i < RRVIA_vector.size(); i++)
 	{
 		rect.left = (RRVIA_vector[i].x - RRVIA_vector[i].rx + eltolas.x) * nagyitas;
 		rect.top = (RRVIA_vector[i].y - RRVIA_vector[i].ry + eltolas.y) * nagyitas;
@@ -277,7 +311,7 @@ void MainWindow::RV_rajzol()
 }
 void MainWindow::EL_lyuk_rajzol()
 {
-	for (int i = 0; i < EL_vector.size(); i++)
+	for (size_t i = 0; i < EL_vector.size(); i++)
 	{
 		hely.x = (EL_vector[i].x + eltolas.x) * nagyitas;
 		hely.y = (EL_vector[i].y + eltolas.y) * nagyitas;
@@ -291,7 +325,7 @@ void MainWindow::EL_lyuk_rajzol()
 
 void MainWindow::SQ_lyuk_rajzol()
 {
-	for (int i = 0; i < SQ_vector.size(); i++)
+	for (size_t i = 0; i < SQ_vector.size(); i++)
 	{
 		hely.x = (SQ_vector[i].x + eltolas.x) * nagyitas;
 		hely.y = (SQ_vector[i].y + eltolas.y) * nagyitas;
@@ -307,7 +341,7 @@ void MainWindow::SQ_lyuk_rajzol()
 
 void MainWindow::RR_lyuk_rajzol()
 {
-	for (int i = 0; i < RR_vector.size(); i++)
+	for (size_t i = 0; i < RR_vector.size(); i++)
 	{
 		hely.x = (RR_vector[i].x + eltolas.x) * nagyitas;
 		hely.y = (RR_vector[i].y + eltolas.y) * nagyitas;
@@ -322,7 +356,7 @@ void MainWindow::RR_lyuk_rajzol()
 }
 void MainWindow::EV_lyuk_rajzol()
 {
-	for (int i = 0; i < ELVIA_vector.size(); i++)
+	for (size_t i = 0; i < ELVIA_vector.size(); i++)
 	{
 		hely.x = (ELVIA_vector[i].x + eltolas.x) * nagyitas;
 		hely.y = (ELVIA_vector[i].y + eltolas.y) * nagyitas;
@@ -338,7 +372,7 @@ void MainWindow::EV_lyuk_rajzol()
 
 void MainWindow::SV_lyuk_rajzol()
 {
-	for (int i = 0; i < SQVIA_vector.size(); i++)
+	for (size_t i = 0; i < SQVIA_vector.size(); i++)
 	{
 		hely.x = (SQVIA_vector[i].x + eltolas.x) * nagyitas;
 		hely.y = (SQVIA_vector[i].y + eltolas.y) * nagyitas;
@@ -354,7 +388,7 @@ void MainWindow::SV_lyuk_rajzol()
 
 void MainWindow::RV_lyuk_rajzol()
 {
-	for (int i = 0; i < RRVIA_vector.size(); i++)
+	for (size_t i = 0; i < RRVIA_vector.size(); i++)
 	{
 		hely.x = (RRVIA_vector[i].x + eltolas.x) * nagyitas;
 		hely.y = (RRVIA_vector[i].y + eltolas.y) * nagyitas;
@@ -371,7 +405,7 @@ void MainWindow::RV_lyuk_rajzol()
 void MainWindow::Talalat_rajzol()
 {
 	Brush->SetColor(D2D1::ColorF(D2D1::ColorF::Yellow));
-	for (int i = 0; i < Talalat[0].size(); i++)
+	for (size_t i = 0; i < Talalat[0].size(); i++)
 	{
 		pont0.x = (VONAL_vector[Talalat[0][i]].x1 + eltolas.x) * nagyitas;
 		pont0.y = (VONAL_vector[Talalat[0][i]].y1 + eltolas.y) * nagyitas;
@@ -379,7 +413,7 @@ void MainWindow::Talalat_rajzol()
 		pont1.y = (VONAL_vector[Talalat[0][i]].y2 + eltolas.y) * nagyitas;
 		pRenderTarget->DrawLine(pont0, pont1, Brush, VONAL_vector[Talalat[0][i]].v * nagyitas, pStrokeStyle);
 	}
-	for (int i = 0; i < Talalat[1].size(); i++)
+	for (size_t i = 0; i < Talalat[1].size(); i++)
 	{
 		hely.x = (EL_vector[Talalat[1][i]].x + eltolas.x) * nagyitas;
 		hely.y = (EL_vector[Talalat[1][i]].y + eltolas.y) * nagyitas;
@@ -389,7 +423,7 @@ void MainWindow::Talalat_rajzol()
 		pRenderTarget->FillEllipse(ellipse, Brush);
 		pRenderTarget->DrawEllipse(ellipse, Brush, 1);
 	}
-	for (int i = 0; i < Talalat[2].size(); i++)
+	for (size_t i = 0; i < Talalat[2].size(); i++)
 	{
 		rect.left = (SQ_vector[Talalat[2][i]].x - SQ_vector[Talalat[2][i]].rx + eltolas.x) * nagyitas;
 		rect.top = (SQ_vector[Talalat[2][i]].y - SQ_vector[Talalat[2][i]].ry + eltolas.y) * nagyitas;
@@ -398,7 +432,7 @@ void MainWindow::Talalat_rajzol()
 		pRenderTarget->FillRectangle(rect, Brush);
 		pRenderTarget->DrawRectangle(rect, Brush, 1);
 	}
-	for (int i = 0; i < Talalat[3].size(); i++)
+	for (size_t i = 0; i < Talalat[3].size(); i++)
 	{
 		rect.left = (RR_vector[Talalat[3][i]].x - RR_vector[Talalat[3][i]].rx + eltolas.x) * nagyitas;
 		rect.top = (RR_vector[Talalat[3][i]].y - RR_vector[Talalat[3][i]].ry + eltolas.y) * nagyitas;
@@ -412,17 +446,17 @@ void MainWindow::Talalat_rajzol()
 	sc = D2D1::Matrix3x2F::Scale(nagyitas, nagyitas, D2D1::Point2F(0, 0));
 	tr = D2D1::Matrix3x2F::Translation(nagyitas * eltolas.x, nagyitas * eltolas.y);
 	pRenderTarget->SetTransform(sc * tr);
-	for (int i = 0; i < Talalat[4].size(); i++)
+	for (size_t i = 0; i < Talalat[4].size(); i++)
 	{
 		pRenderTarget->DrawGeometry(ARC_vector[Talalat[4][i]].pg, Brush, ARC_vector[Talalat[4][i]].v, pStrokeStyle);
 	}
-	for (int i = 0; i < Talalat[5].size(); i++)
+	for (size_t i = 0; i < Talalat[5].size(); i++)
 	{
 		pRenderTarget->FillGeometry(POLIGON_vector[Talalat[5][i]].pg, Brush);
 	}
 	//pRenderTarget->FillGeometry(pPathGeometry_5, Brush);
 	pRenderTarget->SetTransform(D2D1::Matrix3x2F::Identity());
-	for (int i = 0; i < Talalat[6].size(); i++)
+	for (size_t i = 0; i < Talalat[6].size(); i++)
 	{
 		hely.x = (ELVIA_vector[Talalat[6][i]].x + eltolas.x) * nagyitas;
 		hely.y = (ELVIA_vector[Talalat[6][i]].y + eltolas.y) * nagyitas;
@@ -432,7 +466,7 @@ void MainWindow::Talalat_rajzol()
 		pRenderTarget->FillEllipse(ellipse, Brush);
 		pRenderTarget->DrawEllipse(ellipse, Brush, 1);
 	}
-	for (int i = 0; i < Talalat[7].size(); i++)
+	for (size_t i = 0; i < Talalat[7].size(); i++)
 	{
 		rect.left = (SQVIA_vector[Talalat[7][i]].x - SQVIA_vector[Talalat[7][i]].rx + eltolas.x) * nagyitas;
 		rect.top = (SQVIA_vector[Talalat[7][i]].y - SQVIA_vector[Talalat[7][i]].ry + eltolas.y) * nagyitas;
@@ -441,7 +475,7 @@ void MainWindow::Talalat_rajzol()
 		pRenderTarget->FillRectangle(rect, Brush);
 		pRenderTarget->DrawRectangle(rect, Brush, 1);
 	}
-	for (int i = 0; i < Talalat[8].size(); i++)
+	for (size_t i = 0; i < Talalat[8].size(); i++)
 	{
 		rect.left = (RRVIA_vector[Talalat[8][i]].x - RRVIA_vector[Talalat[8][i]].rx + eltolas.x) * nagyitas;
 		rect.top = (RRVIA_vector[Talalat[8][i]].y - RRVIA_vector[Talalat[8][i]].ry + eltolas.y) * nagyitas;

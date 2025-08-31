@@ -34,10 +34,10 @@ HRESULT MainWindow::CreateGraphicsResources()
 
 	if (pRenderTarget == NULL)
 	{
-		RECT rc;
-		GetClientRect(m_hwnd, &rc);
-		ablak.x = static_cast<float>(rc.right - rc.left); ablak.y = static_cast<float>(rc.bottom - rc.top);
-		D2D1_SIZE_U size = D2D1::SizeU(rc.right, rc.bottom);
+		RECT rc1;
+		GetClientRect(m_hwnd, &rc1);
+		ablak.x = static_cast<float>(rc1.right - rc1.left); ablak.y = static_cast<float>(rc1.bottom - rc1.top);
+		D2D1_SIZE_U size = D2D1::SizeU(rc1.right, rc1.bottom);
 
 		hr = pFactory->CreateHwndRenderTarget(
 			D2D1::RenderTargetProperties(),
@@ -186,12 +186,12 @@ void MainWindow::ALAK_init()
 
  void MainWindow::Filedialog_init()
  {
-	 float w = static_cast<float>(ScreenWidth) / 6;
-	 float h = static_cast<float>(ScreenHeight) / 8;
-	 dialog.left = 2 * w;
-	 dialog.right = 4 * w;
-	 dialog.top = h;
-	 dialog.bottom = 7 * h;
+	 float w1 = static_cast<float>(ScreenWidth) / 6;
+	 float h1 = static_cast<float>(ScreenHeight) / 8;
+	 dialog.left = 2 * w1;
+	 dialog.right = 4 * w1;
+	 dialog.top = h1;
+	 dialog.bottom = 7 * h1;
 	 dialog.p1.x = dialog.left; dialog.p2.x = dialog.right;
 	 dialog.p1.y = dialog.p2.y = dialog.top + 50;
 	 dialog.cs.k = false;
@@ -248,7 +248,7 @@ void MainWindow::CUSTOM_init()
 		gomb.sz = false;
 		std::string st = std::to_string(gomb.i);
 		std::wstring wst = string_to_wstring(st);
-		int hossz = wst.length();
+		hossz = wst.length();
 		gomb.c.clear();
 		for (int k = 0; k < hossz; k++) gomb.c.push_back(static_cast<char>(wst[k]));
 		gt.push_back(gomb);
@@ -269,7 +269,7 @@ void MainWindow::CUSTOM_init()
 		gomb.sz = false;
 		std::string st = std::to_string(gomb.i);
 		std::wstring wst = string_to_wstring(st);
-		int hossz = wst.length();
+		hossz = wst.length();
 		gomb.c.clear();
 		for (int k = 0; k < hossz; k++) gomb.c.push_back(static_cast<char>(wst[k]));
 		gt.push_back(gomb);
@@ -290,7 +290,7 @@ void MainWindow::CUSTOM_init()
 		gomb.sz = false;
 		std::string st = std::to_string(gomb.i);
 		std::wstring wst = string_to_wstring(st);
-		int hossz = wst.length();
+		hossz = wst.length();
 		gomb.c.clear();
 		for (int k = 0; k < hossz; k++) gomb.c.push_back(static_cast<char>(wst[k]));
 		gt.push_back(gomb);
@@ -310,7 +310,7 @@ void MainWindow::CUSTOM_init()
 		gomb.sz = false;
 		std::string st = std::to_string(gomb.i);
 		std::wstring wst = string_to_wstring(st);
-		int hossz = wst.length();
+		hossz = wst.length();
 		gomb.c.clear();
 		for (int k = 0; k < hossz; k++) gomb.c.push_back(static_cast<char>(wst[k]));
 		gt.push_back(gomb);
@@ -331,7 +331,7 @@ void MainWindow::CUSTOM_init()
 		std::string st = std::to_string(gomb.i);
 		std::wstring wst = string_to_wstring(st);
 		wst = to_wstring(gomb.i);
-		int hossz = wst.length();
+		hossz = wst.length();
 		gomb.c.clear();
 		for (int k = 0; k < hossz; k++) gomb.c.push_back(static_cast<char>(wst[k]));
 		gt.push_back(gomb);
@@ -351,7 +351,7 @@ void MainWindow::CUSTOM_init()
 		gomb.sz = false;
 		std::string st = std::to_string(gomb.i);
 		std::wstring wst = string_to_wstring(st);
-		int hossz = wst.length();
+		hossz = wst.length();
 		gomb.c.clear();
 		for (int k = 0; k < hossz; k++) gomb.c.push_back(static_cast<char>(wst[k]));
 		gt.push_back(gomb);
@@ -371,7 +371,7 @@ void MainWindow::CUSTOM_init()
 		gomb.sz = false;
 		std::string st = std::to_string(gomb.i);
 		std::wstring wst = string_to_wstring(st);
-		int hossz = wst.length();
+		hossz = wst.length();
 		gomb.c.clear();
 		for (int k = 0; k < hossz; k++) gomb.c.push_back(static_cast<char>(wst[k]));
 		gt.push_back(gomb);
@@ -392,7 +392,7 @@ void MainWindow::CUSTOM_init()
 		std::string st = std::to_string(gomb.i);
 		std::wstring wst = string_to_wstring(st);
 		wst = to_wstring(gomb.i);
-		int hossz = wst.length();
+		hossz = wst.length();
 		gomb.c.clear();
 		for (int k = 0; k < hossz; k++) gomb.c.push_back(static_cast<char>(wst[k]));
 		gt.push_back(gomb);
@@ -483,7 +483,7 @@ void MainWindow::List2_init()
 	list2.cs.bottom = list2.bottom - 4;
 	list2.cs.right = list2.right - 4;
 	list2.cs.left = list2.cs.right - 20;
-	float m=0, H=0, N=0;
+	float m = 0, H = 0;// , N = 0;
 	m = 25;
 	H = (list2.bottom - list2.top) / m;
 	list2.cs.length = list2.cs.bottom - list2.cs.top - 4;
@@ -542,6 +542,7 @@ void MainWindow::GRID_init()
 	grid.c.push_back('1');
 	//grid.c.push_back('0');
 	int h = grid.c.size();
+	char w[10];
 	for (int i = 0; i < 10; i++) w[i] = ' ';
 	for (int i = 0; i < h; i++) w[i] = grid.c[i];
 	grid.i = stoi(w);

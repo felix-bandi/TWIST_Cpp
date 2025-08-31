@@ -47,7 +47,7 @@ static bool IsDriveReady(wchar_t letter)
 
 void MainWindow::ALAK_rajzol()
 {
-	for (size_t i = 0; i < ALAK_vector.size(); i++)
+	for (int i = 0; i < static_cast<int>(ALAK_vector.size()); i++)
 	{
 		//flo3 = 77;
 		//int3 = ALAK_kk;
@@ -69,7 +69,7 @@ void MainWindow::ALAK_rajzol()
 
 void MainWindow::MODE_rajzol()
 {
-	for (size_t i = 0; i < MODE_vector.size(); i++)
+	for (int i = 0; i < static_cast<int>(MODE_vector.size()); i++)
 	{
 		rect.left = BOX_MODE.left;
 		rect.top = BOX_MODE.top + MODE_vector[i].y1;
@@ -89,7 +89,7 @@ void MainWindow::MODE_rajzol()
 
 void MainWindow::FILE_rajzol()
 {
-	for (size_t i = 0; i < FILE_vector.size(); i++)
+	for (int i = 0; i < static_cast<int>(FILE_vector.size()); i++)
 	{
 		rect.left = BOX_FILE.left;
 		rect.top = BOX_FILE.top + FILE_vector[i].y1;
@@ -109,7 +109,7 @@ void MainWindow::FILE_rajzol()
 
 void MainWindow::SZINT_rajzol()
 {
-	for (size_t i = 0; i < SZINT_vector.size(); i++)
+	for (int i = 0; i < static_cast<int>(SZINT_vector.size()); i++)
 	{
 		rect.left = BOX_SZINT.left + SZINT_vector[i].x1;
 		rect.right = BOX_SZINT.left + SZINT_vector[i].x2;
@@ -140,9 +140,8 @@ void MainWindow::List_rajzol()
 	list.cs.bar.top = list.cs.p;
 	list.cs.bar.bottom = list.cs.length + list.cs.p;
 	pRenderTarget->FillRectangle(list.cs.bar, Brush);
-	int h;
 	list.k = -1;
-	for (size_t i = 0; i < Alkatresz.size(); i++)
+	for (int i = 0; i < static_cast<int>(Alkatresz.size()); i++)
 	{
 		rect.top = list.top + 4 + i * 25;
 		rect.bottom = rect.top + 24;
@@ -155,9 +154,9 @@ void MainWindow::List_rajzol()
 		}
 		else Brush->SetColor(D2D1::ColorF(D2D1::ColorF::Gray));
 		if (list.kk == i ) Brush->SetColor(D2D1::ColorF(D2D1::ColorF::Orange));
-		h = Alkatresz[i].nev.size();
-		for (int j = 0; j < h; j++) text[j] = Alkatresz[i].nev[j];
-		pRenderTarget->DrawText(text, h, TF2, rect, Brush);
+		hossz = Alkatresz[i].nev.size();
+		for (int j = 0; j < hossz; j++) text[j] = Alkatresz[i].nev[j];
+		pRenderTarget->DrawText(text, hossz, TF2, rect, Brush);
 	}
 }
 
@@ -197,7 +196,7 @@ void MainWindow::Filedialog_rajzol()
 			driver.top = dialog.top + 10;
 			driver.right = driver.left + 30;
 			driver.bottom = driver.top + 30;
-			driver.ch = ('A' + i);
+			driver.ch = static_cast<char>('A' + i);
 			drivers.push_back(driver);
 			col++;
 		}
@@ -220,7 +219,7 @@ void MainWindow::Filedialog_rajzol()
 	}
 
 	// Meghajtó gombok kirajzolása
-	for (size_t i = 0; i < drivers.size(); i++)
+	for (int i = 0; i < static_cast<int>(drivers.size()); i++)
 	{
 		bool ready = IsDriveReady(drivers[i].ch);
 		driver = drivers[i];
@@ -353,13 +352,13 @@ void MainWindow::Filedialog_rajzol()
 	// Hiba kijelzés
 	if (fileN == 0 && dialog.lastEnumError != 0)
 	{
-		D2D1_RECT_F rr = dialog.client;
-		rr.bottom = rr.top + 18;
+		D2D1_RECT_F rr1 = dialog.client;
+		rr1.bottom = rr1.top + 18;
 		Brush->SetColor(D2D1::ColorF(D2D1::ColorF::OrangeRed));
 		const wchar_t* msg = (dialog.lastEnumError == ERROR_NOT_READY)
 			? L"Meghajtó nem elérhetõ"
 			: L"Hiba az olvasás során";
-		pRenderTarget->DrawText(msg, (UINT32)wcslen(msg), TF2, rr, Brush);
+		pRenderTarget->DrawText(msg, (UINT32)wcslen(msg), TF2, rr1, Brush);
 	}
 
 	// Edit mezõ
@@ -435,7 +434,7 @@ void MainWindow::CUSTOM_rajzol()
 				rect.right = BOX_CUSTOM.right - 5;
 				pRenderTarget->DrawRectangle(rect, Brush, 1);
 				rect.top = rect.top - 2;
-				for (size_t i = 0; i < edit.c.size(); i++) text[i] = edit.c[i];
+				for (size_t ii = 0; ii < edit.c.size(); ii++) text[ii] = edit.c[ii];
 				pRenderTarget->DrawText(text, edit.c.size(), TF1, rect, Brush);
 			}
 			else
@@ -464,11 +463,13 @@ void MainWindow::GRID_rajzol()
 	rect.top = static_cast<float>(grid.y1);
 	rect.right = static_cast<float>(grid.x2);
 	rect.bottom = static_cast<float>(grid.y2);
+	
 	if (grid.sz)
 	{
 		Brush->SetColor(D2D1::ColorF(D2D1::ColorF::Red));
 		pRenderTarget->DrawRectangle(rect, Brush, 2);
 		for (size_t i = 0; i < edit.c.size(); i++) text[i] = edit.c[i];
+		char w[10];
 		for (int j = 0; j < 10; j++) w[j] = ' ';
 		for (size_t j = 0; j < edit.c.size(); j++) w[j] = edit.c[j];
 		if (edit.c.size() > 0) Kiir("Grid: ", stoi(w), rect); else Kiir("Grid:", rect);
@@ -497,23 +498,23 @@ void MainWindow::ORIGO_rajzol()
 
 void MainWindow::Origo_athelyez()
 {
-	float x = -xx;
-	float y = -yy;
+	float x1 = -xx;
+	float y1 = -yy;
 	for (size_t i = 0; i < VONAL_vector.size(); i++)
 	{
-		VONAL_vector[i].x1 += x;
-		VONAL_vector[i].x2 += x;
-		VONAL_vector[i].y1 += y;
-		VONAL_vector[i].y2 += y;
+		VONAL_vector[i].x1 += x1;
+		VONAL_vector[i].x2 += x1;
+		VONAL_vector[i].y1 += y1;
+		VONAL_vector[i].y2 += y1;
 	}
 	for (size_t i = 0; i < ARC_vector.size(); i++)
 	{
-		ARC_vector[i].kpx += x;
-		ARC_vector[i].kpy += y;
-		ARC_vector[i].xk += x;
-		ARC_vector[i].yk += y;
-		ARC_vector[i].xv += x;
-		ARC_vector[i].yv += y;
+		ARC_vector[i].kpx += x1;
+		ARC_vector[i].kpy += y1;
+		ARC_vector[i].xk += x1;
+		ARC_vector[i].yk += y1;
+		ARC_vector[i].xv += x1;
+		ARC_vector[i].yv += y1;
 		SafeRelease(&ARC_vector[i].pg);
 		pFactory->CreatePathGeometry(&ARC_vector[i].pg);
 		ID2D1GeometrySink* pSink;
@@ -535,8 +536,8 @@ void MainWindow::Origo_athelyez()
 	{
 		for (size_t j = 0; j < POLIGON_vector[i].pont.size(); j++)
 		{
-			POLIGON_vector[i].pont[j].x += x;
-			POLIGON_vector[i].pont[j].y += y;
+			POLIGON_vector[i].pont[j].x += x1;
+			POLIGON_vector[i].pont[j].y += y1;
 		}
 		SafeRelease(&POLIGON_vector[i].pg);
 		for (size_t j = 0; j < POLIGON_vector[i].pont.size(); j++) pontok[j] = POLIGON_vector[i].pont[j];
@@ -553,33 +554,33 @@ void MainWindow::Origo_athelyez()
 	}
 	for (size_t i = 0; i < EL_vector.size(); i++)
 	{
-		EL_vector[i].x += x;
-		EL_vector[i].y += y;
+		EL_vector[i].x += x1;
+		EL_vector[i].y += y1;
 	}
 	for (size_t i = 0; i < SQ_vector.size(); i++)
 	{
-		SQ_vector[i].x += x;
-		SQ_vector[i].y += y;
+		SQ_vector[i].x += x1;
+		SQ_vector[i].y += y1;
 	}
 	for (size_t i = 0; i < RR_vector.size(); i++)
 	{
-		RR_vector[i].x += x;
-		RR_vector[i].y += y;
+		RR_vector[i].x += x1;
+		RR_vector[i].y += y1;
 	}
 	for (size_t i = 0; i < ELVIA_vector.size(); i++)
 	{
-		ELVIA_vector[i].x += x;
-		ELVIA_vector[i].y += y;
+		ELVIA_vector[i].x += x1;
+		ELVIA_vector[i].y += y1;
 	}
 	for (size_t i = 0; i < SQVIA_vector.size(); i++)
 	{
-		SQVIA_vector[i].x += x;
-		SQVIA_vector[i].y += y;
+		SQVIA_vector[i].x += x1;
+		SQVIA_vector[i].y += y1;
 	}
 	for (size_t i = 0; i < RRVIA_vector.size(); i++)
 	{
-		RRVIA_vector[i].x += x;
-		RRVIA_vector[i].y += y;
+		RRVIA_vector[i].x += x1;
+		RRVIA_vector[i].y += y1;
 	}
 	origo.kk = false;
 	eltolas.x += xx;
@@ -595,7 +596,7 @@ void MainWindow::Origo_athelyez()
 
 void MainWindow::GC_rajzol()
 {
-	for (size_t i = 0; i < GC_vector.size(); i++)
+	for (int i = 0; i < static_cast<int>(GC_vector.size()); i++)
 	{
 		hely.x = GC_vector[i].x + BOX_GC.left;
 		hely.y = GC_vector[i].y + BOX_GC.top;
@@ -687,8 +688,8 @@ void MainWindow::UpdateDialogContents()
 		}
 
 		dialog.edit.c.clear();
-		std::wstring ws(base);
-		for (auto ch : ws) if (ch < 128) dialog.edit.c.push_back((byte)ch);
+		std::wstring wst(base);
+		for (auto ch : wst) if (ch < 128) dialog.edit.c.push_back((byte)ch);
 
 		dialog.ini = true;
 		dialog.dirchange = false;

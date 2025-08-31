@@ -23,25 +23,25 @@ void MainWindow::OnPaint()
 {
 	if (betoltes)
 	{
-		if (VONAL_betolt.size() > 0) for (int i = 0; i < VONAL_betolt.size(); i++)     VONAL_vector.push_back(VONAL_betolt[i]);
-		if (ARC_betolt.size() > 0)   for (int i = 0; i < ARC_betolt.size(); i++)       ARC_vector.push_back(ARC_betolt[i]);
+		if (VONAL_betolt.size() > 0) for (size_t i = 0; i < VONAL_betolt.size(); i++)     VONAL_vector.push_back(VONAL_betolt[i]);
+		if (ARC_betolt.size() > 0)   for (size_t i = 0; i < ARC_betolt.size(); i++)       ARC_vector.push_back(ARC_betolt[i]);
 		if (POLIGON_betolt.size() > 0)
 		{
-			for (int i = 0; i < POLIGON_betolt.size(); i++)
+			for (size_t i = 0; i < POLIGON_betolt.size(); i++)
 			{
 				poli.pont.clear();
-				for (int p = 0; p < POLIGON_betolt[i].pont.size(); p++) poli.pont.push_back(POLIGON_betolt[i].pont[p]);
+				for (size_t p = 0; p < POLIGON_betolt[i].pont.size(); p++) poli.pont.push_back(POLIGON_betolt[i].pont[p]);
 				poli.pg = POLIGON_betolt[i].pg;
 				poli.szint = POLIGON_betolt[i].szint;
 				POLIGON_vector.push_back(poli);
 			}
 		}
-		if (EL_betolt.size() > 0)    for (int i = 0; i < EL_betolt.size(); i++)    EL_vector.push_back(EL_betolt[i]);
-		if (SQ_betolt.size() > 0)    for (int i = 0; i < SQ_betolt.size(); i++)    SQ_vector.push_back(SQ_betolt[i]);
-		if (RR_betolt.size() > 0)    for (int i = 0; i < RR_betolt.size(); i++)    RR_vector.push_back(RR_betolt[i]);
-		if (ELVIA_betolt.size() > 0) for (int i = 0; i < ELVIA_betolt.size(); i++) ELVIA_vector.push_back(ELVIA_betolt[i]);
-		if (SQVIA_betolt.size() > 0) for (int i = 0; i < SQVIA_betolt.size(); i++) SQVIA_vector.push_back(SQVIA_betolt[i]);
-		if (RRVIA_betolt.size() > 0) for (int i = 0; i < RRVIA_betolt.size(); i++) RRVIA_vector.push_back(RRVIA_betolt[i]);
+		if (EL_betolt.size() > 0)    for (size_t i = 0; i < EL_betolt.size(); i++)    EL_vector.push_back(EL_betolt[i]);
+		if (SQ_betolt.size() > 0)    for (size_t i = 0; i < SQ_betolt.size(); i++)    SQ_vector.push_back(SQ_betolt[i]);
+		if (RR_betolt.size() > 0)    for (size_t i = 0; i < RR_betolt.size(); i++)    RR_vector.push_back(RR_betolt[i]);
+		if (ELVIA_betolt.size() > 0) for (size_t i = 0; i < ELVIA_betolt.size(); i++) ELVIA_vector.push_back(ELVIA_betolt[i]);
+		if (SQVIA_betolt.size() > 0) for (size_t i = 0; i < SQVIA_betolt.size(); i++) SQVIA_vector.push_back(SQVIA_betolt[i]);
+		if (RRVIA_betolt.size() > 0) for (size_t i = 0; i < RRVIA_betolt.size(); i++) RRVIA_vector.push_back(RRVIA_betolt[i]);
 		betoltes = false;
 	}
 
@@ -67,13 +67,13 @@ void MainWindow::OnPaint()
 			tr = D2D1::Matrix3x2F::Translation(nagyitas * eltolas.x, nagyitas * eltolas.y);
 			pRenderTarget->SetTransform(sc * tr);
 
-			for (int i = 0; i < ARC_vector.size(); i++)
+			for (size_t i = 0; i < ARC_vector.size(); i++)
 			{
 				if (ARC_vector[i].szint == sz[kk])
 					pRenderTarget->DrawGeometry(ARC_vector[i].pg, bv[sz[kk]][kk], ARC_vector[i].v, pStrokeStyle);
 			}
 
-			for (int i = 0; i < POLIGON_vector.size(); i++)
+			for (size_t i = 0; i < POLIGON_vector.size(); i++)
 			{
 				if (POLIGON_vector[i].szint == sz[kk])
 					pRenderTarget->FillGeometry(POLIGON_vector[i].pg, bv[sz[kk]][kk]);
@@ -101,9 +101,9 @@ void MainWindow::OnPaint()
 				pRenderTarget->DrawEllipse(ellipse, Brush, 1);
 				ellipse = D2D1::Ellipse(mouse_grid, rx, ry);
 				pRenderTarget->DrawEllipse(ellipse, Brush, 1);
-				double a = mouse_grid.y - hely.y;
-				double b = mouse_grid.x - hely.x;
-				double c = sqrt(a * a + b * b);
+				float a = mouse_grid.y - hely.y;
+				float b = mouse_grid.x - hely.x;
+				float c = sqrt(a * a + b * b);
 				p1.x = hely.x - a * rx / c;
 				p1.y = hely.y + b * ry / c;
 				p2.x = mouse_grid.x - a * rx / c;
@@ -121,7 +121,7 @@ void MainWindow::OnPaint()
 				hely.y = (arc.kpy + eltolas.y) * nagyitas;
 				rx = sqrt((arc.kpx - xx) * (arc.kpx - xx) + (arc.kpy - yy) * (arc.kpy - yy)) * nagyitas;
 				ry = sqrt((arc.kpx - xx) * (arc.kpx - xx) + (arc.kpy - yy) * (arc.kpy - yy)) * nagyitas;
-				szog = atan2(arc.kpx - xx, arc.kpy - yy);
+				//szog = atan2(arc.kpx - xx, arc.kpy - yy);
 				ellipse = D2D1::Ellipse(hely, rx, ry);
 				Brush->SetColor(D2D1::ColorF(D2D1::ColorF::GreenYellow));
 				pRenderTarget->DrawEllipse(ellipse, Brush, kor_t[0] * nagyitas);
@@ -130,7 +130,7 @@ void MainWindow::OnPaint()
 			{
 				ARC_rajzol_2();
 				pRenderTarget->SetTransform(sc * tr);
-				pRenderTarget->DrawGeometry(pPathGeometry_2, Brush, kor_t[0], pStrokeStyle);
+				pRenderTarget->DrawGeometry(pPathGeometry_2, Brush, static_cast<float>(kor_t[0]), pStrokeStyle);
 				pRenderTarget->SetTransform(D2D1::Matrix3x2F::Identity());
 			}
 			else if (polifolyamatban)
@@ -233,22 +233,22 @@ void MainWindow::OnPaint()
 			Talalat_rajzol();
 		}
 
-		for (int i = 0; i < szogek.size(); i++)
+		for (int i = 0; i < static_cast<int>(szogek.size()); i++)
 		{
 			p1.x = -sin(szogek[i]) * 400 + mouse.x; p1.y = -cos(szogek[i]) * 400 + mouse.y;
 			Brush->SetColor(D2D1::ColorF(D2D1::ColorF::Blue));
 			pRenderTarget->DrawLine(mouse, p1, Brush, 1.0, pStrokeStyle);
-			if (i == sz_sz || i == (sz_sz+1)%szogek.size()) {
+			if (i == sz_sz || i == (sz_sz+1)% static_cast<int>(szogek.size())) {
 				Brush->SetColor(D2D1::ColorF(D2D1::ColorF::Green));
 				pRenderTarget->DrawLine(mouse, p1, Brush, 5.0, pStrokeStyle);
 				
 			}
 			Brush->SetColor(D2D1::ColorF(D2D1::ColorF::White));
-			Kiir(i, p1.x-150, p1.y);
-			if (i < szogek.size() - 1)
+			Kiir(i, p1.x - 150, p1.y);
+			if (i < static_cast<int>(szogek.size()) - 1)
 			{
-				p1.x = -sin(szogek[i] - (szogek[i] - szogek[i + 1]) / 2.0) * 300 + mouse.x;
-				p1.y = -cos(szogek[i] - (szogek[i] - szogek[i + 1]) / 2.0) * 300 + mouse.y;
+				p1.x = static_cast<FLOAT>(-sin(szogek[i] - (szogek[i] - szogek[i + 1]) / 2.0) * 300 + mouse.x);
+				p1.y = static_cast<FLOAT>(-cos(szogek[i] - (szogek[i] - szogek[i + 1]) / 2.0) * 300 + mouse.y);
 				Brush->SetColor(D2D1::ColorF(D2D1::ColorF::Blue));
 				pRenderTarget->DrawLine(mouse, p1, Brush, 1.0, pStrokeStyle);
 			}
@@ -273,7 +273,7 @@ void MainWindow::OnPaint()
 			pRenderTarget->DrawRectangle(rect, Brush, 1);
 		}
 		if (vanrajz)
-			for (int i = 0; i < Blokk.size(); i++)
+			for (size_t i = 0; i < Blokk.size(); i++)
 			{
 				rect.bottom = (Blokk[i].bottom + eltolas.y) * nagyitas;
 				rect.top = (Blokk[i].top + eltolas.y) * nagyitas;
@@ -334,8 +334,8 @@ void MainWindow::Resize()
 		if (GetCursorPos(eger))
 		{
 			ScreenToClient(m_hwnd, eger);
-			mouse.x = eger->x;
-			mouse.y = eger->y;
+			mouse.x = static_cast<FLOAT>(eger->x);
+			mouse.y = static_cast<FLOAT>(eger->y);
 		}
 		ablak.x = static_cast<float>(rc.right - rc.left); ablak.y = static_cast<float>(rc.bottom - rc.top);
 		BOX_GC.bottom = ablak.y;
@@ -344,53 +344,57 @@ void MainWindow::Resize()
 	}
 }
 
-int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE, PWSTR, int nCmdShow)
+int WINAPI wWinMain(
+    _In_ HINSTANCE hInstance,
+    _In_opt_ HINSTANCE hPrevInstance,
+    _In_ PWSTR pCmdLine,
+    _In_ int nCmdShow)
 {
-	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
-	MainWindow* win = new MainWindow();
+    _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+    MainWindow* win = new MainWindow();
 
-	if (!win->Create(L"TWIST", WS_SYSMENU | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_MAXIMIZE | WS_EX_TOPMOST | WS_POPUP))
-	{
-		delete win;
-		return 0;
-	}
+    if (!win->Create(L"TWIST", WS_SYSMENU | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_MAXIMIZE | WS_EX_TOPMOST | WS_POPUP))
+    {
+        delete win;
+        return 0;
+    }
 
-	HACCEL hAccel = LoadAccelerators(hInstance, MAKEINTRESOURCE(HOTKEYS));
+    HACCEL hAccel = LoadAccelerators(hInstance, MAKEINTRESOURCE(HOTKEYS));
 
-	ShowWindow(win->Window(), nCmdShow);
+    ShowWindow(win->Window(), nCmdShow);
 
-	MSG msg;
-	while (GetMessage(&msg, NULL, 0, 0))
-	{
-		if (!TranslateAccelerator(win->Window(), hAccel, &msg))
-		{
-			TranslateMessage(&msg);
-			DispatchMessage(&msg);
-		}
-	}
+    MSG msg;
+    while (GetMessage(&msg, NULL, 0, 0))
+    {
+        if (!TranslateAccelerator(win->Window(), hAccel, &msg))
+        {
+            TranslateMessage(&msg);
+            DispatchMessage(&msg);
+        }
+    }
 
-	delete win;
-	_CrtDumpMemoryLeaks();
-	return 0;
+    delete win;
+    _CrtDumpMemoryLeaks();
+    return 0;
 }
 
-void MainWindow::Kiir(boolean v, int x, int y)
+void MainWindow::Kiir(boolean v, float x, float y)
 {
 	std::string st = std::to_string(v);
 	std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> convert;
 	std::wstring wst = convert.from_bytes(st);
-	int hossz = wst.length();
+	hossz = wst.length();
 	for (int i = 0; i < hossz; i++) text[i] = wst[i];
 	D2D1_RECT_F layoutRect = D2D1::RectF(x, y, x + 300, y);
 	pRenderTarget->DrawText(text, hossz, TF1, layoutRect, Brush);
 }
 
-void MainWindow::Kiir(int v, int x, int y)
+void MainWindow::Kiir(int v, float x, float y)
 {
 	std::string st = std::to_string(v);
 	std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> convert;
 	std::wstring wst = convert.from_bytes(st);
-	int hossz = wst.length();
+	hossz = wst.length();
 	for (int i = 0; i < hossz; i++) text[i] = wst[i];
 	D2D1_RECT_F layoutRect = D2D1::RectF(x, y, x + 300, y);
 	pRenderTarget->DrawText(text, hossz, TF1, layoutRect, Brush);
@@ -401,7 +405,7 @@ void MainWindow::Kiir(int v, D2D1_RECT_F t)
 	std::string st = std::to_string(v);
 	std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> convert;
 	std::wstring wst = convert.from_bytes(st);
-	int hossz = wst.length();
+	hossz = wst.length();
 	for (int i = 0; i < hossz; i++) text[i] = wst[i];
 	pRenderTarget->DrawText(text, hossz, TF1, t, Brush);
 }
@@ -414,7 +418,7 @@ void MainWindow::Kiir(const char* s, int v, D2D1_RECT_F t)
 	wstring ws1 = convert.from_bytes(s1);
 	wstring wst = convert.from_bytes(st);
 	wstring ww = ws1 + wst;
-	int hossz = ww.length();
+	hossz = ww.length();
 	for (int i = 0; i < hossz; i++) text[i] = ww[i];
 	pRenderTarget->DrawText(text, hossz, TF1, t, Brush);
 }
@@ -424,12 +428,12 @@ void MainWindow::Kiir(const char* s, D2D1_RECT_F t)
 	string s1(s);
 	wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> convert;
 	wstring ww = convert.from_bytes(s1);
-	int hossz = ww.length();
+	hossz = ww.length();
 	for (int i = 0; i < hossz; i++) text[i] = ww[i];
 	pRenderTarget->DrawText(text, hossz, TF1, t, Brush);
 }
 
-void MainWindow::Kiir(const char* s, float v, int x, int y)
+void MainWindow::Kiir(const char* s, float v, float x, float y)
 {
 	const char* c_s = " = ";
 	string s1(s);
@@ -440,13 +444,8 @@ void MainWindow::Kiir(const char* s, float v, int x, int y)
 	wstring ws2 = convert.from_bytes(s2);
 	wstring wst = convert.from_bytes(st);
 	wstring ww = ws1 + ws2 + wst;
-	int hossz = ww.length();
+	hossz = ww.length();
 	for (int i = 0; i < hossz; i++) text[i] = ww[i];
 	D2D1_RECT_F layoutRect = D2D1::RectF(x, y, x + 300, y);
 	pRenderTarget->DrawText(text, hossz, TF1, layoutRect, Brush);
 }
-
-
-
-
-

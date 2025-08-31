@@ -16,7 +16,11 @@
 //#include <time.h>
 using namespace std;
 #include "TWIST_Cpp.h"
+#undef M_PI
+#undef M_PI_2
 
+#define M_PI    3.14159265358979323846f
+#define M_PI_2  1.57079632679489661923f
 void MainWindow::VONAL_keres()
 {
 	boolean tl;
@@ -34,7 +38,7 @@ void MainWindow::VONAL_keres()
 		alfa_ = alfa_ - gamma;
 		if (alfa_ > M_PI) alfa_ -= 2 * M_PI;
 		if (alfa_ < -M_PI) alfa_ += 2 * M_PI;
-		h = sqrt((VONAL_vector[i].x1 - xx) * (VONAL_vector[i].x1 - xx) + (VONAL_vector[i].y1 - yy) * (VONAL_vector[i].y1 - yy));
+		double h = sqrt((VONAL_vector[i].x1 - xx) * (VONAL_vector[i].x1 - xx) + (VONAL_vector[i].y1 - yy) * (VONAL_vector[i].y1 - yy));
 		h_ = sqrt((VONAL_vector[i].x2 - xx) * (VONAL_vector[i].x2 - xx) + (VONAL_vector[i].y2 - yy) * (VONAL_vector[i].y2 - yy));
 		if (alfa<M_PI_2 && alfa>-M_PI_2 && alfa_<M_PI_2 && alfa_>-M_PI_2)
 		{
@@ -55,12 +59,12 @@ void MainWindow::EL_keres()
 		rx = EL_vector[i].rx;
 		ry = EL_vector[i].ry;
 		if (rx >= ry) {
-			d = sqrt(rx * rx - ry * ry);
+			float d = sqrt(rx * rx - ry * ry);
 			f1.x = hely.x + d; f1.y = hely.y;
 			f2.x = hely.x - d; f2.y = hely.y;
 		}
 		else {
-			d = sqrt(ry * ry - rx * rx);
+			float d = sqrt(ry * ry - rx * rx);
 			f1.x = hely.x; f1.y = hely.y + d;
 			f2.x = hely.x; f2.y = hely.y - d;
 		}
@@ -109,12 +113,12 @@ void MainWindow::EV_keres()
 		rx = ELVIA_vector[i].rx;
 		ry = ELVIA_vector[i].ry;
 		if (rx >= ry) {
-			d = sqrt(rx * rx - ry * ry);
+			float d = sqrt(rx * rx - ry * ry);
 			f1.x = hely.x + d; f1.y = hely.y;
 			f2.x = hely.x - d; f2.y = hely.y;
 		}
 		else {
-			d = sqrt(ry * ry - rx * rx);
+			float d = sqrt(ry * ry - rx * rx);
 			f1.x = hely.x; f1.y = hely.y + d;
 			f2.x = hely.x; f2.y = hely.y - d;
 		}
@@ -183,28 +187,28 @@ void MainWindow::POLIGON_keres()
 
 void MainWindow::ARC_keres()
 {
-	double r, dx, dy, sz, d, ksz, vsz;
-	boolean f1, f2, f3, f4;
+	double r, dx, dy, szog, d, ksz, vsz;
+	boolean ff1, ff2, f3, f4;
 	tali.clear();
 	for (size_t i = 0; i < ARC_vector.size(); i++)
 	{
 		dx = ARC_vector[i].kpx - xx; dy = ARC_vector[i].kpy - yy;
 		r = sqrt(dx * dx + dy * dy);
-		if (r >= (ARC_vector[i].rx - ARC_vector[i].v / 2) && r <= (ARC_vector[i].rx + ARC_vector[i].v / 2)) f1 = true; else f1 = false;
+		if (r >= (ARC_vector[i].rx - ARC_vector[i].v / 2) && r <= (ARC_vector[i].rx + ARC_vector[i].v / 2)) ff1 = true; else ff1 = false;
 		d = ARC_vector[i].ksz + M_PI;
 		ksz = -M_PI;
 		vsz = ARC_vector[i].vsz - d;
 		if (vsz < ksz) vsz += 2 * M_PI;
-		sz = atan2(dx, dy) - d; //flo1 = atan2(dx, dy);
-		if (sz < -M_PI) sz += 2 * M_PI;
-		if (sz > M_PI) sz -= 2 * M_PI;
-		if (sz > ksz && sz < vsz) f2 = true; else f2 = false;
-		if (ARC_vector[i].i == D2D1_SWEEP_DIRECTION_CLOCKWISE) f2 = ~f2;
-		h = sqrt((ARC_vector[i].xk - xx) * (ARC_vector[i].xk - xx) + (ARC_vector[i].yk - yy) * (ARC_vector[i].yk - yy));
+		szog = atan2(dx, dy) - d; //flo1 = atan2(dx, dy);
+		if (szog < -M_PI) szog += 2 * M_PI;
+		if (szog > M_PI) szog -= 2 * M_PI;
+		if (szog > ksz && szog < vsz) ff2 = true; else ff2 = false;
+		if (ARC_vector[i].i == D2D1_SWEEP_DIRECTION_CLOCKWISE) ff2 = ~ff2;
+		double h = sqrt((ARC_vector[i].xk - xx) * (ARC_vector[i].xk - xx) + (ARC_vector[i].yk - yy) * (ARC_vector[i].yk - yy));
 		h_ = sqrt((ARC_vector[i].xv - xx) * (ARC_vector[i].xv - xx) + (ARC_vector[i].yv - yy) * (ARC_vector[i].yv - yy));
 		if (h < ARC_vector[i].v / 2) f3 = true; else f3 = false;
 		if (h_ < ARC_vector[i].v / 2) f4 = true; else f4 = false;
-		if (f1 && f2 || f3 || f4) tali.push_back(i);
+		if (ff1 && ff2 || f3 || f4) tali.push_back(i);
 	}
 	Talalat.push_back(tali);
 }
@@ -245,8 +249,8 @@ void MainWindow::FILE_keres()
 void MainWindow::SZINT_keres()
 {
 	SZINT_k = -1;
-	int mx = mouse.x - BOX_SZINT.left;
-	int my = mouse.y - BOX_SZINT.top;
+	float mx = mouse.x - BOX_SZINT.left;
+	float my = mouse.y - BOX_SZINT.top;
 	for (size_t i = 0; i < SZINT_vector.size(); i++)
 	{
 		if (SZINT_vector[i].x1 <= mx && SZINT_vector[i].x2 >= mx && SZINT_vector[i].y1 <= my && SZINT_vector[i].y2 >= my)
@@ -288,8 +292,8 @@ void MainWindow::GC_keres()
 		BOX_GC_k = true;
 		for (size_t i = 0; i < GC_vector.size(); i++)
 		{
-			dx = mouse.x - GC_vector[i].x - BOX_GC.left;
-			dy = mouse.y - GC_vector[i].y - BOX_GC.top;
+			float dx = mouse.x - GC_vector[i].x - BOX_GC.left;
+			float dy = mouse.y - GC_vector[i].y - BOX_GC.top;
 			if (GC_vector[i].r >= sqrt(dx * dx + dy * dy))
 				GC_k = i;
 		}
@@ -390,13 +394,13 @@ void MainWindow::Blokk_szamol()
 		Blokk[0].left = rect.left;
 	}
 	if (vanrajz && Blokk.size() == 0) Blokk.push_back(rect);
-	for (size_t i = 0; i < Blokk.size(); i++)
+	for (int i = 0; i < static_cast<int>(Blokk.size()); i++)
 	{
 		if (vanrajz)
 		{
 			BOOLEAN k1, k2, k3, k4;
-			float vsz2, sz;
-			for (int j = 0; j < VONAL_vector.size(); j++)
+			float vsz2, ksz2;
+			for (int j = 0; j < static_cast<int>(VONAL_vector.size()); j++)
 				if (VONAL_vector[j].blokk == i)
 				{
 					v = VONAL_vector[j];
@@ -409,7 +413,7 @@ void MainWindow::Blokk_szamol()
 					if (Blokk[i].left > (v.x1 - v.v / 2)) Blokk[i].left = v.x1 - v.v / 2;
 					if (Blokk[i].left > (v.x2 - v.v / 2)) Blokk[i].left = v.x2 - v.v / 2;
 				}
-			for (size_t j = 0; j < ARC_vector.size(); j++)
+			for (int j = 0; j < static_cast<int>(ARC_vector.size()); j++)
 				if (ARC_vector[j].blokk == i)
 				{
 					ksz = ARC_vector[j].ksz;
@@ -426,23 +430,23 @@ void MainWindow::Blokk_szamol()
 					if (ARC_vector[j].i)
 					{
 						if (vsz < ksz) vsz2 = vsz; else vsz2 = vsz - 2 * M_PI;
-						if (ksz > -M_PI_2) sz = -M_PI_2; else sz = -2 * M_PI - M_PI_2;
-						if (vsz2 < sz) k1 = true;
-						if (ksz > 0) sz = 0; else sz = -2 * M_PI;
-						if (vsz2 < sz) k2 = true;
-						if (ksz > M_PI_2) sz = M_PI_2; else sz = -2 * M_PI + M_PI_2;
-						if (vsz2 < sz) k3 = true;
+						if (ksz > -M_PI_2) ksz2 = -M_PI_2; else ksz2 = -2 * M_PI - M_PI_2;
+						if (vsz2 < ksz2) k1 = true;
+						if (ksz > 0) ksz2 = 0; else ksz2 = -2 * M_PI;
+						if (vsz2 < ksz2) k2 = true;
+						if (ksz > M_PI_2) ksz2 = M_PI_2; else ksz2 = -2 * M_PI + M_PI_2;
+						if (vsz2 < ksz2) k3 = true;
 						if (vsz2 < -M_PI) k4 = true;
 					}
 					else
 					{
 						if (vsz > ksz) vsz2 = vsz; else vsz2 = vsz + 2 * M_PI;
-						if (ksz < -M_PI_2) sz = -M_PI_2; else sz = 2 * M_PI - M_PI_2;
-						if (vsz2 > sz) k1 = true;
-						if (ksz < 0) sz = 0; else sz = 2 * M_PI;
-						if (vsz2 > sz) k2 = true;
-						if (ksz < M_PI_2) sz = M_PI_2; else sz = 2 * M_PI + M_PI_2;
-						if (vsz2 > sz) k3 = true;
+						if (ksz < -M_PI_2) ksz2 = -M_PI_2; else ksz2 = 2 * M_PI - M_PI_2;
+						if (vsz2 > ksz2) k1 = true;
+						if (ksz < 0) ksz2 = 0; else ksz2 = 2 * M_PI;
+						if (vsz2 > ksz2) k2 = true;
+						if (ksz < M_PI_2) ksz2 = M_PI_2; else ksz2 = 2 * M_PI + M_PI_2;
+						if (vsz2 > ksz2) k3 = true;
 						if (vsz2 > -M_PI) k4 = true;
 					}
 					if (k1 && Blokk[i].right < (kpx + r + va)) Blokk[i].right = kpx + r + va;
@@ -455,16 +459,16 @@ void MainWindow::Blokk_szamol()
 					if (Blokk[i].left > (min(xk, xv) - va)) Blokk[i].left = min(xk, xv) - va;
 					if (Blokk[i].bottom < (max(yk, yv) + va)) Blokk[i].bottom = max(yk, yv) + va;
 				}
-			for (size_t j = 0; j < POLIGON_vector.size(); j++)
+			for (int j = 0; j < static_cast<int>(POLIGON_vector.size()); j++)
 				if (POLIGON_vector[j].blokk == i)
-					for (int k = 0; k < POLIGON_vector[j].pont.size(); k++)
+					for (size_t k = 0; k < POLIGON_vector[j].pont.size(); k++)
 					{
 						if (Blokk[i].bottom < POLIGON_vector[j].pont[k].y)Blokk[i].bottom = POLIGON_vector[j].pont[k].y;
 						if (Blokk[i].top > POLIGON_vector[j].pont[k].y)Blokk[i].top = POLIGON_vector[j].pont[k].y;
 						if (Blokk[i].right < POLIGON_vector[j].pont[k].x)Blokk[i].right = POLIGON_vector[j].pont[k].x;
 						if (Blokk[i].left > POLIGON_vector[j].pont[k].x)Blokk[i].left = POLIGON_vector[j].pont[k].x;
 					}
-			for (size_t j = 0; j < EL_vector.size(); j++)
+			for (int j = 0; j < static_cast<int>(EL_vector.size()); j++)
 				if (EL_vector[j].blokk == i)
 				{
 					if (Blokk[i].bottom < EL_vector[j].y + EL_vector[j].ry) Blokk[i].bottom = EL_vector[j].y + EL_vector[j].ry;
@@ -472,7 +476,7 @@ void MainWindow::Blokk_szamol()
 					if (Blokk[i].right < EL_vector[j].x + EL_vector[j].rx) Blokk[i].right = EL_vector[j].x + EL_vector[j].rx;
 					if (Blokk[i].left > EL_vector[j].x - EL_vector[j].rx) Blokk[i].left = EL_vector[j].x - EL_vector[j].rx;
 				}
-			for (size_t j = 0; j < SQ_vector.size(); j++)
+			for (int j = 0; j < static_cast<int>(SQ_vector.size()); j++)
 				if (SQ_vector[j].blokk == i)
 				{
 					if (Blokk[i].bottom < SQ_vector[j].y + SQ_vector[j].ry) Blokk[i].bottom = SQ_vector[j].y + SQ_vector[j].ry;
@@ -480,7 +484,7 @@ void MainWindow::Blokk_szamol()
 					if (Blokk[i].right < SQ_vector[j].x + SQ_vector[j].rx) Blokk[i].right = SQ_vector[j].x + SQ_vector[j].rx;
 					if (Blokk[i].left > SQ_vector[j].x - SQ_vector[j].rx) Blokk[i].left = SQ_vector[j].x - SQ_vector[j].rx;
 				}
-			for (size_t j = 0; j < RR_vector.size(); j++)
+			for (int j = 0; j < static_cast<int>(RR_vector.size()); j++)
 				if (RR_vector[j].blokk == i)
 				{
 					if (Blokk[i].bottom < RR_vector[j].y + RR_vector[j].ry) Blokk[i].bottom = RR_vector[j].y + RR_vector[j].ry;
@@ -488,7 +492,7 @@ void MainWindow::Blokk_szamol()
 					if (Blokk[i].right < RR_vector[j].x + RR_vector[j].rx) Blokk[i].right = RR_vector[j].x + RR_vector[j].rx;
 					if (Blokk[i].left > RR_vector[j].x - RR_vector[j].rx) Blokk[i].left = RR_vector[j].x - RR_vector[j].rx;
 				}
-			for (size_t j = 0; j < ELVIA_vector.size(); j++)
+			for (int j = 0; j < static_cast<int>(ELVIA_vector.size()); j++)
 				if (ELVIA_vector[j].blokk == i)
 				{
 					if (Blokk[i].bottom < ELVIA_vector[j].y + ELVIA_vector[j].ry) Blokk[i].bottom = ELVIA_vector[j].y + ELVIA_vector[j].ry;
@@ -496,7 +500,7 @@ void MainWindow::Blokk_szamol()
 					if (Blokk[i].right < ELVIA_vector[j].x + ELVIA_vector[j].rx) Blokk[i].right = ELVIA_vector[j].x + ELVIA_vector[j].rx;
 					if (Blokk[i].left > ELVIA_vector[j].x - ELVIA_vector[j].rx) Blokk[i].left = ELVIA_vector[j].x - ELVIA_vector[j].rx;
 				}
-			for (size_t j = 0; j < SQVIA_vector.size(); j++)
+			for (int j = 0; j < static_cast<int>(SQVIA_vector.size()); j++)
 				if (SQVIA_vector[j].blokk == i)
 				{
 					if (Blokk[i].bottom < SQVIA_vector[j].y + SQVIA_vector[j].ry) Blokk[i].bottom = SQVIA_vector[j].y + SQVIA_vector[j].ry;
@@ -504,7 +508,7 @@ void MainWindow::Blokk_szamol()
 					if (Blokk[i].right < SQVIA_vector[j].x + SQVIA_vector[j].rx) Blokk[i].right = SQVIA_vector[j].x + SQVIA_vector[j].rx;
 					if (Blokk[i].left > SQVIA_vector[j].x - SQVIA_vector[j].rx) Blokk[i].left = SQVIA_vector[j].x - SQVIA_vector[j].rx;
 				}
-			for (size_t j = 0; j < RRVIA_vector.size(); j++)
+			for (int j = 0; j < static_cast<int>(RRVIA_vector.size()); j++)
 				if (RRVIA_vector[j].blokk == i)
 				{
 					if (Blokk[i].bottom < RRVIA_vector[j].y + RRVIA_vector[j].ry) Blokk[i].bottom = RRVIA_vector[j].y + RRVIA_vector[j].ry;

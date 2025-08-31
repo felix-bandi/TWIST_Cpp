@@ -40,7 +40,7 @@ void MainWindow::OnLButtonDown(int X, int Y, DWORD flags)
 					vonal.y1 = pont.y;
 					vonal.x2 = xx;
 					vonal.y2 = yy;
-					vonal.v = vonal_t[0];
+					vonal.v = static_cast<float>(vonal_t[0]);
 					vonal.szint = SZINT_kk;
 					vonal.alk = -1;
 					vonal.blokk = 0;
@@ -74,7 +74,7 @@ void MainWindow::OnLButtonDown(int X, int Y, DWORD flags)
 						arc.xv = av.x;
 						arc.yv = av.y;
 						arc.vsz = atan2((arc.kpx - arc.xv), (arc.kpy - arc.yv));
-						arc.v = kor_t[0];
+						arc.v = static_cast<float>(kor_t[0]);
 						arc.blokk = 0;
 						arc.szint = SZINT_kk;
 						arc.alk = -1;
@@ -102,9 +102,9 @@ void MainWindow::OnLButtonDown(int X, int Y, DWORD flags)
 				{
 					el.x = xx;
 					el.y = yy;
-					el.rx = EL_t[0] / 2;
-					el.ry = EL_t[1] / 2;
-					el.r = EL_t[2] / 2;
+					el.rx = static_cast<float>(EL_t[0]) / 2;
+					el.ry = static_cast<float>(EL_t[1]) / 2;
+					el.r = static_cast<float>(EL_t[2]) / 2;
 					el.szint = SZINT_kk;
 					el.blokk = 0;
 					el.alk = -1;
@@ -121,9 +121,9 @@ void MainWindow::OnLButtonDown(int X, int Y, DWORD flags)
 				{
 					sq.x = xx;
 					sq.y = yy;
-					sq.rx = SQ_t[0] / 2;
-					sq.ry = SQ_t[1] / 2;
-					sq.r = SQ_t[2] / 2;
+					sq.rx = static_cast<float>(SQ_t[0]) / 2;
+					sq.ry = static_cast<float>(SQ_t[1]) / 2;
+					sq.r = static_cast<float>(SQ_t[2]) / 2;
 					sq.szint = SZINT_kk;
 					sq.blokk = 0;
 					sq.alk = -1;
@@ -140,11 +140,11 @@ void MainWindow::OnLButtonDown(int X, int Y, DWORD flags)
 				{
 					rr.x = xx;
 					rr.y = yy;
-					rr.rx = RR_t[0] / 2;
-					rr.ry = RR_t[1] / 2;
-					rr.rrx = RR_t[2];
-					rr.rry = RR_t[3];
-					rr.r = RR_t[4] / 2;
+					rr.rx = static_cast<float>(RR_t[0]) / 2;
+					rr.ry = static_cast<float>(RR_t[1]) / 2;
+					rr.rrx = static_cast<float>(RR_t[2]);
+					rr.rry = static_cast<float>(RR_t[3]);
+					rr.r = static_cast<float>(RR_t[4]) / 2;
 					rr.szint = SZINT_kk;
 					rr.blokk = 0;
 					rr.alk = -1;
@@ -161,9 +161,9 @@ void MainWindow::OnLButtonDown(int X, int Y, DWORD flags)
 				{
 					ev.x = xx;
 					ev.y = yy;
-					ev.rx = EV_t[0] / 2;
-					ev.ry = EV_t[1] / 2;
-					ev.r = EV_t[2] / 2;
+					ev.rx = static_cast<float>(EV_t[0]) / 2;
+					ev.ry = static_cast<float>(EV_t[1]) / 2;
+					ev.r = static_cast<float>(EV_t[2]) / 2;
 					ev.blokk = 0;
 					ev.alk = -1;
 					ELVIA_vector.push_back(ev);
@@ -179,9 +179,9 @@ void MainWindow::OnLButtonDown(int X, int Y, DWORD flags)
 				{
 					sv.x = xx;
 					sv.y = yy;
-					sv.rx = SQ_t[0] / 2;
-					sv.ry = SQ_t[1] / 2;
-					sv.r = SQ_t[2] / 2;
+					sv.rx = static_cast<float>(SQ_t[0]) / 2;
+					sv.ry = static_cast<float>(SQ_t[1]) / 2;
+					sv.r = static_cast<float>(SQ_t[2]) / 2;
 					sv.blokk = 0;
 					sv.alk = -1;
 					SQVIA_vector.push_back(sv);
@@ -197,11 +197,11 @@ void MainWindow::OnLButtonDown(int X, int Y, DWORD flags)
 				{
 					rv.x = xx;
 					rv.y = yy;
-					rv.rx = RV_t[0] / 2;
-					rv.ry = RV_t[1] / 2;
-					rv.rrx = RV_t[2];
-					rv.rry = RV_t[3];
-					rv.r = RV_t[4] / 2;
+					rv.rx = static_cast<float>(RV_t[0]) / 2;
+					rv.ry = static_cast<float>(RV_t[1]) / 2;
+					rv.rrx = static_cast<float>(RV_t[2]);
+					rv.rry = static_cast<float>(RV_t[3]);
+					rv.r = static_cast<float>(RV_t[4]) / 2;
 					rv.blokk = 0;
 					rv.alk = -1;
 					RRVIA_vector.push_back(rv);
@@ -299,7 +299,7 @@ void MainWindow::OnLButtonDown(int X, int Y, DWORD flags)
 				int4 = GetDeviceCaps(hdc, LOGPIXELSY);
 				flo5 = float(int1) / float(int3) * 1000;
 				flo6 = float(int2) / float(int4) * 1000;
-				if (flo6 / flo5 > 1.4143) flo6 = flo5 * 1.4143;
+				if (flo6 / flo5 > 1.4143f) flo6 = flo5 * 1.4143f;
 				int5 = int(flo5);
 				int6 = int(flo6);
 				
@@ -307,9 +307,9 @@ void MainWindow::OnLButtonDown(int X, int Y, DWORD flags)
 				StartPage(hdc);
 				GetClientRect(m_hwnd, &rc);
 				m_pDCRT->BindDC(hdc, &rc);
-				HBRUSH Brush = CreateSolidBrush(RGB(0, 0, 0));
-				HBRUSH B = CreateSolidBrush(RGB(255, 255, 255));
-				HPEN Pen = CreatePen(PS_SOLID, 250, RGB(0, 0, 0));
+				//HBRUSH Brush = CreateSolidBrush(RGB(0, 0, 0));
+				//HBRUSH B = CreateSolidBrush(RGB(255, 255, 255));
+				//HPEN Pen = CreatePen(PS_SOLID, 250, RGB(0, 0, 0));
 				Nyomtat();
 
 				EndPage(hdc);
@@ -353,7 +353,7 @@ void MainWindow::OnLButtonDown(int X, int Y, DWORD flags)
 
 	if (save1.k)
 	{
-		for (int i = 0; i < dialog.edit.c.size(); i++) dialog.edit.tt[i] = dialog.edit.c[i];
+		for (size_t i = 0; i < dialog.edit.c.size(); i++) dialog.edit.tt[i] = dialog.edit.c[i];
 		Save(alkatresz);
 		//dialog.v = false;
 	}
@@ -403,7 +403,7 @@ void MainWindow::OnRButtonDown(int X, int Y, DWORD flags)
 	{
 		polifolyamatban = false;
 		poli.pont.clear();
-		for (int i = 0; i < poligon.size(); i++) poli.pont.push_back(poligon[i]);
+		for (size_t i = 0; i < poligon.size(); i++) poli.pont.push_back(poligon[i]);
 		poli.blokk = 0;
 		poli.szint = SZINT_kk;
 		poli.alk = -1;
@@ -416,12 +416,14 @@ void MainWindow::OnRButtonDown(int X, int Y, DWORD flags)
 
 void MainWindow::OnMouseMove(int X, int Y, DWORD flags)
 {
+	float Xf = static_cast<float>(X);
+	float Yf = static_cast<float>(Y);
 	if (flags & MK_MBUTTON)
 	{
-		eltolas.x += (X - mouse.x) / nagyitas;
-		eltolas.y += (Y - mouse.y) / nagyitas;
+		eltolas.x += (Xf - mouse.x) / nagyitas;
+		eltolas.y += (Yf - mouse.y) / nagyitas;
 	}
-	mouse.x = X; mouse.y = Y;						// képernyõ kordináta X/Y
+	mouse.x = Xf; mouse.y = Yf;						// képernyõ kordináta X/Y
 	xxx = mouse.x / nagyitas - eltolas.x;			// rajz kordináta X
 	yyy = mouse.y / nagyitas - eltolas.y;			// rajz kordináta Y
 	xx = ((xxx + grid.i / 2) / grid.i) * grid.i;	// rajz kordináta grid: X
@@ -449,8 +451,9 @@ void MainWindow::OnMouseWheel(int d)
 {
 	if (!((wheel > 1000 and d > 0) or (wheel < -1000 and d < 0)))
 	{
-		if (d > 1) n_sz = 1.25; else n_sz = 0.8;
+		if (d > 1) n_sz = 1.25f; else n_sz = 0.8f;
 		wheel += d;
+		D2D1_POINT_2F p;
 		p.x = mouse.x / nagyitas - eltolas.x;
 		p.y = mouse.y / nagyitas - eltolas.y;
 		nagyitas *= n_sz;
