@@ -36,6 +36,9 @@
     <ClInclude Include="DPIScale.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Precision.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TWIST_Cpp.cpp">

@@ -1,5 +1,7 @@
 #include <vector>
 #include <Windows.h>
+#pragma once
+#include "Precision.h"
 
 enum ALAK
 {
@@ -38,35 +40,35 @@ enum mentes
 
 struct VONAL
 {
-	float x1;
-	float y1;
-	float x2;
-	float y2;
-	float v;
-	int szint;
-	int alk;
-	int blokk;
+	float x1=0;
+	float y1=0;
+	float x2=0;
+	float y2=0;
+	float v=0;
+	int szint=0;
+	int alk=0;
+	int blokk=0;
 };
 
 struct ARC
 {
-	float xk;
-	float yk;
-	float xv;
-	float yv;
-	float rx;
-	float ry;
-	float kpx;
-	float kpy;
-	float ksz;
-	float vsz;
-	float v;
-	D2D1_SWEEP_DIRECTION i;
-	D2D1_ARC_SIZE s;
-	ID2D1PathGeometry* pg;
-	int szint;
-	int alk;
-	int blokk;
+	Real xk=0;
+	Real yk=0;
+	Real xv=0;
+	Real yv=0;
+	Real rx=0;
+	Real ry=0;
+	Real kpx=0;
+	Real kpy=0;
+	Real ksz=0;
+	Real vsz=0;
+	Real v=0;
+	D2D1_SWEEP_DIRECTION i=D2D1_SWEEP_DIRECTION_CLOCKWISE;
+	D2D1_ARC_SIZE s=D2D1_ARC_SIZE_SMALL;
+	ID2D1PathGeometry* pg=nullptr;
+	int szint=0;
+	int alk=0;
+	int blokk=0;
 };
 
 struct POLI
@@ -80,75 +82,75 @@ struct POLI
 
 struct EL_PAD
 {
-	float x;
-	float y;
-	float rx;
-	float ry;
-	float r;
-	int szint;
-	int alk;
-	int blokk;
+	float x=0;
+	float y=0;
+	float rx=0;
+	float ry=0;
+	float r=0;
+	int szint=0;
+	int alk=0;
+	int blokk=0;
 };
 
 struct SQ_PAD
 {
-	float x;
-	float y;
-	float rx;
-	float ry;
-	float r;
-	int szint;
-	int alk;
-	int blokk;
+	float x=0;
+	float y=0;
+	float rx=0;
+	float ry=0;
+	float r=0;
+	int szint=0;
+	int alk=0;
+	int blokk=0;
 };
 
 struct RR_PAD
 {
-	float x;
-	float y;
-	float rx;
-	float ry;
-	float rrx;
-	float rry;
-	float r;
-	int szint;
-	int alk;
-	int blokk;
+	float x=0;
+	float y=0;
+	float rx=0;
+	float ry=0;
+	float rrx=0;
+	float rry=0;
+	float r=0;
+	int szint=0;
+	int alk=0;
+	int blokk=0;
 };
 
 struct EL_VIA
 {
-	float x;
-	float y;
-	float rx;
-	float ry;
-	float r;
-	int alk;
-	int blokk;
+	float x=0;
+	float y=0;
+	float rx=0;
+	float ry=0;
+	float r=0;
+	int alk=0;
+	int blokk=0;
 };
 
 struct SQ_VIA
 {
-	float x;
-	float y;
-	float rx;
-	float ry;
-	float r;
-	int alk;
-	int blokk;
+	float x=0;
+	float y=0;
+	float rx=0;
+	float ry=0;
+	float r=0;
+	int alk=0;
+	int blokk=0;
 };
 
 struct RR_VIA
 {
-	float x;
-	float y;
-	float rx;
-	float ry;
-	float rrx;
-	float rry;
-	float r;
-	int alk;
-	int blokk;
+	float x=0;
+	float y=0;
+	float rx=0;
+	float ry=0;
+	float rrx=0;
+	float rry=0;
+	float r=0;
+	int alk=0;
+	int blokk=0;
 };
 
 struct ALKATRESZ
@@ -183,8 +185,8 @@ struct GOMB:D2D1_RECT_F
 struct GOMB_1
 {
 	D2D1_RECT_F r;
-	boolean k;
-	boolean kk;
+	boolean k=false;
+	boolean kk=false;
 	wstring t;
 };
 
@@ -207,9 +209,9 @@ struct EDIT :D2D1_RECT_F
 
 struct EDIT_W : D2D1_RECT_F
 {
-    boolean sz;
-    boolean k;
-    boolean kk;
+    boolean sz=false;
+    boolean k=false;
+    boolean kk=false;
     std::wstring c;
     WCHAR tt[MAX_PATH];
     EDIT_W()
@@ -221,30 +223,30 @@ struct EDIT_W : D2D1_RECT_F
 
 struct VEZ_C
 {
-	int x1, x2, x3;
-	int y1, y2;
+	int x1=0, x2=0, x3=0;
+	int y1=0, y2=0;
 };
 
 struct GC
 {
-	float x;
-	float y;
-	float r;
+	float x=0;
+	float y=0;
+	float r=0;
 };
 
 struct Talalat
 {
-	int a;
-	int i;
+	int a=0;
+	int i=0;
 };
 
 struct Csuszka :D2D1_RECT_F
 {
-	float min, max, range;
-	float p, pp, value;
-	float length;
-	float sz;
-	BOOLEAN v, k, kk;
+	float min=0, max=0, range=0;
+	float p=0, pp=0, value=0;
+	float length=0;
+	float sz=0;
+	BOOLEAN v=false, k=false, kk=false;
 	D2D1_RECT_F bar;
 	Csuszka() { top = 0; left = 0; bottom = 0; right = 0; }
 };
@@ -267,9 +269,9 @@ struct Dialog :D2D1_RECT_F
 
 struct List :D2D1_RECT_F
 {
-	int k, kk, out_N, kd, kkd;
-	Csuszka cs;
-	boolean BOX_k;
+	int k=0, kk=0, out_N=0, kd=0, kkd=0;
+	Csuszka cs = {};
+	boolean BOX_k=false;
 	List() { top = 0; left = 0; bottom = 0; right = 0; BOX_k = false; }	
 };
 

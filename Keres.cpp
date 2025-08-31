@@ -21,7 +21,7 @@ void MainWindow::VONAL_keres()
 {
 	boolean tl;
 	tali.clear();
-	for (int i = 0; i < VONAL_vector.size(); i++)
+	for (size_t i = 0; i < VONAL_vector.size(); i++)
 	{
 		tl = false;
 		alfa = atan2((VONAL_vector[i].x1 - VONAL_vector[i].x2), (VONAL_vector[i].y1 - VONAL_vector[i].y2)) + M_PI;
@@ -48,7 +48,7 @@ void MainWindow::VONAL_keres()
 void MainWindow::EL_keres()
 {
 	tali.clear();
-	for (int i = 0; i < EL_vector.size(); i++)
+	for (size_t i = 0; i < EL_vector.size(); i++)
 	{
 		hely.x = EL_vector[i].x;
 		hely.y = EL_vector[i].y;
@@ -74,7 +74,7 @@ void MainWindow::EL_keres()
 void MainWindow::SQ_keres()
 {
 	tali.clear();
-	for (int i = 0; i < SQ_vector.size(); i++)
+	for (size_t i = 0; i < SQ_vector.size(); i++)
 	{
 		hely.x = SQ_vector[i].x;
 		hely.y = SQ_vector[i].y;
@@ -88,7 +88,7 @@ void MainWindow::SQ_keres()
 void MainWindow::RR_keres()
 {
 	tali.clear();
-	for (int i = 0; i < RR_vector.size(); i++)
+	for (size_t i = 0; i < RR_vector.size(); i++)
 	{
 		hely.x = RR_vector[i].x;
 		hely.y = RR_vector[i].y;
@@ -102,7 +102,7 @@ void MainWindow::RR_keres()
 void MainWindow::EV_keres()
 {
 	tali.clear();
-	for (int i = 0; i < ELVIA_vector.size(); i++)
+	for (size_t i = 0; i < ELVIA_vector.size(); i++)
 	{
 		hely.x = ELVIA_vector[i].x;
 		hely.y = ELVIA_vector[i].y;
@@ -128,7 +128,7 @@ void MainWindow::EV_keres()
 void MainWindow::SV_keres()
 {
 	tali.clear();
-	for (int i = 0; i < SQVIA_vector.size(); i++)
+	for (size_t i = 0; i < SQVIA_vector.size(); i++)
 	{
 		hely.x = SQVIA_vector[i].x;
 		hely.y = SQVIA_vector[i].y;
@@ -142,7 +142,7 @@ void MainWindow::SV_keres()
 void MainWindow::RV_keres()
 {
 	tali.clear();
-	for (int i = 0; i < RRVIA_vector.size(); i++)
+	for (size_t i = 0; i < RRVIA_vector.size(); i++)
 	{
 		hely.x = RRVIA_vector[i].x;
 		hely.y = RRVIA_vector[i].y;
@@ -156,7 +156,7 @@ void MainWindow::RV_keres()
 void MainWindow::POLIGON_keres()
 {
     tali.clear();
-    for (int i = 0; i < POLIGON_vector.size(); i++)
+    for (size_t i = 0; i < POLIGON_vector.size(); i++)
     {
         int n = POLIGON_vector[i].pont.size();
         int crossings = 0;
@@ -183,10 +183,10 @@ void MainWindow::POLIGON_keres()
 
 void MainWindow::ARC_keres()
 {
-	float r, dx, dy, sz, d, ksz, vsz;
+	double r, dx, dy, sz, d, ksz, vsz;
 	boolean f1, f2, f3, f4;
 	tali.clear();
-	for (int i = 0; i < ARC_vector.size(); i++)
+	for (size_t i = 0; i < ARC_vector.size(); i++)
 	{
 		dx = ARC_vector[i].kpx - xx; dy = ARC_vector[i].kpy - yy;
 		r = sqrt(dx * dx + dy * dy);
@@ -223,7 +223,7 @@ void MainWindow::ALAK_keres()
 void MainWindow::MODE_keres()
 {
 	MODE_k = -1;
-	for (int i = 0; i < MODE_vector.size(); i++)
+	for (size_t i = 0; i < MODE_vector.size(); i++)
 	{
 		if ((BOX_MODE.left <= mouse.x) && (BOX_MODE.right >= mouse.x) &&
 			((MODE_vector[i].y1 + BOX_MODE.top) <= mouse.y) && ((MODE_vector[i].y2 + BOX_MODE.top) >= mouse.y))
@@ -234,7 +234,7 @@ void MainWindow::MODE_keres()
 void MainWindow::FILE_keres()
 {
 	FILE_k = -1;
-	for (int i = 0; i < FILE_vector.size(); i++)
+	for (size_t i = 0; i < FILE_vector.size(); i++)
 	{
 		if ((BOX_FILE.left <= mouse.x) && (BOX_FILE.right >= mouse.x) &&
 			((FILE_vector[i].y1 + BOX_FILE.top) <= mouse.y) && ((FILE_vector[i].y2 + BOX_FILE.top) >= mouse.y))
@@ -247,7 +247,7 @@ void MainWindow::SZINT_keres()
 	SZINT_k = -1;
 	int mx = mouse.x - BOX_SZINT.left;
 	int my = mouse.y - BOX_SZINT.top;
-	for (int i = 0; i < SZINT_vector.size(); i++)
+	for (size_t i = 0; i < SZINT_vector.size(); i++)
 	{
 		if (SZINT_vector[i].x1 <= mx && SZINT_vector[i].x2 >= mx && SZINT_vector[i].y1 <= my && SZINT_vector[i].y2 >= my)
 			SZINT_k = i;
@@ -271,12 +271,12 @@ void MainWindow::CUSTOM_keres()
 		(BOX_CUSTOM.top <= mouse.y) && (BOX_CUSTOM.bottom >= mouse.y))
 	{
 		BOX_CUSTOM_k = true;
-		for (int i = 0; i < CUSTOM_vector.size(); i++)
+		for (size_t i = 0; i < CUSTOM_vector.size(); i++)
 			if (((CUSTOM_vector[i].y1 + BOX_CUSTOM.top + 3) <= mouse.y) && ((CUSTOM_vector[i].y2 + BOX_CUSTOM.top) >= mouse.y))
 				CUSTOM_vector[i].k = true;
 			else CUSTOM_vector[i].k = false;
 	}
-	else for (int i = 0; i < CUSTOM_vector.size(); i++) CUSTOM_vector[i].k = false;
+	else for (size_t i = 0; i < CUSTOM_vector.size(); i++) CUSTOM_vector[i].k = false;
 }
 
 void MainWindow::GC_keres()
@@ -301,7 +301,7 @@ void MainWindow::Blokk_szamol()
 	VONAL v;
 	float ksz, vsz, kpx, kpy, r, va, xk, yk, xv, yv;
 	vanrajz = false;
-	for (int k = 0; k < VONAL_vector.size(); k++)
+	for (size_t k = 0; k < VONAL_vector.size(); k++)
 		if (VONAL_vector[k].blokk == 0)
 		{
 			rect.bottom = max(VONAL_vector[k].y1, VONAL_vector[k].y2) + VONAL_vector[k].v / 2;
@@ -310,7 +310,7 @@ void MainWindow::Blokk_szamol()
 			rect.left = min(VONAL_vector[k].x1, VONAL_vector[k].x2) - VONAL_vector[k].v / 2;
 			vanrajz = true;
 		}
-	for (int k = 0; k < ARC_vector.size(); k++)
+	for (size_t k = 0; k < ARC_vector.size(); k++)
 		if (ARC_vector[k].blokk == 0)
 		{
 			rect.bottom = max(ARC_vector[k].yk, ARC_vector[k].yv) + ARC_vector[k].v / 2;
@@ -319,7 +319,7 @@ void MainWindow::Blokk_szamol()
 			rect.left = min(ARC_vector[k].xk, ARC_vector[k].xv) - ARC_vector[k].v / 2;
 			vanrajz = true;
 		}
-	for (int k = 0; k < POLIGON_vector.size(); k++)
+	for (size_t k = 0; k < POLIGON_vector.size(); k++)
 		if (POLIGON_vector[k].blokk == 0)
 		{
 			rect.bottom = POLIGON_vector[k].pont[0].y;
@@ -328,7 +328,7 @@ void MainWindow::Blokk_szamol()
 			rect.left = POLIGON_vector[k].pont[0].x;
 			vanrajz = true;
 		}
-	for (int k = 0; k < EL_vector.size(); k++)
+	for (size_t k = 0; k < EL_vector.size(); k++)
 		if (EL_vector[k].blokk == 0)
 		{
 			rect.bottom = EL_vector[k].y + EL_vector[k].ry;
@@ -337,7 +337,7 @@ void MainWindow::Blokk_szamol()
 			rect.left = EL_vector[k].x - EL_vector[k].rx;
 			vanrajz = true;
 		}
-	for (int k = 0; k < SQ_vector.size(); k++)
+	for (size_t k = 0; k < SQ_vector.size(); k++)
 		if (SQ_vector[k].blokk == 0)
 		{
 			rect.bottom = SQ_vector[k].y + SQ_vector[k].ry;
@@ -346,7 +346,7 @@ void MainWindow::Blokk_szamol()
 			rect.left = SQ_vector[k].x - SQ_vector[k].rx;
 			vanrajz = true;
 		}
-	for (int k = 0; k < RR_vector.size(); k++)
+	for (size_t k = 0; k < RR_vector.size(); k++)
 		if (RR_vector[k].blokk == 0)
 		{
 			rect.bottom = RR_vector[k].y + RR_vector[k].ry;
@@ -355,7 +355,7 @@ void MainWindow::Blokk_szamol()
 			rect.left = RR_vector[k].x - RR_vector[k].rx;
 			vanrajz = true;
 		}
-	for (int k = 0; k < ELVIA_vector.size(); k++)
+	for (size_t k = 0; k < ELVIA_vector.size(); k++)
 		if (ELVIA_vector[k].blokk == 0)
 		{
 			rect.bottom = ELVIA_vector[k].y + ELVIA_vector[k].ry;
@@ -364,7 +364,7 @@ void MainWindow::Blokk_szamol()
 			rect.left = ELVIA_vector[k].x - ELVIA_vector[k].rx;
 			vanrajz = true;
 		}
-	for (int k = 0; k < SQVIA_vector.size(); k++)
+	for (size_t k = 0; k < SQVIA_vector.size(); k++)
 		if (SQVIA_vector[k].blokk == 0)
 		{
 			rect.bottom = SQVIA_vector[k].y + SQVIA_vector[k].ry;
@@ -373,7 +373,7 @@ void MainWindow::Blokk_szamol()
 			rect.left = SQVIA_vector[k].x - SQVIA_vector[k].rx;
 			vanrajz = true;
 		}
-	for (int k = 0; k < RRVIA_vector.size(); k++)
+	for (size_t k = 0; k < RRVIA_vector.size(); k++)
 		if (RRVIA_vector[k].blokk == 0)
 		{
 			rect.bottom = RRVIA_vector[k].y + RRVIA_vector[k].ry;
@@ -390,7 +390,7 @@ void MainWindow::Blokk_szamol()
 		Blokk[0].left = rect.left;
 	}
 	if (vanrajz && Blokk.size() == 0) Blokk.push_back(rect);
-	for (int i = 0; i < Blokk.size(); i++)
+	for (size_t i = 0; i < Blokk.size(); i++)
 	{
 		if (vanrajz)
 		{
@@ -409,7 +409,7 @@ void MainWindow::Blokk_szamol()
 					if (Blokk[i].left > (v.x1 - v.v / 2)) Blokk[i].left = v.x1 - v.v / 2;
 					if (Blokk[i].left > (v.x2 - v.v / 2)) Blokk[i].left = v.x2 - v.v / 2;
 				}
-			for (int j = 0; j < ARC_vector.size(); j++)
+			for (size_t j = 0; j < ARC_vector.size(); j++)
 				if (ARC_vector[j].blokk == i)
 				{
 					ksz = ARC_vector[j].ksz;
@@ -455,7 +455,7 @@ void MainWindow::Blokk_szamol()
 					if (Blokk[i].left > (min(xk, xv) - va)) Blokk[i].left = min(xk, xv) - va;
 					if (Blokk[i].bottom < (max(yk, yv) + va)) Blokk[i].bottom = max(yk, yv) + va;
 				}
-			for (int j = 0; j < POLIGON_vector.size(); j++)
+			for (size_t j = 0; j < POLIGON_vector.size(); j++)
 				if (POLIGON_vector[j].blokk == i)
 					for (int k = 0; k < POLIGON_vector[j].pont.size(); k++)
 					{
@@ -464,7 +464,7 @@ void MainWindow::Blokk_szamol()
 						if (Blokk[i].right < POLIGON_vector[j].pont[k].x)Blokk[i].right = POLIGON_vector[j].pont[k].x;
 						if (Blokk[i].left > POLIGON_vector[j].pont[k].x)Blokk[i].left = POLIGON_vector[j].pont[k].x;
 					}
-			for (int j = 0; j < EL_vector.size(); j++)
+			for (size_t j = 0; j < EL_vector.size(); j++)
 				if (EL_vector[j].blokk == i)
 				{
 					if (Blokk[i].bottom < EL_vector[j].y + EL_vector[j].ry) Blokk[i].bottom = EL_vector[j].y + EL_vector[j].ry;
@@ -472,7 +472,7 @@ void MainWindow::Blokk_szamol()
 					if (Blokk[i].right < EL_vector[j].x + EL_vector[j].rx) Blokk[i].right = EL_vector[j].x + EL_vector[j].rx;
 					if (Blokk[i].left > EL_vector[j].x - EL_vector[j].rx) Blokk[i].left = EL_vector[j].x - EL_vector[j].rx;
 				}
-			for (int j = 0; j < SQ_vector.size(); j++)
+			for (size_t j = 0; j < SQ_vector.size(); j++)
 				if (SQ_vector[j].blokk == i)
 				{
 					if (Blokk[i].bottom < SQ_vector[j].y + SQ_vector[j].ry) Blokk[i].bottom = SQ_vector[j].y + SQ_vector[j].ry;
@@ -480,7 +480,7 @@ void MainWindow::Blokk_szamol()
 					if (Blokk[i].right < SQ_vector[j].x + SQ_vector[j].rx) Blokk[i].right = SQ_vector[j].x + SQ_vector[j].rx;
 					if (Blokk[i].left > SQ_vector[j].x - SQ_vector[j].rx) Blokk[i].left = SQ_vector[j].x - SQ_vector[j].rx;
 				}
-			for (int j = 0; j < RR_vector.size(); j++)
+			for (size_t j = 0; j < RR_vector.size(); j++)
 				if (RR_vector[j].blokk == i)
 				{
 					if (Blokk[i].bottom < RR_vector[j].y + RR_vector[j].ry) Blokk[i].bottom = RR_vector[j].y + RR_vector[j].ry;
@@ -488,7 +488,7 @@ void MainWindow::Blokk_szamol()
 					if (Blokk[i].right < RR_vector[j].x + RR_vector[j].rx) Blokk[i].right = RR_vector[j].x + RR_vector[j].rx;
 					if (Blokk[i].left > RR_vector[j].x - RR_vector[j].rx) Blokk[i].left = RR_vector[j].x - RR_vector[j].rx;
 				}
-			for (int j = 0; j < ELVIA_vector.size(); j++)
+			for (size_t j = 0; j < ELVIA_vector.size(); j++)
 				if (ELVIA_vector[j].blokk == i)
 				{
 					if (Blokk[i].bottom < ELVIA_vector[j].y + ELVIA_vector[j].ry) Blokk[i].bottom = ELVIA_vector[j].y + ELVIA_vector[j].ry;
@@ -496,7 +496,7 @@ void MainWindow::Blokk_szamol()
 					if (Blokk[i].right < ELVIA_vector[j].x + ELVIA_vector[j].rx) Blokk[i].right = ELVIA_vector[j].x + ELVIA_vector[j].rx;
 					if (Blokk[i].left > ELVIA_vector[j].x - ELVIA_vector[j].rx) Blokk[i].left = ELVIA_vector[j].x - ELVIA_vector[j].rx;
 				}
-			for (int j = 0; j < SQVIA_vector.size(); j++)
+			for (size_t j = 0; j < SQVIA_vector.size(); j++)
 				if (SQVIA_vector[j].blokk == i)
 				{
 					if (Blokk[i].bottom < SQVIA_vector[j].y + SQVIA_vector[j].ry) Blokk[i].bottom = SQVIA_vector[j].y + SQVIA_vector[j].ry;
@@ -504,7 +504,7 @@ void MainWindow::Blokk_szamol()
 					if (Blokk[i].right < SQVIA_vector[j].x + SQVIA_vector[j].rx) Blokk[i].right = SQVIA_vector[j].x + SQVIA_vector[j].rx;
 					if (Blokk[i].left > SQVIA_vector[j].x - SQVIA_vector[j].rx) Blokk[i].left = SQVIA_vector[j].x - SQVIA_vector[j].rx;
 				}
-			for (int j = 0; j < RRVIA_vector.size(); j++)
+			for (size_t j = 0; j < RRVIA_vector.size(); j++)
 				if (RRVIA_vector[j].blokk == i)
 				{
 					if (Blokk[i].bottom < RRVIA_vector[j].y + RRVIA_vector[j].ry) Blokk[i].bottom = RRVIA_vector[j].y + RRVIA_vector[j].ry;
