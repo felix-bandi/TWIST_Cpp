@@ -416,20 +416,35 @@ void MainWindow::OnRButtonDown(int X, int Y, DWORD flags)
 
 void MainWindow::OnMouseMove(int X, int Y, DWORD flags)
 {
-	float Xf = static_cast<float>(X);
-	float Yf = static_cast<float>(Y);
+	//float Xf = static_cast<float>(X);
+	//float Yf = static_cast<float>(Y);
 	if (flags & MK_MBUTTON)
 	{
-		eltolas.x += (Xf - mouse.x) / nagyitas;
-		eltolas.y += (Yf - mouse.y) / nagyitas;
+		eltolas.x += (X - mouse.x) / nagyitas;
+		eltolas.y += (Y - mouse.y) / nagyitas;
 	}
-	mouse.x = Xf; mouse.y = Yf;						// képernyő kordináta X/Y
+	mouse.x = static_cast<FLOAT>(X); mouse.y = static_cast<FLOAT>(Y);	// képernyő koordináta X/Y
 	xxx = mouse.x / nagyitas - eltolas.x;			// rajz kordináta X
 	yyy = mouse.y / nagyitas - eltolas.y;			// rajz kordináta Y
-	xx = ((xxx + grid.i / 2) / grid.i) * grid.i;	// rajz kordináta grid: X
-	yy = ((yyy + grid.i / 2) / grid.i) * grid.i;	// rajz kordináta grid: Y
+
+	//xx = ((xxx + grid.i / 2) / grid.i) * grid.i;	// rajz kordináta grid: X
+	//yy = ((yyy + grid.i / 2) / grid.i) * grid.i;	// rajz kordináta grid: Y
+	if (grid.i > 0) {
+		const float g = static_cast<float>(grid.i);
+		// legközelebbi rácspontra
+		xx = std::round(xxx / g) * g;
+		yy = std::round(yyy / g) * g;
+		// ha mindig lefelé szeretnéd:
+		// xx = std::floor(xxx / g) * g;
+		// yy = std::floor(yyy / g) * g;
+	}
+	else {
+		xx = xxx;
+		yy = yyy;
+	}
 	mouse_grid.x = (xx + eltolas.x) * nagyitas;		// képernyő kordináta grid: X
 	mouse_grid.y = (yy + eltolas.y) * nagyitas;		// képernyő kordináta grid: Y
+
 	InvalidateRect(m_hwnd, NULL, FALSE);
 	ALAK_keres();
 	GC_keres();
