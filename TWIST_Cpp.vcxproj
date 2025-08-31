@@ -101,7 +101,8 @@
       <ConformanceMode>true</ConformanceMode>
       <TreatWarningAsError>true</TreatWarningAsError>
       <AdditionalOptions>/wd26495
- /wd6387 /wd4100 %(AdditionalOptions)</AdditionalOptions>
+ /wd6387 /wd4100 /utf-8
+ %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -119,7 +120,8 @@
       <ConformanceMode>true</ConformanceMode>
       <TreatWarningAsError>true</TreatWarningAsError>
       <AdditionalOptions>/wd26495
- /wd6387 /wd4100 %(AdditionalOptions)</AdditionalOptions>
+ /wd6387 /wd4100 /utf-8
+ %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -139,7 +141,8 @@
       <ConformanceMode>true</ConformanceMode>
       <TreatWarningAsError>true</TreatWarningAsError>
       <AdditionalOptions>/wd26495
- /wd6387 /wd4100 %(AdditionalOptions)</AdditionalOptions>
+ /wd6387 /wd4100 /utf-8
+ %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -161,7 +164,8 @@
       <ConformanceMode>true</ConformanceMode>
       <TreatWarningAsError>true</TreatWarningAsError>
       <AdditionalOptions>/wd26495
- /wd6387 /wd4100 %(AdditionalOptions)</AdditionalOptions>
+ /wd6387 /wd4100 /utf-8
+ %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

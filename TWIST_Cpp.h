@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include "basewin.h"
 #include "resource.h"
@@ -51,10 +51,10 @@ class MainWindow : public BaseWindow<MainWindow>
 	vector<GOMB>			ALAK_vector, CUSTOM_vector, gt, MODE_vector, SZINT_vector, FILE_vector;
 	vector<vector<GOMB>>	CUSTOM;	
 	vector<GC>				GC_vector;
-	vector<wstring>			alak_nevek = { L"Vonal", L"Körív", L"Poligon", L"EL_pad", L"SQ_pad", L"RR_pad", L"EL_via", L"SQ_via", L"RR_via" };
-	vector<wstring>			mode_nevek = { L"Rajzolás", L"Törlés", L"File", L"Print"};
+	vector<wstring>			alak_nevek = { L"Vonal", L"KÃ¶rÃ­v", L"Poligon", L"EL_pad", L"SQ_pad", L"RR_pad", L"EL_via", L"SQ_via", L"RR_via" };
+	vector<wstring>			mode_nevek = { L"RajzolÃ¡s", L"TÃ¶rlÃ©s", L"File", L"Print"};
 	vector<wstring>			szint_nevek = { L"Top", L"Bottom" };
-	vector<wstring>			file_nevek = { L"Mentés", L"Alkatrész mentés", L"Betöltés", L"Betöltés új blokkba" };
+	vector<wstring>			file_nevek = { L"MentÃ©s", L"AlkatrÃ©sz mentÃ©s", L"BetÃ¶ltÃ©s", L"BetÃ¶ltÃ©s Ãºj blokkba" };
 	wstring					ws;
 	wstring					ws_vonal[1] = { L"Width" }; int vonal_t[1] = { 40 };
 	wstring					ws_kor[1] = { L"Width" };   int kor_t[1] = { 40 };
@@ -153,12 +153,12 @@ public:
 	//void	ARC_rajzol();
 	void	ARC_rajzol(vector<ARC> &ARC);
 	void	ARC_rajzol_2();
-	//void	ARC_rajzol_betölt();
+	//void	ARC_rajzol_betÃ¶lt();
 	void	ARC_keres();
 	void	POLIGON_rajzol(vector<POLI> &POLI);
 	void	POLIGON_rajzol_2();
 	void	POLIGON_rajzol_T();
-	//void	POLIGON_rajzol_betölt();
+	//void	POLIGON_rajzol_betÃ¶lt();
 	void	POLIGON_keres();
 	void	ALAK_init();
 	void	ALAK_rajzol();

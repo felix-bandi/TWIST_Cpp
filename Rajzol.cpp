@@ -77,12 +77,11 @@ void MainWindow::ARC_rajzol(std::vector<ARC>& ARC)
 
 	sink->SetFillMode(D2D1_FILL_MODE_WINDING);
 
-	auto ak = D2D1::Point2F(ARC[i].xk, ARC[i].yk);
-	auto av = D2D1::Point2F(ARC[i].xv, ARC[i].yv);
-	auto sz = D2D1::SizeF(ARC[i].rx, ARC[i].ry);
-
-	sink->BeginFigure(ak, D2D1_FIGURE_BEGIN_HOLLOW);
-	sink->AddArc(D2D1::ArcSegment(av, sz, 0.0f, ARC[i].i, ARC[i].s));
+	const auto startPt = D2D1::Point2F(ARC[i].xk, ARC[i].yk);
+	const auto endPt = D2D1::Point2F(ARC[i].xv, ARC[i].yv);
+	const auto arcSize = D2D1::SizeF(ARC[i].rx, ARC[i].ry);
+	sink->BeginFigure(startPt, D2D1_FIGURE_BEGIN_HOLLOW);
+	sink->AddArc(D2D1::ArcSegment(endPt, arcSize, 0.0f, ARC[i].i, ARC[i].s));
 	sink->EndFigure(D2D1_FIGURE_END_OPEN);
 	if (FAILED(sink->Close())) return;
 

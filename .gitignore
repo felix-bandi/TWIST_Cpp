@@ -30,3 +30,52 @@
 # Others
 *.cache
 *.ipch
+
+# Build output
+[Bb]in/
+[Oo]bj/
+*.pdb
+*.ipch
+*.tlog
+*.log
+
+# Visual Studio files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.VC.db
+*.VC.opendb
+*.vscode/
+.vs/
+
+# Code Analysis & Clang-Tidy outputs
+*.sarif
+*.xml
+compile_commands.json
+
+# Others
+*.ncb
+*.aps
+*.cache
+*.tmp
+*.bak
+*.sdf
+*.opendb
+*.idb
+*.ilk
+*.obj
+*.pch
+*.res
+*.rsp
+*.sbr
+*.tlh
+*.tli
+*.tmp
+*.tmp_proj
+*.log
+*.vspscc
+*.vssscc
+
+# Ignore generated files
+[Tt]emp/
