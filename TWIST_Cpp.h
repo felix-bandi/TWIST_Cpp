@@ -25,7 +25,7 @@ inline HCURSOR CreateEmptyCursor()
 
 class MainWindow : public BaseWindow<MainWindow>
 {
-	HCURSOR                 Cursor_system = LoadCursor(NULL, NULL), Cursor_1 = LoadCursor(NULL, IDC_ARROW);
+	HCURSOR                 Cursor_system = LoadCursor(NULL, IDC_HAND), Cursor_1 = LoadCursor(NULL, IDC_ARROW);
 	ID2D1Factory*			pFactory;
 	ID2D1HwndRenderTarget*	pRenderTarget;
 	ID2D1DCRenderTarget*	m_pDCRT;
