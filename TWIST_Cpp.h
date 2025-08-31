@@ -5,6 +5,7 @@
 #include "Struct.h"
 #include <wincodec.h>
 #include <Windows.h>
+#include <cstring>
 
 template <class T> void SafeRelease(T** ppT)
 {
@@ -15,9 +16,16 @@ template <class T> void SafeRelease(T** ppT)
 	}
 }
 
+inline HCURSOR CreateEmptyCursor()
+{
+	BYTE andMask[128]; memset(andMask, 0xFF, sizeof(andMask)); // háttér megtartása
+	BYTE xorMask[128]; memset(xorMask, 0x00, sizeof(xorMask)); // semmi rajzolás
+	return CreateCursor(GetModuleHandle(NULL), 16, 16, 32, 32, andMask, xorMask);
+}
+
 class MainWindow : public BaseWindow<MainWindow>
 {
-	HCURSOR                 Cursor_system = LoadCursor(NULL, IDC_HAND), Cursor_1 = LoadCursor(NULL, IDC_ARROW);
+	HCURSOR                 Cursor_system = LoadCursor(NULL, NULL), Cursor_1 = LoadCursor(NULL, IDC_ARROW);
 	ID2D1Factory*			pFactory;
 	ID2D1HwndRenderTarget*	pRenderTarget;
 	ID2D1DCRenderTarget*	m_pDCRT;

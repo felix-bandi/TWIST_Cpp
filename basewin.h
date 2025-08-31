@@ -1,6 +1,6 @@
 ﻿#ifndef _BASEWIN_H
 #define _BASEWIN_H
-
+#include <Windows.h>
 // (Ha még nincs máshol, érdemes biztosítani, hogy a Windows definíciók elérhetők legyenek)
 // #include <Windows.h>
 

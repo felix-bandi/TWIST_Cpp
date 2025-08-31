@@ -1,4 +1,5 @@
 Checks: >
+  -*,
   bugprone-*,
   clang-analyzer-*,
   performance-*,
@@ -7,7 +8,12 @@ Checks: >
   modernize-use-override,
   cppcoreguidelines-init-variables
 
-WarningsAsErrors: ''
-HeaderFilterRegex: '.*'
-AnalyzeTemporaryDtors: false
-FormatStyle: none
+HeaderFilterRegex: '^(TWIST_Cpp)(/|\\)'
+ExtraArgsBefore: ['-std=c++14']
+ExtraArgs:
+  - -fms-compatibility
+  - -fms-extensions
+  - -DUNICODE
+  - -D_UNICODE
+  - -Wno-pragma-pack
+  - -Wno-pragma-once-outside-header
