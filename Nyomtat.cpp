@@ -1,4 +1,4 @@
-#include <windowsx.h>
+﻿#include <windowsx.h>
 #include <Windows.h>
 #include <d2d1.h>
 #include <winuser.h>

@@ -1,4 +1,4 @@
-#include <windowsx.h>
+ï»¿#include <windowsx.h>
 #include <Windows.h>
 #include <d2d1.h>
 #include <winuser.h>
@@ -44,7 +44,7 @@ using Microsoft::WRL::ComPtr;
 }*/
 /*void MainWindow::ARC_rajzol(vector<ARC>& ARC)
 {
-	if (ARC.empty()) return; // üres védelem
+	if (ARC.empty()) return; // Ã¼res vÃ©delem
 	int i = ARC.size() - 1;
 	pFactory->CreatePathGeometry(&ARC[i].pg);
 	ID2D1GeometrySink* pSink;
@@ -88,21 +88,21 @@ void MainWindow::ARC_rajzol(std::vector<ARC>& ARC)
 	ARC[i].pg = pg.Detach();
 }
 
-/*void MainWindow::ARC_rajzol_betölt()
+/*void MainWindow::ARC_rajzol_betÃ¶lt()
 {
-	int i = ARC_betölt.size() - 1;
-	pFactory->CreatePathGeometry(&ARC_betölt[i].pg);
+	int i = ARC_betÃ¶lt.size() - 1;
+	pFactory->CreatePathGeometry(&ARC_betÃ¶lt[i].pg);
 	ID2D1GeometrySink* pSink;
-	ARC_betölt[i].pg->Open(&pSink);
+	ARC_betÃ¶lt[i].pg->Open(&pSink);
 	pSink->SetFillMode(D2D1_FILL_MODE_WINDING);
-	ak.x = ARC_betölt[i].xk;
-	ak.y = ARC_betölt[i].yk;
-	av.x = ARC_betölt[i].xv;
-	av.y = ARC_betölt[i].yv;
-	meret.width = ARC_betölt[i].rx;
-	meret.height = ARC_betölt[i].ry;
+	ak.x = ARC_betÃ¶lt[i].xk;
+	ak.y = ARC_betÃ¶lt[i].yk;
+	av.x = ARC_betÃ¶lt[i].xv;
+	av.y = ARC_betÃ¶lt[i].yv;
+	meret.width = ARC_betÃ¶lt[i].rx;
+	meret.height = ARC_betÃ¶lt[i].ry;
 	pSink->BeginFigure(ak, D2D1_FIGURE_BEGIN_HOLLOW);
-	pSink->AddArc(D2D1::ArcSegment(av, meret, 0.0, ARC_betölt[i].i, ARC_betölt[i].s));
+	pSink->AddArc(D2D1::ArcSegment(av, meret, 0.0, ARC_betÃ¶lt[i].i, ARC_betÃ¶lt[i].s));
 	pSink->EndFigure(D2D1_FIGURE_END_OPEN);
 	pSink->Close();
 	SafeRelease(&pSink);
@@ -148,17 +148,17 @@ void MainWindow::POLIGON_rajzol(vector<POLI> &POLI)
 	SafeRelease(&pSink);
 }
 
-/*void MainWindow::POLIGON_rajzol_betölt()
+/*void MainWindow::POLIGON_rajzol_betÃ¶lt()
 {
-	int i = POLIGON_betölt.size() - 1;
-	for (int j = 0; j < POLIGON_betölt[i].pont.size(); j++) pontok[j] = POLIGON_betölt[i].pont[j];
-	pFactory->CreatePathGeometry(&POLIGON_betölt[i].pg);
+	int i = POLIGON_betÃ¶lt.size() - 1;
+	for (int j = 0; j < POLIGON_betÃ¶lt[i].pont.size(); j++) pontok[j] = POLIGON_betÃ¶lt[i].pont[j];
+	pFactory->CreatePathGeometry(&POLIGON_betÃ¶lt[i].pg);
 	ID2D1GeometrySink* pSink;
-	POLIGON_betölt[i].pg->Open(&pSink);
+	POLIGON_betÃ¶lt[i].pg->Open(&pSink);
 	pSink->SetFillMode(D2D1_FILL_MODE_WINDING);
-	pSink->BeginFigure(POLIGON_betölt[i].pont[0], D2D1_FIGURE_BEGIN_FILLED);
-	pSink->AddLines(pontok, POLIGON_betölt[i].pont.size());
-	pSink->AddLine(POLIGON_betölt[i].pont[0]);
+	pSink->BeginFigure(POLIGON_betÃ¶lt[i].pont[0], D2D1_FIGURE_BEGIN_FILLED);
+	pSink->AddLines(pontok, POLIGON_betÃ¶lt[i].pont.size());
+	pSink->AddLine(POLIGON_betÃ¶lt[i].pont[0]);
 	pSink->EndFigure(D2D1_FIGURE_END_CLOSED);
 	pSink->Close();
 	SafeRelease(&pSink);

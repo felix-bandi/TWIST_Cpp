@@ -1,4 +1,4 @@
-#include <windowsx.h>
+ï»¿#include <windowsx.h>
 #include <Windows.h>
 #include <d2d1.h>
 #include <winuser.h>
@@ -66,21 +66,21 @@ LRESULT MainWindow::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 	case WM_LBUTTONDBLCLK:
 	{
-		// Duplakatt kezelés – könyvtárba belépés fájl módnál
+		// Duplakatt kezelÃ©s â€“ kÃ¶nyvtÃ¡rba belÃ©pÃ©s fÃ¡jl mÃ³dnÃ¡l
 		if (mode == _file)
 		{
 			int mx = GET_X_LPARAM(lParam);
 			int my = GET_Y_LPARAM(lParam);
 
-			// Ellenõrizzük hogy a lista kliens területén belül vagyunk-e
+			// EllenÅ‘rizzÃ¼k hogy a lista kliens terÃ¼letÃ©n belÃ¼l vagyunk-e
 			if (mx >= dialog.client.left && mx <= dialog.client.right &&
 				my >= dialog.client.top && my < dialog.client.bottom)
 			{
 				const int sorMag = 16;
-				int relatívSor = (my - (int)dialog.client.top) / sorMag;
-				if (relatívSor >= 0)
+				int relatÃ­vSor = (my - (int)dialog.client.top) / sorMag;
+				if (relatÃ­vSor >= 0)
 				{
-					// Görgetési offset kiszámítása
+					// GÃ¶rgetÃ©si offset kiszÃ¡mÃ­tÃ¡sa
 					size_t scrollOffset = 0;
 					if (dialog.cs.range > 0)
 					{
@@ -90,7 +90,7 @@ LRESULT MainWindow::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 						scrollOffset = (size_t)lround(dialog.out_N * rel);
 						if (scrollOffset > (size_t)dialog.out_N) scrollOffset = dialog.out_N;
 					}
-					size_t absIndex = scrollOffset + (size_t)relatívSor;
+					size_t absIndex = scrollOffset + (size_t)relatÃ­vSor;
 					if (absIndex < File_vector.size())
 					{
 						WIN32_FIND_DATA &ffd = File_vector[absIndex];
@@ -115,7 +115,7 @@ LRESULT MainWindow::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 							}
 							else
 							{
-								// belépünk: hozzáfûzés név + '/'
+								// belÃ©pÃ¼nk: hozzÃ¡fÅ±zÃ©s nÃ©v + '/'
 								size_t cur = wcslen(dialog_path);
 								size_t nlen = wcslen(name);
 								if (cur + nlen + 2 < 260)
@@ -166,7 +166,7 @@ LRESULT MainWindow::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			dialogSortMode = (dialogSortMode == DIALOG_SORT_DIR_FIRST)
 				? DIALOG_SORT_MIXED
 				: DIALOG_SORT_DIR_FIRST;
-			dialog.ini = true;          // újrarendezés
+			dialog.ini = true;          // ÃºjrarendezÃ©s
 			InvalidateRect(m_hwnd, nullptr, FALSE);
 		}
 		return 0;

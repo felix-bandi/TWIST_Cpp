@@ -1,4 +1,4 @@
-#include <windowsx.h>
+Ôªø#include <windowsx.h>
 #include <Windows.h>
 #include <d2d1.h>
 #include <winuser.h>
@@ -460,9 +460,9 @@ void MainWindow::List_init()
 	H = (list.bottom - list.top) / m;
 	N = static_cast<float>(Alkatresz.size());
 	if (N == 0) N = 2;
-	float ar·ny = H/N;
+	float ar√°ny = H/N;
 	list.cs.length = list.cs.bottom - list.cs.top - 4;
-	if (ar·ny < 1) list.cs.length = ar·ny * (list.bottom - list.top - 10);
+	if (ar√°ny < 1) list.cs.length = ar√°ny * (list.bottom - list.top - 10);
 	list.cs.min = list.cs.p = list.cs.top + 2;
 	list.cs.max = list.cs.bottom - list.cs.length - 2;
 	list.cs.range = list.cs.max - list.cs.min;
@@ -488,10 +488,10 @@ void MainWindow::List2_init()
 	H = (list2.bottom - list2.top) / m;
 	list2.cs.length = list2.cs.bottom - list2.cs.top - 4;
 	list2.cs.min = list2.cs.p = list2.cs.top + 2;
-	/*N = AlkatrÈsz.size();
+	/*N = Alkatr√©sz.size();
 	if (N == 0) N = 2;
-	float ar·ny = float(H) / float(N);
-	if (ar·ny < 1) list2.cs.length = ar·ny * (list2.bottom - list2.top - 10);
+	float ar√°ny = float(H) / float(N);
+	if (ar√°ny < 1) list2.cs.length = ar√°ny * (list2.bottom - list2.top - 10);
 	list2.cs.max = list2.cs.bottom - list2.cs.length - 2;
 	list2.cs.range = list2.cs.max - list2.cs.min;*/
 }

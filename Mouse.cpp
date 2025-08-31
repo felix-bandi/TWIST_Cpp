@@ -1,4 +1,4 @@
-#include <windowsx.h>
+Ôªø#include <windowsx.h>
 #include <Windows.h>
 #include <d2d1.h>
 #include <winuser.h>
@@ -293,8 +293,8 @@ void MainWindow::OnLButtonDown(int X, int Y, DWORD flags)
 			{
 				hdc = pd.hDC;
 				SetMapMode(hdc, MM_HIENGLISH);
-				int1 = GetDeviceCaps(hdc, HORZRES);  //nyomtat·si ter¸let X
-				int2 = GetDeviceCaps(hdc, VERTRES);  //nyomtat·si ter¸let Y
+				int1 = GetDeviceCaps(hdc, HORZRES);  //nyomtat√°si ter√ºlet X
+				int2 = GetDeviceCaps(hdc, VERTRES);  //nyomtat√°si ter√ºlet Y
 				int3 = GetDeviceCaps(hdc, LOGPIXELSX);
 				int4 = GetDeviceCaps(hdc, LOGPIXELSY);
 				flo5 = float(int1) / float(int3) * 1000;
@@ -423,13 +423,13 @@ void MainWindow::OnMouseMove(int X, int Y, DWORD flags)
 		eltolas.x += (Xf - mouse.x) / nagyitas;
 		eltolas.y += (Yf - mouse.y) / nagyitas;
 	}
-	mouse.x = Xf; mouse.y = Yf;						// kÈpernyı kordin·ta X/Y
-	xxx = mouse.x / nagyitas - eltolas.x;			// rajz kordin·ta X
-	yyy = mouse.y / nagyitas - eltolas.y;			// rajz kordin·ta Y
-	xx = ((xxx + grid.i / 2) / grid.i) * grid.i;	// rajz kordin·ta grid: X
-	yy = ((yyy + grid.i / 2) / grid.i) * grid.i;	// rajz kordin·ta grid: Y
-	mouse_grid.x = (xx + eltolas.x) * nagyitas;		// kÈpernyı kordin·ta grid: X
-	mouse_grid.y = (yy + eltolas.y) * nagyitas;		// kÈpernyı kordin·ta grid: Y
+	mouse.x = Xf; mouse.y = Yf;						// k√©perny≈ë kordin√°ta X/Y
+	xxx = mouse.x / nagyitas - eltolas.x;			// rajz kordin√°ta X
+	yyy = mouse.y / nagyitas - eltolas.y;			// rajz kordin√°ta Y
+	xx = ((xxx + grid.i / 2) / grid.i) * grid.i;	// rajz kordin√°ta grid: X
+	yy = ((yyy + grid.i / 2) / grid.i) * grid.i;	// rajz kordin√°ta grid: Y
+	mouse_grid.x = (xx + eltolas.x) * nagyitas;		// k√©perny≈ë kordin√°ta grid: X
+	mouse_grid.y = (yy + eltolas.y) * nagyitas;		// k√©perny≈ë kordin√°ta grid: Y
 	InvalidateRect(m_hwnd, NULL, FALSE);
 	ALAK_keres();
 	GC_keres();

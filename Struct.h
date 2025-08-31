@@ -1,4 +1,4 @@
-#include <vector>
+﻿#include <vector>
 #include <Windows.h>
 #pragma once
 #include "Precision.h"

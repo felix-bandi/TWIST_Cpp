@@ -1,4 +1,4 @@
-//<SnippetResource_H>
+﻿//<SnippetResource_H>
 #define HOTKEYS		100
 #define a_VONAL			118
 #define a_KORIV			107

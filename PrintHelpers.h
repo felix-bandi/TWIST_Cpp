@@ -1,8 +1,8 @@
-#pragma once
+ï»¿#pragma once
 #include <cmath>
 #include <limits>
 
-// Ha a min vagy max makróként van definiálva (pl. windows.h miatt), töröljük õket
+// Ha a min vagy max makrÃ³kÃ©nt van definiÃ¡lva (pl. windows.h miatt), tÃ¶rÃ¶ljÃ¼k Å‘ket
 #ifdef min
 #undef min
 #endif
@@ -11,12 +11,12 @@
 #endif
 
 inline int iroundf(float v) {
-    long t = std::lroundf(v); // kerekít, nem truncál
+    long t = std::lroundf(v); // kerekÃ­t, nem truncÃ¡l
     if (t < std::numeric_limits<int>::min()) return std::numeric_limits<int>::min();
     if (t > std::numeric_limits<int>::max()) return std::numeric_limits<int>::max();
     return static_cast<int>(t);
 }
-// ha esetleg double jön be:
+// ha esetleg double jÃ¶n be:
 inline int iround(double v) {
     long long t = std::llround(v);
     if (t < std::numeric_limits<int>::min()) return std::numeric_limits<int>::min();

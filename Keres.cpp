@@ -1,4 +1,4 @@
-#include <windowsx.h>
+ï»¿#include <windowsx.h>
 #include <Windows.h>
 #include <d2d1.h>
 #include <winuser.h>
@@ -171,7 +171,7 @@ void MainWindow::POLIGON_keres()
             float y1 = POLIGON_vector[i].pont[j].y;
             float x2 = POLIGON_vector[i].pont[(j + 1) % n].x;
             float y2 = POLIGON_vector[i].pont[(j + 1) % n].y;
-            // Ellenõrizzük, hogy a vízszintes sugár metszi-e az élt
+            // EllenÅ‘rizzÃ¼k, hogy a vÃ­zszintes sugÃ¡r metszi-e az Ã©lt
             if (((y1 > py) != (y2 > py))) {
                 float intersectX = (x2 - x1) * (py - y1) / (y2 - y1 + 1e-12f) + x1;
                 if (intersectX > px) crossings++;

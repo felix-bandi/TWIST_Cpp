@@ -1,4 +1,4 @@
-#include <windowsx.h>
+Ôªø#include <windowsx.h>
 #include <Windows.h>
 #include <d2d1.h>
 #include <winuser.h>
@@ -27,7 +27,7 @@ static bool IsDriveReady(wchar_t letter)
 	DWORD attrs = GetFileAttributesW(root);
 	if (attrs == INVALID_FILE_ATTRIBUTES)
 	{
-		// PrÛb·ljuk eszkˆz handle-lal
+		// Pr√≥b√°ljuk eszk√∂z handle-lal
 		std::wstring dev = L"\\\\.\\"; dev += letter; dev += L":";
 		HANDLE h = CreateFileW(dev.c_str(), 0,
 			FILE_SHARE_READ | FILE_SHARE_WRITE, nullptr,
@@ -183,7 +183,7 @@ void MainWindow::Filedialog_rajzol()
 	Brush->SetColor(D2D1::ColorF(D2D1::ColorF::DarkGreen));
 	pRenderTarget->DrawRectangle(dialog, Brush, 2);
 
-	// MeghajtÛ gombok felÈpÌtÈse
+	// Meghajt√≥ gombok fel√©p√≠t√©se
 	dialog.kd = -1;
 	drivers.clear();
 	DWORD mask = GetLogicalDrives();
@@ -205,20 +205,20 @@ void MainWindow::Filedialog_rajzol()
 	Brush->SetColor(D2D1::ColorF(D2D1::ColorF::DarkGreen));
 	pRenderTarget->DrawLine(dialog.p1, dialog.p2, Brush, 2);
 
-	// Ellenırizz¸k a kiv·lasztott meghajtÛt (ha nincs, fallback 0)
-	bool tal·lt = false;
+	// Ellen≈ërizz√ºk a kiv√°lasztott meghajt√≥t (ha nincs, fallback 0)
+	bool tal√°lt = false;
 	for (size_t i = 0; i < drivers.size(); ++i)
 	{
-		if (drivers[i].ch == kiv_drv) { tal·lt = true; dialog.kkd = i; break; }
+		if (drivers[i].ch == kiv_drv) { tal√°lt = true; dialog.kkd = i; break; }
 	}
-	if (!tal·lt && !drivers.empty())
+	if (!tal√°lt && !drivers.empty())
 	{
 		dialog.kkd = 0;
 		kiv_drv = drivers[0].ch;
 		dialog.dirchange = true;
 	}
 
-	// MeghajtÛ gombok kirajzol·sa
+	// Meghajt√≥ gombok kirajzol√°sa
 	for (int i = 0; i < static_cast<int>(drivers.size()); i++)
 	{
 		bool ready = IsDriveReady(drivers[i].ch);
@@ -247,11 +247,11 @@ void MainWindow::Filedialog_rajzol()
 		pRenderTarget->DrawText(text, 3, TF1, driver, Brush);
 	}
 
-	// --- R…GI enumer·ciÛs kÛd T÷R÷LVE ---
-	// Helyette: kˆzpontosÌtott frissÌtÈs
+	// --- R√âGI enumer√°ci√≥s k√≥d T√ñR√ñLVE ---
+	// Helyette: k√∂zpontos√≠tott friss√≠t√©s
 	UpdateDialogContents();
 
-	// Gˆrgetıs·v (ha kell)
+	// G√∂rget≈ës√°v (ha kell)
 	if (dialog.cs.v)
 	{
 		dialog.cs.k = false;
@@ -278,7 +278,7 @@ void MainWindow::Filedialog_rajzol()
 		Brush->SetColor(D2D1::ColorF(D2D1::ColorF::YellowGreen));
 	}
 
-	// F·jl lista
+	// F√°jl lista
 	dialog.k = -1;
 	WCHAR dirPrefix[] = L"<DIR>  ";
 	WCHAR sorBuf[MAX_PATH] = { 0 };
@@ -322,7 +322,7 @@ void MainWindow::Filedialog_rajzol()
 		{
 			if (dialogSortMode == DIALOG_SORT_DIR_FIRST)
 			{
-				// RÈgi: <DIR> elıtag
+				// R√©gi: <DIR> el≈ëtag
 				for (size_t n = 0; n < prefixLen; n++) sorBuf[n] = dirPrefix[n];
 				for (size_t n = 0; n < nameLen && (n + prefixLen) < 255; n++)
 					sorBuf[prefixLen + n] = fname[n];
@@ -332,7 +332,7 @@ void MainWindow::Filedialog_rajzol()
 			}
 			else
 			{
-				// Kevert mÛd: nÈv + <DIR> utÛtag
+				// Kevert m√≥d: n√©v + <DIR> ut√≥tag
 				size_t maxLen = 255;
 				size_t n = (nameLen > maxLen) ? maxLen : nameLen;
 				for (size_t k = 0; k < n; ++k) sorBuf[k] = fname[k];
@@ -349,19 +349,19 @@ void MainWindow::Filedialog_rajzol()
 		}
 	}
 
-	// Hiba kijelzÈs
+	// Hiba kijelz√©s
 	if (fileN == 0 && dialog.lastEnumError != 0)
 	{
 		D2D1_RECT_F rr1 = dialog.client;
 		rr1.bottom = rr1.top + 18;
 		Brush->SetColor(D2D1::ColorF(D2D1::ColorF::OrangeRed));
 		const wchar_t* msg = (dialog.lastEnumError == ERROR_NOT_READY)
-			? L"MeghajtÛ nem elÈrhetı"
-			: L"Hiba az olvas·s sor·n";
+			? L"Meghajt√≥ nem el√©rhet≈ë"
+			: L"Hiba az olvas√°s sor√°n";
 		pRenderTarget->DrawText(msg, (UINT32)wcslen(msg), TF2, rr1, Brush);
 	}
 
-	// Edit mezı
+	// Edit mez≈ë
 	dialog.edit.k = false;
 	if (dialog.edit.left <= mouse.x && dialog.edit.right >= mouse.x &&
 		dialog.edit.top <= mouse.y && dialog.edit.bottom >= mouse.y)
@@ -376,12 +376,12 @@ void MainWindow::Filedialog_rajzol()
 		dialog.filepath[i] = dialog.edit.c[i];
 	pRenderTarget->DrawText(dialog.filepath, (UINT32)dialog.edit.c.size(), TF2, dialog.edit, Brush);
 
-	// MentÈs gomb
+	// Ment√©s gomb
 	save1.bottom = dialog.bottom - 10;
 	save1.top = save1.bottom - 30;
 	save1.left = dialog.client.left;
 	save1.right = save1.left + 170;
-	save1.t = L"MentÈs alkatrÈszkÈnt";
+	save1.t = L"Ment√©s alkatr√©szk√©nt";
 	rrect.rect = save1;  rrect.radiusX = 5;  rrect.radiusY = 5;
 
 	bool saveHover = (save1.left <= mouse.x && save1.right >= mouse.x &&
@@ -664,7 +664,7 @@ void MainWindow::UpdateDialogContents()
 	{
 		File_vector.clear();
 		dialog.lastEnumError = 0;
-		// Csak ha a meghajtÛ ready
+		// Csak ha a meghajt√≥ ready
 		if (IsDriveReady(drivers[dialog.kkd].ch))
 		{
 			dialog.hFind = FindFirstFileW(pattern, &dialog.FindFileData);
@@ -718,7 +718,7 @@ void MainWindow::UpdateDialogContents()
 			dialog.cs.length = arany * (dialog.client.bottom - dialog.client.top);
 			dialog.cs.min = dialog.cs.p = dialog.cs.top + 3;
 
-			// RendelÈs csak ha >1
+			// Rendel√©s csak ha >1
 			if (fileN > 1)
 			{
 				if (dialogSortMode == DIALOG_SORT_DIR_FIRST)
@@ -728,7 +728,7 @@ void MainWindow::UpdateDialogContents()
 						{
 							bool ad = (a.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) != 0;
 							bool bd = (b.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) != 0;
-							if (ad != bd) return ad > bd; // kˆnyvt·rak elıre
+							if (ad != bd) return ad > bd; // k√∂nyvt√°rak el≈ëre
 							return _wcsicmp(a.cFileName, b.cFileName) < 0;
 						});
 				}

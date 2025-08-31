@@ -1,4 +1,4 @@
-//<Snippetinput_rc>
+﻿//<Snippetinput_rc>
 #include "resource.h"
 
 HOTKEYS ACCELERATORS

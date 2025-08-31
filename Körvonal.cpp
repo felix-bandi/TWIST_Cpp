@@ -1,4 +1,4 @@
-#include <windowsx.h>
+ï»¿#include <windowsx.h>
 #include <Windows.h>
 #include <d2d1.h>
 #include <winuser.h>
@@ -19,7 +19,7 @@ using namespace std;
 
 void MainWindow::alk_krv_rajzol(int alk)
 {
-	ALKATRÉSZ a = Alkatrész[alk];
+	ALKATRÃ‰SZ a = AlkatrÃ©sz[alk];
 	for (int k = 0; k <= 1; k++)
 	{
 		if (a.v.size() > 0)
@@ -80,11 +80,11 @@ void MainWindow::alk_krv_rajzol(int alk)
 					rx = e.rx * nagyitas;  ry = e.ry * nagyitas;
 					ellipse = D2D1::Ellipse(f1, rx, ry);
 					pRenderTarget->FillEllipse(ellipse, bp[sz[k]][k]);
-					pRenderTarget->DrawEllipse(ellipse, fehér, 1);
+					pRenderTarget->DrawEllipse(ellipse, fehÃ©r, 1);
 					rx = ry = e.r * nagyitas;
 					ellipse = D2D1::Ellipse(f1, rx, ry);
 					pRenderTarget->FillEllipse(ellipse, fekete);
-					pRenderTarget->DrawEllipse(ellipse, fehér, 1);
+					pRenderTarget->DrawEllipse(ellipse, fehÃ©r, 1);
 				}
 		if (a.sp.size() > 0)
 			for (int i = 0; i < a.sp.size(); i++)
@@ -97,13 +97,13 @@ void MainWindow::alk_krv_rajzol(int alk)
 					rect.top = (s.y - s.ry + eltolas.y + yy) * nagyitas;
 					rect.bottom = (s.y + s.ry + eltolas.y + yy) * nagyitas;
 					pRenderTarget->FillRectangle(rect, bp[sz[k]][k]);
-					pRenderTarget->DrawRectangle(rect, fehér);
+					pRenderTarget->DrawRectangle(rect, fehÃ©r);
 					rx = ry = s.r * nagyitas;
 					f1.x = (s.x + eltolas.x + xx) * nagyitas;
 					f1.y = (s.y + eltolas.y + yy) * nagyitas;
 					ellipse = D2D1::Ellipse(f1, rx, ry);
 					pRenderTarget->FillEllipse(ellipse, fekete);
-					pRenderTarget->DrawEllipse(ellipse, fehér, 1);
+					pRenderTarget->DrawEllipse(ellipse, fehÃ©r, 1);
 				}
 		if (a.rp.size() > 0)
 			for (int i = 0; i < a.rp.size(); i++)
@@ -118,13 +118,13 @@ void MainWindow::alk_krv_rajzol(int alk)
 					rrect.rect = rect;
 					rrect.radiusX = r.rrx * nagyitas;  rrect.radiusY = r.rry * nagyitas;
 					pRenderTarget->FillRoundedRectangle(rrect, bp[sz[k]][k]);
-					pRenderTarget->DrawRoundedRectangle(rrect, fehér);
+					pRenderTarget->DrawRoundedRectangle(rrect, fehÃ©r);
 					rx = ry = r.r * nagyitas;
 					f1.x = (r.x + eltolas.x + xx) * nagyitas;
 					f1.y = (r.y + eltolas.y + yy) * nagyitas;
 					ellipse = D2D1::Ellipse(f1, rx, ry);
 					pRenderTarget->FillEllipse(ellipse, fekete);
-					pRenderTarget->DrawEllipse(ellipse, fehér, 1);
+					pRenderTarget->DrawEllipse(ellipse, fehÃ©r, 1);
 				}
 	}
 	if (a.ev.size() > 0)
@@ -136,11 +136,11 @@ void MainWindow::alk_krv_rajzol(int alk)
 			rx = e.rx * nagyitas;  ry = e.ry * nagyitas;
 			ellipse = D2D1::Ellipse(f1, rx, ry);
 			pRenderTarget->FillEllipse(ellipse, cyan);
-			pRenderTarget->DrawEllipse(ellipse, fehér, 1);
+			pRenderTarget->DrawEllipse(ellipse, fehÃ©r, 1);
 			rx = ry = e.r * nagyitas;
 			ellipse = D2D1::Ellipse(f1, rx, ry);
 			pRenderTarget->FillEllipse(ellipse, fekete);
-			pRenderTarget->DrawEllipse(ellipse, fehér, 1);
+			pRenderTarget->DrawEllipse(ellipse, fehÃ©r, 1);
 		}
 	if (a.sv.size() > 0)
 		for (int i = 0; i < a.sv.size(); i++)

@@ -1,2 +1,2 @@
-#pragma once
-using Real = float;   // ha egyszer mégis float kell: csak ezt írd át
+ï»¿#pragma once
+using Real = float;   // ha egyszer mÃ©gis float kell: csak ezt Ã­rd Ã¡t

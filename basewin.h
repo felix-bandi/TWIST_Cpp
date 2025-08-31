@@ -1,7 +1,7 @@
-#ifndef _BASEWIN_H
+ï»¿#ifndef _BASEWIN_H
 #define _BASEWIN_H
 
-// (Ha még nincs máshol, érdemes biztosítani, hogy a Windows definíciók elérhetõk legyenek)
+// (Ha mÃ©g nincs mÃ¡shol, Ã©rdemes biztosÃ­tani, hogy a Windows definÃ­ciÃ³k elÃ©rhetÅ‘k legyenek)
 // #include <Windows.h>
 
 template <class DERIVED_TYPE> 
@@ -42,17 +42,17 @@ public:
         HMENU hMenu = 0
         )
     {
-        // Ellenõrizzük, hogy már regisztrálták-e a class-t (hogy elkerüljük az ütközést).
+        // EllenÅ‘rizzÃ¼k, hogy mÃ¡r regisztrÃ¡ltÃ¡k-e a class-t (hogy elkerÃ¼ljÃ¼k az Ã¼tkÃ¶zÃ©st).
         WNDCLASS existing = {};
         HINSTANCE hInst = GetModuleHandle(NULL);
         if (!GetClassInfo(hInst, ClassName(), &existing))
         {
             WNDCLASS wc = {};
-            wc.style         = CS_HREDRAW | CS_VREDRAW | CS_DBLCLKS;   // <- dupla kattintás engedélyezése
+            wc.style         = CS_HREDRAW | CS_VREDRAW | CS_DBLCLKS;   // <- dupla kattintÃ¡s engedÃ©lyezÃ©se
             wc.lpfnWndProc   = DERIVED_TYPE::WindowProc;
             wc.hInstance     = hInst;
             wc.lpszClassName = ClassName();
-            // (Igény szerint lehet: wc.hCursor = LoadCursor(NULL, IDC_ARROW); wc.hbrBackground = (HBRUSH)(COLOR_WINDOW+1);)
+            // (IgÃ©ny szerint lehet: wc.hCursor = LoadCursor(NULL, IDC_ARROW); wc.hbrBackground = (HBRUSH)(COLOR_WINDOW+1);)
 
             if (!RegisterClass(&wc))
                 return FALSE;

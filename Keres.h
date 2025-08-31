@@ -1,4 +1,4 @@
-#ifndef KERES_H
+﻿#ifndef KERES_H
 #define KERES_H
 
 class Keres

@@ -1,4 +1,4 @@
-#include <windowsx.h>
+﻿#include <windowsx.h>
 #include <Windows.h>
 #include <d2d1.h>
 #include <winuser.h>
@@ -217,7 +217,7 @@ void MainWindow::OnPaint()
 				pRenderTarget->DrawEllipse(ellipse, Brush, 1);
 			}
 		}
-		//Tal�lat.clear();
+		//Találat.clear();
 		if (mode == _torol)
 		{
 			Talalat.clear();

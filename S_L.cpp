@@ -1,4 +1,4 @@
-#include <windowsx.h>
+ï»¿#include <windowsx.h>
 #include <Windows.h>
 #include <d2d1.h>
 #include <winuser.h>
@@ -39,7 +39,7 @@ void MainWindow::Save(mentes ment)
 		f.open(L"rajz.twist");
 		break;
 	case mentes::alkatresz:
-		f.open(L"alkatrészek.alkatrész", std::ios::app);
+		f.open(L"alkatrÃ©szek.alkatrÃ©sz", std::ios::app);
 		a = true;
 			break;
 	}
@@ -172,17 +172,17 @@ void MainWindow::Save(mentes ment)
 	else save = 88;
 }
 
-void MainWindow::Load(mentes tölt)
+void MainWindow::Load(mentes tÃ¶lt)
 {
 	boolean alk = false;
 	std::wifstream f;
-	if(tölt==rajz)
+	if(tÃ¶lt==rajz)
 	{
 		f.open(L"rajz.twist");
 	}
-	if(tölt==alkatresz)
+	if(tÃ¶lt==alkatresz)
 	{
-		f.open(L"alkatrészek.alkatrész");
+		f.open(L"alkatrÃ©szek.alkatrÃ©sz");
 		alk = true;
 	}
 	int alk_szam = -1;
@@ -429,7 +429,7 @@ void MainWindow::Load(mentes tölt)
 	size_t pos = root.find_last_of(L"\\/");
 	if (pos != std::wstring::npos) root.erase(pos); // Debug/Release mappa
 	pos = root.find_last_of(L"\\/");
-	if (pos != std::wstring::npos) root.erase(pos); // Projekt fõkönyvtár
+	if (pos != std::wstring::npos) root.erase(pos); // Projekt fÅ‘kÃ¶nyvtÃ¡r
 	std::wstring alkDir = root + L"\\Alkatreszek";
 	std::wstring rajzDir = root + L"\\Rajzok";
 }
