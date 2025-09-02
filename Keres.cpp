@@ -162,10 +162,10 @@ void MainWindow::POLIGON_keres()
     tali.clear();
     for (size_t i = 0; i < POLIGON_vector.size(); i++)
     {
-        int n = POLIGON_vector[i].pont.size();
+        size_t n = POLIGON_vector[i].pont.size();
         int crossings = 0;
         float px = xx, py = yy;
-        for (int j = 0; j < n; j++)
+        for (size_t j = 0; j < n; j++)
         {
             float x1 = POLIGON_vector[i].pont[j].x;
             float y1 = POLIGON_vector[i].pont[j].y;
@@ -220,7 +220,7 @@ void MainWindow::ALAK_keres()
 	{
 		if ((BOX_ALAK.left <= mouse.x) && (BOX_ALAK.right >= mouse.x) &&
 			((ALAK_vector[i].y1 + BOX_ALAK.top) <= mouse.y) && ((ALAK_vector[i].y2 + BOX_ALAK.top) >= mouse.y))
-			ALAK_k = i;
+			ALAK_k = static_cast<int>(i);
 	}
 }
 
@@ -231,7 +231,7 @@ void MainWindow::MODE_keres()
 	{
 		if ((BOX_MODE.left <= mouse.x) && (BOX_MODE.right >= mouse.x) &&
 			((MODE_vector[i].y1 + BOX_MODE.top) <= mouse.y) && ((MODE_vector[i].y2 + BOX_MODE.top) >= mouse.y))
-			MODE_k = i;
+			MODE_k = static_cast<int>(i);
 	}
 }
 
@@ -242,7 +242,7 @@ void MainWindow::FILE_keres()
 	{
 		if ((BOX_FILE.left <= mouse.x) && (BOX_FILE.right >= mouse.x) &&
 			((FILE_vector[i].y1 + BOX_FILE.top) <= mouse.y) && ((FILE_vector[i].y2 + BOX_FILE.top) >= mouse.y))
-			FILE_k = i;
+			FILE_k = static_cast<int>(i);
 	}
 }
 
@@ -254,7 +254,7 @@ void MainWindow::SZINT_keres()
 	for (size_t i = 0; i < SZINT_vector.size(); i++)
 	{
 		if (SZINT_vector[i].x1 <= mx && SZINT_vector[i].x2 >= mx && SZINT_vector[i].y1 <= my && SZINT_vector[i].y2 >= my)
-			SZINT_k = i;
+			SZINT_k = static_cast<int>(i);
 	}
 }
 
@@ -295,7 +295,7 @@ void MainWindow::GC_keres()
 			float dx = mouse.x - GC_vector[i].x - BOX_GC.left;
 			float dy = mouse.y - GC_vector[i].y - BOX_GC.top;
 			if (GC_vector[i].r >= sqrt(dx * dx + dy * dy))
-				GC_k = i;
+				GC_k = static_cast<int>(i);
 		}
 	}
 }

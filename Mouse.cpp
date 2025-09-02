@@ -359,23 +359,23 @@ void MainWindow::OnLButtonDown(int X, int Y, DWORD flags)
 	}
 	if (grid.k && edit_sz == false)
 	{
-		int h = grid.c.size();
+		size_t h = grid.c.size();
 		edit.c.clear();
-		for (int i = 0; i < h; i++) edit.c.push_back(grid.c[i]);
+		for (size_t i = 0; i < h; i++) edit.c.push_back(grid.c[i]);
 		grid.sz = true;
 		edit_sz = true;
 	}
 	if (BOX_CUSTOM_k && edit_sz == false)
 	{
-		int s = CUSTOM[ALAK_kk].size();
+		size_t s = CUSTOM[ALAK_kk].size();
 		int i = 0;
 		while (s >= 1)
 		{
 			if (CUSTOM_vector[i].k)
 			{
-				int h = CUSTOM[ALAK_kk][i].c.size();
+				size_t h = CUSTOM[ALAK_kk][i].c.size();
 				edit.c.clear();
-				for (int n = 0; n < h; n++) edit.c.push_back(CUSTOM[ALAK_kk][i].c[n]);
+				for (size_t n = 0; n < h; n++) edit.c.push_back(CUSTOM[ALAK_kk][i].c[n]);
 				CUSTOM_vector[i].sz = true;
 				edit_sz = true;
 				custom_sz = true;

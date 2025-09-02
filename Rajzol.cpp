@@ -135,13 +135,13 @@ void MainWindow::ARC_rajzol_2()
 
 void MainWindow::POLIGON_rajzol(vector<POLI> &POLI)
 {
-	int i = POLI.size() - 1;
+	size_t i = POLI.size() - 1;
 	pFactory->CreatePathGeometry(&POLI[i].pg);
 	ID2D1GeometrySink* pSink;
 	POLI[i].pg->Open(&pSink);
 	pSink->SetFillMode(D2D1_FILL_MODE_WINDING);
 	pSink->BeginFigure(POLI[i].pont[0], D2D1_FIGURE_BEGIN_FILLED);
-	pSink->AddLines(pontok, POLI[i].pont.size());
+	pSink->AddLines(pontok, static_cast<UINT32>(POLI[i].pont.size()));
 	pSink->AddLine(POLI[i].pont[0]);
 	pSink->EndFigure(D2D1_FIGURE_END_CLOSED);
 	pSink->Close();
@@ -175,7 +175,7 @@ void MainWindow::POLIGON_rajzol_T()
 	{
 		for (size_t j = 0; j < POLIGON_vector[Talalat[5][i]].pont.size(); j++) pontok[j] = POLIGON_vector[Talalat[5][i]].pont[j];
 		pSink->BeginFigure(POLIGON_vector[Talalat[5][i]].pont[0], D2D1_FIGURE_BEGIN_FILLED);
-		pSink->AddLines(pontok, POLIGON_vector[Talalat[5][i]].pont.size());
+		pSink->AddLines(pontok, static_cast<UINT32>(POLIGON_vector[Talalat[5][i]].pont.size()));
 		pSink->AddLine(POLIGON_vector[Talalat[5][i]].pont[0]);
 		pSink->EndFigure(D2D1_FIGURE_END_CLOSED);
 	}
@@ -185,14 +185,14 @@ void MainWindow::POLIGON_rajzol_T()
 
 void MainWindow::POLIGON_rajzol_2()
 {
-	for (int i = 0; i < count; i++) pontok[i] = poligon[i];
+	for (size_t i = 0; i < count; i++) pontok[i] = poligon[i];
 	SafeRelease(&pPathGeometry_4);
 	pFactory->CreatePathGeometry(&pPathGeometry_4);
 	ID2D1GeometrySink* pSink;
 	pPathGeometry_4->Open(&pSink);
 	pSink->SetFillMode(D2D1_FILL_MODE_WINDING);
 	pSink->BeginFigure(poligon[0], D2D1_FIGURE_BEGIN_FILLED);
-	pSink->AddLines(pontok, count);
+	pSink->AddLines(pontok, static_cast<UINT32>(count));
 	pSink->AddLine(D2D1::Point2F(xx, yy));
 	pSink->AddLine(poligon[0]);
 	pSink->EndFigure(D2D1_FIGURE_END_CLOSED);

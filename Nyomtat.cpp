@@ -64,7 +64,7 @@ void MainWindow::Nyomtat()
 				p[j].y = -iroundf(POLIGON_vector[i].pont[j].y);
 
 			}
-			Polygon(hdc, p, c);
+			Polygon(hdc, p, static_cast<int>(c));
 		}
 	for (size_t i = 0; i < EL_vector.size(); i++)
 		if (EL_vector[i].szint == 0)

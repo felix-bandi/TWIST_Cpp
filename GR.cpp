@@ -250,7 +250,7 @@ void MainWindow::CUSTOM_init()
 		std::wstring wst = string_to_wstring(st);
 		hossz = wst.length();
 		gomb.c.clear();
-		for (int k = 0; k < hossz; k++) gomb.c.push_back(static_cast<char>(wst[k]));
+		for (size_t k = 0; k < hossz; k++) gomb.c.push_back(static_cast<char>(wst[k]));
 		gt.push_back(gomb);
 		
 	}
@@ -271,7 +271,7 @@ void MainWindow::CUSTOM_init()
 		std::wstring wst = string_to_wstring(st);
 		hossz = wst.length();
 		gomb.c.clear();
-		for (int k = 0; k < hossz; k++) gomb.c.push_back(static_cast<char>(wst[k]));
+		for (size_t k = 0; k < hossz; k++) gomb.c.push_back(static_cast<char>(wst[k]));
 		gt.push_back(gomb);
 	}
 	CUSTOM.push_back(gt);
@@ -292,7 +292,7 @@ void MainWindow::CUSTOM_init()
 		std::wstring wst = string_to_wstring(st);
 		hossz = wst.length();
 		gomb.c.clear();
-		for (int k = 0; k < hossz; k++) gomb.c.push_back(static_cast<char>(wst[k]));
+		for (size_t k = 0; k < hossz; k++) gomb.c.push_back(static_cast<char>(wst[k]));
 		gt.push_back(gomb);
 	}
 	CUSTOM.push_back(gt);
@@ -312,7 +312,7 @@ void MainWindow::CUSTOM_init()
 		std::wstring wst = string_to_wstring(st);
 		hossz = wst.length();
 		gomb.c.clear();
-		for (int k = 0; k < hossz; k++) gomb.c.push_back(static_cast<char>(wst[k]));
+		for (size_t k = 0; k < hossz; k++) gomb.c.push_back(static_cast<char>(wst[k]));
 		gt.push_back(gomb);
 	}
 	CUSTOM.push_back(gt);
@@ -333,7 +333,7 @@ void MainWindow::CUSTOM_init()
 		wst = to_wstring(gomb.i);
 		hossz = wst.length();
 		gomb.c.clear();
-		for (int k = 0; k < hossz; k++) gomb.c.push_back(static_cast<char>(wst[k]));
+		for (size_t k = 0; k < hossz; k++) gomb.c.push_back(static_cast<char>(wst[k]));
 		gt.push_back(gomb);
 	}
 	CUSTOM.push_back(gt);
@@ -353,7 +353,7 @@ void MainWindow::CUSTOM_init()
 		std::wstring wst = string_to_wstring(st);
 		hossz = wst.length();
 		gomb.c.clear();
-		for (int k = 0; k < hossz; k++) gomb.c.push_back(static_cast<char>(wst[k]));
+		for (size_t k = 0; k < hossz; k++) gomb.c.push_back(static_cast<char>(wst[k]));
 		gt.push_back(gomb);
 	}
 	CUSTOM.push_back(gt);
@@ -373,7 +373,7 @@ void MainWindow::CUSTOM_init()
 		std::wstring wst = string_to_wstring(st);
 		hossz = wst.length();
 		gomb.c.clear();
-		for (int k = 0; k < hossz; k++) gomb.c.push_back(static_cast<char>(wst[k]));
+		for (size_t k = 0; k < hossz; k++) gomb.c.push_back(static_cast<char>(wst[k]));
 		gt.push_back(gomb);
 	}
 	CUSTOM.push_back(gt);
@@ -394,7 +394,7 @@ void MainWindow::CUSTOM_init()
 		wst = to_wstring(gomb.i);
 		hossz = wst.length();
 		gomb.c.clear();
-		for (int k = 0; k < hossz; k++) gomb.c.push_back(static_cast<char>(wst[k]));
+		for (size_t k = 0; k < hossz; k++) gomb.c.push_back(static_cast<char>(wst[k]));
 		gt.push_back(gomb);
 	}
 	CUSTOM.push_back(gt);
@@ -541,10 +541,10 @@ void MainWindow::GRID_init()
 	grid.t = L"Grid:";
 	grid.c.push_back('1');
 	//grid.c.push_back('0');
-	int h = grid.c.size();
+	size_t h = grid.c.size();
 	char w[10];
 	for (int i = 0; i < 10; i++) w[i] = ' ';
-	for (int i = 0; i < h; i++) w[i] = grid.c[i];
+	for (size_t i = 0; i < h; i++) w[i] = grid.c[i];
 	grid.i = stoi(w);
 }
 

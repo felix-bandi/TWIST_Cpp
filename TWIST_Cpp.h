@@ -73,8 +73,8 @@ class MainWindow : public BaseWindow<MainWindow>
 	wstring					ws_EV[3] = { L"dx", L"dy", L"d" }; int EV_t[3] = { 80, 80, 20 };
 	wstring					ws_SV[3] = { L"dx", L"dy", L"d" }; int SV_t[3] = { 80, 80, 20 };
 	wstring					ws_RV[5] = { L"Width", L"Height", L"rx", L"ry", L"d" }; int RV_t[5] = { 80, 80, 20, 20, 20 };
-	vector<int>				tali;
-	vector<vector<int>>		Talalat;
+	vector<size_t>				tali;
+	vector<vector<size_t>>		Talalat;
 	D2D1_POINT_2F			pont, pont0, pont1;
 	VONAL					vonal;
 	ARC						arc;
@@ -103,8 +103,9 @@ class MainWindow : public BaseWindow<MainWindow>
 	POINT* eger;
 	float rx, rrx, ry, rry, nagyitas, n_sz;
 	float xx, xxx, yy, yyy;
-	int xe, ye, wheel, count, metsz, sz_sz, NN = 0, sz[2], kk;
-	int ALAK_k = -1, ALAK_kk = 0, GC_k = -1, GC_kk = 0, hossz, MODE_k = -1, MODE_kk = 0, SZINT_k = -1, SZINT_kk = 0, alk_sz = 0;
+	int xe, ye, wheel, metsz, sz_sz, sz[2], kk;
+	size_t hossz, count, NN=0;
+	int ALAK_k = -1, ALAK_kk = 0, GC_k = -1, GC_kk = 0, MODE_k = -1, MODE_kk = 0, SZINT_k = -1, SZINT_kk = 0, alk_sz = 0;
 	int FILE_k = -1, FILE_kk = -1, dialog_last_click_index = -1;
 	D2D1_POINT_2F eltolas, hely, ak, av, mouse_grid, p1, p2, p3, p4, f1, f2, mouse;
 	D2D1_SIZE_F meret;

@@ -384,9 +384,9 @@ void MainWindow::Kiir(boolean v, float x, float y)
 	std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> convert;
 	std::wstring wst = convert.from_bytes(st);
 	hossz = wst.length();
-	for (int i = 0; i < hossz; i++) text[i] = wst[i];
+	for (size_t i = 0; i < hossz; i++) text[i] = wst[i];
 	D2D1_RECT_F layoutRect = D2D1::RectF(x, y, x + 300, y);
-	pRenderTarget->DrawText(text, hossz, TF1, layoutRect, Brush);
+	pRenderTarget->DrawText(text, static_cast<UINT32>(hossz), TF1, layoutRect, Brush);
 }
 
 void MainWindow::Kiir(int v, float x, float y)
@@ -395,9 +395,9 @@ void MainWindow::Kiir(int v, float x, float y)
 	std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> convert;
 	std::wstring wst = convert.from_bytes(st);
 	hossz = wst.length();
-	for (int i = 0; i < hossz; i++) text[i] = wst[i];
+	for (size_t i = 0; i < hossz; i++) text[i] = wst[i];
 	D2D1_RECT_F layoutRect = D2D1::RectF(x, y, x + 300, y);
-	pRenderTarget->DrawText(text, hossz, TF1, layoutRect, Brush);
+	pRenderTarget->DrawText(text, static_cast<UINT32>(hossz), TF1, layoutRect, Brush);
 }
 
 void MainWindow::Kiir(int v, D2D1_RECT_F t)
@@ -406,8 +406,8 @@ void MainWindow::Kiir(int v, D2D1_RECT_F t)
 	std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> convert;
 	std::wstring wst = convert.from_bytes(st);
 	hossz = wst.length();
-	for (int i = 0; i < hossz; i++) text[i] = wst[i];
-	pRenderTarget->DrawText(text, hossz, TF1, t, Brush);
+	for (size_t i = 0; i < hossz; i++) text[i] = wst[i];
+	pRenderTarget->DrawText(text, static_cast<UINT32>(hossz), TF1, t, Brush);
 }
 
 void MainWindow::Kiir(const char* s, int v, D2D1_RECT_F t)
@@ -419,8 +419,8 @@ void MainWindow::Kiir(const char* s, int v, D2D1_RECT_F t)
 	wstring wst = convert.from_bytes(st);
 	wstring ww = ws1 + wst;
 	hossz = ww.length();
-	for (int i = 0; i < hossz; i++) text[i] = ww[i];
-	pRenderTarget->DrawText(text, hossz, TF1, t, Brush);
+	for (size_t i = 0; i < hossz; i++) text[i] = ww[i];
+	pRenderTarget->DrawText(text, static_cast<UINT32>(hossz), TF1, t, Brush);
 }
 
 void MainWindow::Kiir(const char* s, D2D1_RECT_F t)
@@ -429,8 +429,8 @@ void MainWindow::Kiir(const char* s, D2D1_RECT_F t)
 	wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> convert;
 	wstring ww = convert.from_bytes(s1);
 	hossz = ww.length();
-	for (int i = 0; i < hossz; i++) text[i] = ww[i];
-	pRenderTarget->DrawText(text, hossz, TF1, t, Brush);
+	for (size_t i = 0; i < hossz; i++) text[i] = ww[i];
+	pRenderTarget->DrawText(text, static_cast<UINT32>(hossz), TF1, t, Brush);
 }
 
 void MainWindow::Kiir(const char* s, float v, float x, float y)
@@ -445,7 +445,7 @@ void MainWindow::Kiir(const char* s, float v, float x, float y)
 	wstring wst = convert.from_bytes(st);
 	wstring ww = ws1 + ws2 + wst;
 	hossz = ww.length();
-	for (int i = 0; i < hossz; i++) text[i] = ww[i];
+	for (size_t i = 0; i < hossz; i++) text[i] = ww[i];
 	D2D1_RECT_F layoutRect = D2D1::RectF(x, y, x + 300, y);
-	pRenderTarget->DrawText(text, hossz, TF1, layoutRect, Brush);
+	pRenderTarget->DrawText(text, static_cast<UINT32>(hossz), TF1, layoutRect, Brush);
 }

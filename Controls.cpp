@@ -62,8 +62,8 @@ void MainWindow::ALAK_rajzol()
 		Brush->SetColor(D2D1::ColorF(D2D1::ColorF::GreenYellow));
 		pRenderTarget->DrawRectangle(rect, Brush, 1);
 		hossz = ALAK_vector[i].t.length();
-		for (int n = 0; n < hossz; n++) text[n] = ALAK_vector[i].t[n];
-		pRenderTarget->DrawText(text, hossz, TF1, rect, Brush);
+		for (size_t n = 0; n < hossz; n++) text[n] = ALAK_vector[i].t[n];
+		pRenderTarget->DrawText(text, static_cast<UINT32>(hossz), TF1, rect, Brush);
 	}
 }
 
@@ -82,8 +82,8 @@ void MainWindow::MODE_rajzol()
 		Brush->SetColor(D2D1::ColorF(D2D1::ColorF::GreenYellow));
 		pRenderTarget->DrawRectangle(rect, Brush, 1);
 		hossz = MODE_vector[i].t.length();
-		for (int n = 0; n < hossz; n++) text[n] = MODE_vector[i].t[n];
-		pRenderTarget->DrawText(text, hossz, TF1, rect, Brush);
+		for (size_t n = 0; n < hossz; n++) text[n] = MODE_vector[i].t[n];
+		pRenderTarget->DrawText(text, static_cast<UINT32>(hossz), TF1, rect, Brush);
 	}
 }
 
@@ -102,8 +102,8 @@ void MainWindow::FILE_rajzol()
 		Brush->SetColor(D2D1::ColorF(D2D1::ColorF::GreenYellow));
 		pRenderTarget->DrawRectangle(rect, Brush, 1);
 		hossz = FILE_vector[i].t.length();
-		for (int n = 0; n < hossz; n++) text[n] = FILE_vector[i].t[n];
-		pRenderTarget->DrawText(text, hossz, TF1, rect, Brush);
+		for (size_t n = 0; n < hossz; n++) text[n] = FILE_vector[i].t[n];
+		pRenderTarget->DrawText(text, static_cast<UINT32>(hossz), TF1, rect, Brush);
 	}
 }
 
@@ -122,8 +122,8 @@ void MainWindow::SZINT_rajzol()
 		Brush->SetColor(D2D1::ColorF(D2D1::ColorF::GreenYellow));
 		pRenderTarget->DrawRectangle(rect, Brush, 1);
 		hossz = SZINT_vector[i].t.length();
-		for (int n = 0; n < hossz; n++) text[n] = SZINT_vector[i].t[n];
-		pRenderTarget->DrawText(text, hossz, TF1, rect, Brush);
+		for (size_t n = 0; n < hossz; n++) text[n] = SZINT_vector[i].t[n];
+		pRenderTarget->DrawText(text, static_cast<UINT32>(hossz), TF1, rect, Brush);
 	}
 }
 
@@ -155,8 +155,8 @@ void MainWindow::List_rajzol()
 		else Brush->SetColor(D2D1::ColorF(D2D1::ColorF::Gray));
 		if (list.kk == i ) Brush->SetColor(D2D1::ColorF(D2D1::ColorF::Orange));
 		hossz = Alkatresz[i].nev.size();
-		for (int j = 0; j < hossz; j++) text[j] = Alkatresz[i].nev[j];
-		pRenderTarget->DrawText(text, hossz, TF2, rect, Brush);
+		for (size_t j = 0; j < hossz; j++) text[j] = Alkatresz[i].nev[j];
+		pRenderTarget->DrawText(text, static_cast<UINT32>(hossz), TF2, rect, Brush);
 	}
 }
 
@@ -219,7 +219,7 @@ void MainWindow::Filedialog_rajzol()
 	}
 
 	// Meghajtó gombok kirajzolása
-	for (int i = 0; i < static_cast<int>(drivers.size()); i++)
+	for (size_t i = 0; i < drivers.size(); i++)
 	{
 		bool ready = IsDriveReady(drivers[i].ch);
 		driver = drivers[i];
@@ -227,7 +227,7 @@ void MainWindow::Filedialog_rajzol()
 
 		bool hover = (driver.left <= mouse.x && driver.right >= mouse.x &&
 			driver.top <= mouse.y && driver.bottom >= mouse.y);
-		if (hover) dialog.kd = i;
+		if (hover) dialog.kd = static_cast<int>(i);
 
 		if (!ready)
 			Brush->SetColor(D2D1::ColorF(D2D1::ColorF::DarkRed));
@@ -295,7 +295,7 @@ void MainWindow::Filedialog_rajzol()
 		if (kOffset > (size_t)dialog.out_N) kOffset = dialog.out_N;
 	}
 
-	for (int i = 0; i < NN; i++)
+	for (size_t i = 0; i < NN; i++)
 	{
 		if (kOffset + i >= fileN) break;
 
@@ -309,7 +309,7 @@ void MainWindow::Filedialog_rajzol()
 
 		if (hover)
 		{
-			dialog.k = i;
+			dialog.k = static_cast<int>(i);
 			Brush->SetColor(D2D1::ColorF(D2D1::ColorF::White));
 		}
 		else Brush->SetColor(D2D1::ColorF(D2D1::ColorF::Gray));
@@ -412,9 +412,9 @@ void MainWindow::CUSTOM_rajzol()
 		rect.bottom = BOX_CUSTOM.top + 25;
 		ws = L"Custom " + alak_nevek[ALAK_kk];
 		hossz = ws.length();
-		for (int n = 0; n < hossz; n++) text[n] = ws[n];
-		pRenderTarget->DrawText(text, hossz, TF1, rect, Brush);
-		int s = CUSTOM[ALAK_kk].size();
+		for (size_t n = 0; n < hossz; n++) text[n] = ws[n];
+		pRenderTarget->DrawText(text, static_cast<UINT32>(hossz), TF1, rect, Brush);
+		size_t s = CUSTOM[ALAK_kk].size();
 		int i = 0;
 		while (s >= 1)
 		{
@@ -424,18 +424,18 @@ void MainWindow::CUSTOM_rajzol()
 			rect.right = BOX_CUSTOM.left + 60;
 			ws = CUSTOM[ALAK_kk][i].t;
 			hossz = ws.length();
-			for (int n = 0; n < hossz; n++) text[n] = ws[n];
+			for (size_t n = 0; n < hossz; n++) text[n] = ws[n];
 			if (CUSTOM_vector[i].sz)
 			{
 				Brush->SetColor(D2D1::ColorF(D2D1::ColorF::Red));
-				pRenderTarget->DrawText(text, hossz, TF1, rect, Brush);
+				pRenderTarget->DrawText(text, static_cast<UINT32>(hossz), TF1, rect, Brush);
 				rect.top = rect.top + 3;
 				rect.left = BOX_CUSTOM.left + 70;
 				rect.right = BOX_CUSTOM.right - 5;
 				pRenderTarget->DrawRectangle(rect, Brush, 1);
 				rect.top = rect.top - 2;
 				for (size_t ii = 0; ii < edit.c.size(); ii++) text[ii] = edit.c[ii];
-				pRenderTarget->DrawText(text, edit.c.size(), TF1, rect, Brush);
+				pRenderTarget->DrawText(text, static_cast<UINT32>(edit.c.size()), TF1, rect, Brush);
 			}
 			else
 			{
@@ -443,7 +443,7 @@ void MainWindow::CUSTOM_rajzol()
 					Brush->SetColor(D2D1::ColorF(D2D1::ColorF::Coral));
 				else
 					Brush->SetColor(D2D1::ColorF(D2D1::ColorF::Blue));
-				pRenderTarget->DrawText(text, hossz, TF1, rect, Brush);
+				pRenderTarget->DrawText(text, static_cast<UINT32>(hossz), TF1, rect, Brush);
 				rect.top = rect.top + 3;
 				rect.left = BOX_CUSTOM.left + 70;
 				rect.right = BOX_CUSTOM.right - 5;
@@ -492,8 +492,8 @@ void MainWindow::ORIGO_rajzol()
 	Brush->SetColor(D2D1::ColorF(D2D1::ColorF::GreenYellow));
 	pRenderTarget->DrawRectangle(origo, Brush, 1);
 	hossz = origo.t.length();
-	for (int n = 0; n < hossz; n++) text[n] = origo.t[n];
-	pRenderTarget->DrawText(text, hossz, TF1, origo, Brush);
+	for (size_t n = 0; n < hossz; n++) text[n] = origo.t[n];
+	pRenderTarget->DrawText(text, static_cast<UINT32>(hossz), TF1, origo, Brush);
 }
 
 void MainWindow::Origo_athelyez()
@@ -546,7 +546,7 @@ void MainWindow::Origo_athelyez()
 		POLIGON_vector[i].pg->Open(&pSink);
 		pSink->SetFillMode(D2D1_FILL_MODE_WINDING);
 		pSink->BeginFigure(POLIGON_vector[i].pont[0], D2D1_FIGURE_BEGIN_FILLED);
-		pSink->AddLines(pontok, POLIGON_vector[i].pont.size());
+		pSink->AddLines(pontok, static_cast<UINT32>(POLIGON_vector[i].pont.size()));
 		pSink->AddLine(POLIGON_vector[i].pont[0]);
 		pSink->EndFigure(D2D1_FIGURE_END_CLOSED);
 		pSink->Close();

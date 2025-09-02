@@ -253,7 +253,8 @@ struct Csuszka :D2D1_RECT_F
 
 struct Dialog :D2D1_RECT_F
 {
-	int k = 0, kk = 0, out_N = 0, kd = 0, kkd = 0;
+	size_t kkd = 0;
+	int k = 0, kk = 0, out_N = 0, kd = 0;
 	Csuszka cs = {};
 	BOOLEAN ini = FALSE, dirchange = FALSE;
 	WIN32_FIND_DATA FindFileData = {}; // Initialize to zero
