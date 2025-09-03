@@ -689,7 +689,7 @@ void MainWindow::UpdateDialogContents()
 
 		dialog.edit.c.clear();
 		std::wstring wst(base);
-		for (auto ch : wst) if (ch < 128) dialog.edit.c.push_back((byte)ch);
+		for (auto ch : wst) if (ch < 128) dialog.edit.c.push_back(static_cast<unsigned char>(ch));
 
 		dialog.ini = true;
 		dialog.dirchange = false;

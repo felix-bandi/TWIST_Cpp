@@ -58,11 +58,11 @@ LRESULT MainWindow::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 	case WM_DPICHANGED:
 	{
-		if (auto rc = DPIScale::HandleDpiChanged(m_hwnd, wParam, lParam))
+		if (auto rc1 = DPIScale::HandleDpiChanged(m_hwnd, wParam, lParam))
 		{
 			SetWindowPos(m_hwnd, nullptr,
-				rc->left, rc->top,
-				rc->right - rc->left, rc->bottom - rc->top,
+				rc1->left, rc1->top,
+				rc1->right - rc1->left, rc1->bottom - rc1->top,
 				SWP_NOZORDER | SWP_NOACTIVATE);
 		}
 

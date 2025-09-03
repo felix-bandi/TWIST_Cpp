@@ -385,77 +385,71 @@ int WINAPI wWinMain(
 void MainWindow::Kiir(boolean v, float x, float y)
 {
 	std::string st = std::to_string(v);
-	//std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> convert;
-	//std::wstring wst = convert.from_bytes(st);
 	std::wstring wst = Utf8ToW(st);
-	hossz = wst.length();
-	for (size_t i = 0; i < hossz; i++) text[i] = wst[i];
+	const size_t cap = std::size(text);                 // ha C++17: works
+	const size_t len = std::min(wst.size(), cap);
+	std::copy_n(wst.data(), len, text);
 	D2D1_RECT_F layoutRect = D2D1::RectF(x, y, x + 300, y);
-	pRenderTarget->DrawText(text, static_cast<UINT32>(hossz), TF1, layoutRect, Brush);
+	pRenderTarget->DrawText(text, static_cast<UINT32>(len), TF1, layoutRect, Brush);
 }
 
 void MainWindow::Kiir(int v, float x, float y)
 {
 	std::string st = std::to_string(v);
-	//std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> convert;
-	//std::wstring wst = convert.from_bytes(st);
 	std::wstring wst = Utf8ToW(st);
-	hossz = wst.length();
-	for (size_t i = 0; i < hossz; i++) text[i] = wst[i];
+	const size_t cap = std::size(text);                 // ha C++17: works
+	const size_t len = std::min(wst.size(), cap);
+	std::copy_n(wst.data(), len, text);
 	D2D1_RECT_F layoutRect = D2D1::RectF(x, y, x + 300, y);
-	pRenderTarget->DrawText(text, static_cast<UINT32>(hossz), TF1, layoutRect, Brush);
+	pRenderTarget->DrawText(text, static_cast<UINT32>(len), TF1, layoutRect, Brush);
 }
 
 void MainWindow::Kiir(int v, D2D1_RECT_F t)
 {
 	std::string st = std::to_string(v);
-	//std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> convert;
-	//std::wstring wst = convert.from_bytes(st);
 	std::wstring wst = Utf8ToW(st);
-	hossz = wst.length();
-	for (size_t i = 0; i < hossz; i++) text[i] = wst[i];
-	pRenderTarget->DrawText(text, static_cast<UINT32>(hossz), TF1, t, Brush);
+	const size_t cap = std::size(text);                 // ha C++17: works
+	const size_t len = std::min(wst.size(), cap);
+	std::copy_n(wst.data(), len, text);
+	pRenderTarget->DrawText(text, static_cast<UINT32>(len), TF1, t, Brush);
 }
 
 void MainWindow::Kiir(const char* s, int v, D2D1_RECT_F t)
 {
-	string s1(s);
-	string st = to_string(v);
-	//wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> convert;
+	//string s1(s);
+	//string st = to_string(v);
 	const std::wstring ws1 = Utf8ToW(s ? std::string(s) : std::string{});//wstring ws1 = convert.from_bytes(s1);
-	const std::wstring wst = std::to_wstring(v);//wstring wst = convert.from_bytes(st);
-	const std::wstring ww = ws1 + wst;
-	//hossz = ww.length();
-	//for (size_t i = 0; i < hossz; i++) text[i] = ww[i];
+	std::wstring wst = std::to_wstring(v);//wstring wst = convert.from_bytes(st);
+	wst = ws1 + wst;
 	const size_t cap = std::size(text);                 // ha C++17: works
-	const size_t len = std::min(ww.size(), cap);
-	std::copy_n(ww.data(), len, text);
-	pRenderTarget->DrawText(text, static_cast<UINT32>(hossz), TF1, t, Brush);
+	const size_t len = std::min(wst.size(), cap);
+	std::copy_n(wst.data(), len, text);
+	pRenderTarget->DrawText(text, static_cast<UINT32>(len), TF1, t, Brush);
 }
 
 void MainWindow::Kiir(const char* s, D2D1_RECT_F t)
 {
 	string s1(s);
-	wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> convert;
-	wstring ww = convert.from_bytes(s1);
-	hossz = ww.length();
-	for (size_t i = 0; i < hossz; i++) text[i] = ww[i];
-	pRenderTarget->DrawText(text, static_cast<UINT32>(hossz), TF1, t, Brush);
+	const std::wstring wst = Utf8ToW(s ? std::string(s) : std::string{});//wstring ww = convert.from_bytes(s1);
+	const size_t cap = std::size(text);                 // ha C++17: works
+	const size_t len = std::min(wst.size(), cap);
+	std::copy_n(wst.data(), len, text);
+	pRenderTarget->DrawText(text, static_cast<UINT32>(len), TF1, t, Brush);
 }
 
 void MainWindow::Kiir(const char* s, float v, float x, float y)
 {
 	const char* c_s = " = ";
-	string s1(s);
-	string s2(c_s);
+	//string s1(s);
+	//string s2(c_s);
 	string st = to_string(v);
-	wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> convert;
-	wstring ws1 = convert.from_bytes(s1);
-	wstring ws2 = convert.from_bytes(s2);
-	wstring wst = convert.from_bytes(st);
-	wstring ww = ws1 + ws2 + wst;
-	hossz = ww.length();
-	for (size_t i = 0; i < hossz; i++) text[i] = ww[i];
+	const std::wstring ws1 = Utf8ToW(s ? std::string(s) : std::string{});//wstring ws1 = convert.from_bytes(s1);
+	const std::wstring ws2 = Utf8ToW(s ? std::string(c_s) : std::string{});//wstring ws2 = convert.from_bytes(s2);
+	std::wstring wst = Utf8ToW(s ? std::string(st) : std::string{});//wstring wst = convert.from_bytes(st);
+	wst = ws1 + ws2 + wst;
+	const size_t cap = std::size(text);                 // ha C++17: works
+	const size_t len = std::min(wst.size(), cap);
+	std::copy_n(wst.data(), len, text);
 	D2D1_RECT_F layoutRect = D2D1::RectF(x, y, x + 300, y);
-	pRenderTarget->DrawText(text, static_cast<UINT32>(hossz), TF1, layoutRect, Brush);
+	pRenderTarget->DrawText(text, static_cast<UINT32>(len), TF1, layoutRect, Brush);
 }

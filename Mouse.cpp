@@ -1,5 +1,7 @@
-﻿#include <windowsx.h>
-#include <Windows.h>
+﻿#include <Windows.h>
+#include <commdlg.h>   // PRINTDLG, PrintDlg, PD_*
+#include <wingdi.h>
+#include <windowsx.h>
 #include <d2d1.h>
 #include <winuser.h>
 #pragma comment(lib, "d2d1")
@@ -23,7 +25,7 @@ void MainWindow::OnLButtonDown(int X, int Y, DWORD flags)
 	flo3 = 333;
 	if (ALAK_k < 0 && GC_k < 0 && !grid.k && !BOX_CUSTOM_k && MODE_k < 0 && mode == _rajzol
 		&& !origo.k && !origo.kk && SZINT_k < 0 && !XY_k && !list.BOX_k)
-		
+
 		if (ALAK_kk >= 0)
 			switch (alak)
 			{
@@ -210,7 +212,7 @@ void MainWindow::OnLButtonDown(int X, int Y, DWORD flags)
 			}
 		else if (list.kk >= 0 && !krv) { krv = true; }
 		else if (list.kk >= 0 && krv) { alk_letesz(list.kk); }
-		
+
 	Blokk_szamol();
 
 	if (ALAK_k >= 0 && !krv)
@@ -269,25 +271,11 @@ void MainWindow::OnLButtonDown(int X, int Y, DWORD flags)
 		case 3:
 			mode = _print;
 			ny_kep = true;
-			/*PRINTDLG pd;
-			
-			ZeroMemory(&pd, sizeof(pd));
-			pd.lStructSize = sizeof(pd);
-			pd.hwndOwner = m_hwnd;
-			pd.hDevMode = NULL;     // Don't forget to free or store hDevMode.
-			pd.hDevNames = NULL;     // Don't forget to free or store hDevNames.
-			pd.Flags = PD_USEDEVMODECOPIESANDCOLLATE | PD_RETURNDC;
-			pd.nCopies = 1;
-			pd.nFromPage = 0xFFFF;
-			pd.nToPage = 0xFFFF;
-			pd.nMinPage = 1;
-			pd.nMaxPage = 0xFFFF;*/
-			
-			PRINTDLG pd = {0};
+			PRINTDLG pd = { 0 };
 			pd.lStructSize = sizeof(pd);
 			pd.hwndOwner = m_hwnd;
 			pd.Flags = PD_RETURNDC;
-						
+
 			static DOCINFO di = { sizeof(DOCINFO), TEXT("Test Page : Printing...") };
 			if (PrintDlg(&pd) == TRUE)
 			{
@@ -302,7 +290,7 @@ void MainWindow::OnLButtonDown(int X, int Y, DWORD flags)
 				if (flo6 / flo5 > 1.4143f) flo6 = flo5 * 1.4143f;
 				int5 = int(flo5);
 				int6 = int(flo6);
-				
+
 				StartDoc(hdc, &di);
 				StartPage(hdc);
 				GetClientRect(m_hwnd, &rc);
@@ -314,8 +302,8 @@ void MainWindow::OnLButtonDown(int X, int Y, DWORD flags)
 
 				EndPage(hdc);
 				EndDoc(hdc);
-				RestoreDC(hdc, TRUE);				
-			}		
+				RestoreDC(hdc, TRUE);
+			}
 			break;
 		}
 		MODE_kk = MODE_k;
