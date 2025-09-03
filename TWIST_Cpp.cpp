@@ -9,7 +9,6 @@
 #include <string>
 #include <memory>
 #include <locale>
-#include <codecvt>
 #define _USE_MATH_DEFINES
 #include <math.h>
 #include <stdlib.h>
@@ -382,7 +381,7 @@ int WINAPI wWinMain(
     return 0;
 }
 
-void MainWindow::Kiir(boolean v, float x, float y)
+void MainWindow::Kiir(bool v, float x, float y)
 {
 	std::string st = std::to_string(v);
 	std::wstring wst = Utf8ToW(st);

@@ -9,7 +9,6 @@
 #include <string>
 #include <memory>
 #include <locale>
-#include <codecvt>
 #define _USE_MATH_DEFINES
 #include <math.h>
 #include <stdlib.h>

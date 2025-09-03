@@ -9,7 +9,6 @@
 #include <string>
 #include <memory>
 #include <locale>
-#include <codecvt>
 #define _USE_MATH_DEFINES
 #include <math.h>
 #include <stdlib.h>
@@ -33,7 +32,7 @@ using namespace std;
 
 void MainWindow::Save(mentes ment)
 {
-	boolean a = false;
+	bool a = false;
 	std::wofstream f;
 	switch (ment)
 	{
@@ -176,7 +175,7 @@ void MainWindow::Save(mentes ment)
 
 void MainWindow::Load(mentes tölt)
 {
-	boolean alk = false;
+	bool alk = false;
 	std::wifstream f;
 	if(tölt==rajz)
 	{
@@ -199,8 +198,6 @@ void MainWindow::Load(mentes tölt)
 		while (f.good())
 		{
 			getline(f, wsor);
-			//std::wstring_convert<std::codecvt_utf8<wchar_t>> conv;
-			//std::string sor = conv.to_bytes(wsor);
 			std::string sor = WToUtf8(wsor);
 			strncpy_s(s, sizeof(s), sor.c_str(), sizeof(s) - 1);
 			strncpy_s(ss, sizeof(ss), sor.c_str(), sizeof(ss) - 1);

@@ -174,9 +174,9 @@ struct GOMB:D2D1_RECT_F
 	float y1 = 0;
 	float x2 = 0;
 	float y2 = 0;
-	boolean k = false;
-	boolean kk = false;
-	boolean sz = false;
+	bool k = false;
+	bool kk = false;
+	bool sz = false;
 	wstring t;
 	vector<char> c;
 	int i = 0;
@@ -186,8 +186,8 @@ struct GOMB:D2D1_RECT_F
 struct GOMB_1
 {
 	D2D1_RECT_F r;
-	boolean k=false;
-	boolean kk=false;
+	bool k=false;
+	bool kk=false;
 	wstring t;
 };
 
@@ -196,13 +196,13 @@ struct GOMB_2:D2D1_RECT_F
 	char ch = '\0'; // Initialize to null character
 	wstring t;
 	WCHAR tt[MAX_PATH] = { 0 }; // Initialize all elements to zero
-	boolean k = false; // Initialize to false
+	bool k = false; // Initialize to false
 	GOMB_2() { top = 0; left = 0; bottom = 0; right = 0; }
 };
 
 struct EDIT :D2D1_RECT_F
 {
-    boolean sz = false, k = false, kk = false; // Initialize all boolean members to false
+    bool sz = false, k = false, kk = false; // Initialize all bool members to false
     vector<u8> c;
     u8 tt[MAX_PATH] = { 0 }; // Initialize all elements to zero
 	EDIT() { top = 0; left = 0; bottom = 0; right = 0; } // Default constructor initializing rectangle members to zero
@@ -210,9 +210,9 @@ struct EDIT :D2D1_RECT_F
 
 struct EDIT_W : D2D1_RECT_F
 {
-    boolean sz=false;
-    boolean k=false;
-    boolean kk=false;
+    bool sz=false;
+    bool k=false;
+    bool kk=false;
     std::wstring c;
     WCHAR tt[MAX_PATH];
     EDIT_W()
@@ -273,7 +273,7 @@ struct List :D2D1_RECT_F
 {
 	int k=0, kk=0, out_N=0, kd=0, kkd=0;
 	Csuszka cs = {};
-	boolean BOX_k=false;
+	bool BOX_k=false;
 	List() { top = 0; left = 0; bottom = 0; right = 0; BOX_k = false; }	
 };
 

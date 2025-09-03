@@ -9,7 +9,6 @@
 #include <string>
 #include <memory>
 #include <locale>
-#include <codecvt>
 #define _USE_MATH_DEFINES
 #include <math.h>
 #include <stdlib.h>
@@ -23,7 +22,7 @@ using namespace std;
 #define M_PI_2  1.57079632679489661923f
 void MainWindow::VONAL_keres()
 {
-	boolean tl;
+	bool tl;
 	tali.clear();
 	for (size_t i = 0; i < VONAL_vector.size(); i++)
 	{
@@ -188,7 +187,7 @@ void MainWindow::POLIGON_keres()
 void MainWindow::ARC_keres()
 {
 	double r, dx, dy, szog, d, ksz, vsz;
-	boolean ff1, ff2, f3, f4;
+	bool ff1, ff2, f3, f4;
 	tali.clear();
 	for (size_t i = 0; i < ARC_vector.size(); i++)
 	{
@@ -203,7 +202,7 @@ void MainWindow::ARC_keres()
 		if (szog < -M_PI) szog += 2 * M_PI;
 		if (szog > M_PI) szog -= 2 * M_PI;
 		if (szog > ksz && szog < vsz) ff2 = true; else ff2 = false;
-		if (ARC_vector[i].i == D2D1_SWEEP_DIRECTION_CLOCKWISE) ff2 = ~ff2;
+		if (ARC_vector[i].i == D2D1_SWEEP_DIRECTION_CLOCKWISE) ff2 = !ff2;
 		double h = sqrt((ARC_vector[i].xk - xx) * (ARC_vector[i].xk - xx) + (ARC_vector[i].yk - yy) * (ARC_vector[i].yk - yy));
 		h_ = sqrt((ARC_vector[i].xv - xx) * (ARC_vector[i].xv - xx) + (ARC_vector[i].yv - yy) * (ARC_vector[i].yv - yy));
 		if (h < ARC_vector[i].v / 2) f3 = true; else f3 = false;

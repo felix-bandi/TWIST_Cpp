@@ -130,7 +130,7 @@ public:
 	void    OnRButtonDown(int pixelX, int pixelY, DWORD flags);
 	void    OnMouseMove(int pixelX, int pixelY, DWORD flags);
 	void	OnMouseWheel(int d);
-	void	Kiir(boolean v, float x, float y);
+	void	Kiir(bool v, float x, float y);
 	void	Kiir(int v, float x, float y);
 	void	Kiir(int v, D2D1_RECT_F t);
 	void	Kiir(const char* s, int v, D2D1_RECT_F t);
