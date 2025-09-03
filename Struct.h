@@ -1,4 +1,5 @@
-﻿#include <vector>
+﻿#include "Types.h"
+#include <vector>
 #include <Windows.h>
 #pragma once
 #include "Precision.h"
@@ -202,8 +203,8 @@ struct GOMB_2:D2D1_RECT_F
 struct EDIT :D2D1_RECT_F
 {
     boolean sz = false, k = false, kk = false; // Initialize all boolean members to false
-    vector<byte> c;
-    byte tt[MAX_PATH] = { 0 }; // Initialize all elements to zero
+    vector<u8> c;
+    u8 tt[MAX_PATH] = { 0 }; // Initialize all elements to zero
 	EDIT() { top = 0; left = 0; bottom = 0; right = 0; } // Default constructor initializing rectangle members to zero
 };
 

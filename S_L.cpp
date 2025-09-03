@@ -20,6 +20,8 @@ using namespace std;
 #include <fstream>
 #include <cstring>
 #include <wincodec.h>
+#include "StringConv.h"
+
 /*void MainWindow::Save_alkatresz()
 {
 	ofstream alkatresz("alkatreszek.alk", ios::app);
@@ -197,8 +199,9 @@ void MainWindow::Load(mentes tölt)
 		while (f.good())
 		{
 			getline(f, wsor);
-			std::wstring_convert<std::codecvt_utf8<wchar_t>> conv;
-			std::string sor = conv.to_bytes(wsor);
+			//std::wstring_convert<std::codecvt_utf8<wchar_t>> conv;
+			//std::string sor = conv.to_bytes(wsor);
+			std::string sor = WToUtf8(wsor);
 			strncpy_s(s, sizeof(s), sor.c_str(), sizeof(s) - 1);
 			strncpy_s(ss, sizeof(ss), sor.c_str(), sizeof(ss) - 1);
 			a = strtok_s(s, " ", &b);

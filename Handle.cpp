@@ -33,7 +33,7 @@ LRESULT MainWindow::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		{
 			return -1;  // Fail CreateWindowEx.
 		}
-		DPIScale::Initialize(pFactory);
+		DPIScale::Initialize(m_hwnd);
 		eltolas.x = 0; eltolas.y = 0;
 		nagyitas = 1;
 		wheel = 0;
@@ -55,6 +55,24 @@ LRESULT MainWindow::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 	case WM_SIZE:
 		Resize();
 		return 0;
+
+	case WM_DPICHANGED:
+	{
+		if (auto rc = DPIScale::HandleDpiChanged(m_hwnd, wParam, lParam))
+		{
+			SetWindowPos(m_hwnd, nullptr,
+				rc->left, rc->top,
+				rc->right - rc->left, rc->bottom - rc->top,
+				SWP_NOZORDER | SWP_NOACTIVATE);
+		}
+
+		// Ha van D2D HWND render target-ed: érdemes újrakreálni vagy SetDpi-t hívni.
+		// Példa: ha újrakreálod, itt jelöld meg újraépítésre:
+		// needRecreateD2D = true;
+
+		InvalidateRect(m_hwnd, nullptr, TRUE);
+		return 0;
+	}
 
 	case WM_LBUTTONDOWN:
 		OnLButtonDown(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam), (DWORD)wParam);
@@ -241,7 +259,7 @@ LRESULT MainWindow::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 						grid.c.clear();
 						for (int n = 0; n < h; n++) grid.c.push_back(edit.c[n]);
 						grid.sz = false;
-						char w[10];
+						char w[10]{};
 						for (int j = 0; j < 10; j++) w[j] = ' ';
 						for (int j = 0; j < h; j++) w[j] = grid.c[j];
 						grid.i = stoi(w);
@@ -259,7 +277,7 @@ LRESULT MainWindow::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 								for (int n = 0; n < h; n++) CUSTOM[ALAK_kk][i].c.push_back(edit.c[n]);
 								custom_sz = false;
 								CUSTOM_vector[i].sz = false;
-								char w[10];
+								char w[10]{};
 								for (int j = 0; j < 10; j++) w[j] = ' ';
 								for (int j = 0; j < h; j++) w[j] = CUSTOM[ALAK_kk][i].c[j];
 								CUSTOM[ALAK_kk][i].i = stoi(w);

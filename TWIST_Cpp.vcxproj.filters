@@ -42,6 +42,9 @@
     <ClInclude Include="PrintHelpers.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="StringConv.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TWIST_Cpp.cpp">
@@ -79,6 +82,9 @@
     </ClCompile>
     <ClCompile Include="Nyomtat.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Types.h">
+      <Filter>Header Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

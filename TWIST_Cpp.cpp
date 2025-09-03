@@ -18,6 +18,9 @@ using namespace std;
 #include "TWIST_Cpp.h"
 #include "DPIScale.h"
 #include <crtdbg.h>
+#include "StringConv.h"
+#include <algorithm>
+
 
 void MainWindow::OnPaint()
 {
@@ -350,6 +353,7 @@ int WINAPI wWinMain(
     _In_ PWSTR pCmdLine,
     _In_ int nCmdShow)
 {
+	DPIScale::EnsureProcessDpiAwareness();
     _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
     MainWindow* win = new MainWindow();
 
@@ -381,8 +385,9 @@ int WINAPI wWinMain(
 void MainWindow::Kiir(boolean v, float x, float y)
 {
 	std::string st = std::to_string(v);
-	std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> convert;
-	std::wstring wst = convert.from_bytes(st);
+	//std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> convert;
+	//std::wstring wst = convert.from_bytes(st);
+	std::wstring wst = Utf8ToW(st);
 	hossz = wst.length();
 	for (size_t i = 0; i < hossz; i++) text[i] = wst[i];
 	D2D1_RECT_F layoutRect = D2D1::RectF(x, y, x + 300, y);
@@ -392,8 +397,9 @@ void MainWindow::Kiir(boolean v, float x, float y)
 void MainWindow::Kiir(int v, float x, float y)
 {
 	std::string st = std::to_string(v);
-	std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> convert;
-	std::wstring wst = convert.from_bytes(st);
+	//std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> convert;
+	//std::wstring wst = convert.from_bytes(st);
+	std::wstring wst = Utf8ToW(st);
 	hossz = wst.length();
 	for (size_t i = 0; i < hossz; i++) text[i] = wst[i];
 	D2D1_RECT_F layoutRect = D2D1::RectF(x, y, x + 300, y);
@@ -403,8 +409,9 @@ void MainWindow::Kiir(int v, float x, float y)
 void MainWindow::Kiir(int v, D2D1_RECT_F t)
 {
 	std::string st = std::to_string(v);
-	std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> convert;
-	std::wstring wst = convert.from_bytes(st);
+	//std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> convert;
+	//std::wstring wst = convert.from_bytes(st);
+	std::wstring wst = Utf8ToW(st);
 	hossz = wst.length();
 	for (size_t i = 0; i < hossz; i++) text[i] = wst[i];
 	pRenderTarget->DrawText(text, static_cast<UINT32>(hossz), TF1, t, Brush);
@@ -414,12 +421,15 @@ void MainWindow::Kiir(const char* s, int v, D2D1_RECT_F t)
 {
 	string s1(s);
 	string st = to_string(v);
-	wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> convert;
-	wstring ws1 = convert.from_bytes(s1);
-	wstring wst = convert.from_bytes(st);
-	wstring ww = ws1 + wst;
-	hossz = ww.length();
-	for (size_t i = 0; i < hossz; i++) text[i] = ww[i];
+	//wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> convert;
+	const std::wstring ws1 = Utf8ToW(s ? std::string(s) : std::string{});//wstring ws1 = convert.from_bytes(s1);
+	const std::wstring wst = std::to_wstring(v);//wstring wst = convert.from_bytes(st);
+	const std::wstring ww = ws1 + wst;
+	//hossz = ww.length();
+	//for (size_t i = 0; i < hossz; i++) text[i] = ww[i];
+	const size_t cap = std::size(text);                 // ha C++17: works
+	const size_t len = std::min(ww.size(), cap);
+	std::copy_n(ww.data(), len, text);
 	pRenderTarget->DrawText(text, static_cast<UINT32>(hossz), TF1, t, Brush);
 }
 
