@@ -95,10 +95,10 @@ class MainWindow : public BaseWindow<MainWindow>
 	D2D1_MATRIX_3X2_F		sc, tr, sc_alk, tr_alk;
 	HDC						hdc;
 	// ReSharper disable once IdentifierTypo
-	BOOLEAN krv = false, vonalfolyamatban = false, arcfolyamatban = false, polifolyamatban = false;
-	BOOLEAN EL_folyamatban = false, SQ_folyamatban = false, RR_folyamatban = false, BOX_GC_k = false, BOX_CUSTOM_k = false;
-	BOOLEAN EV_folyamatban = false, SV_folyamatban = false, RV_folyamatban = false, ny_kep = false;
-	BOOLEAN edit_k = false, edit_t = false, edit_sz = false, custom_sz = false, betoltes = false, vanrajz = false, XY_k=false;
+	bool krv = false, vonalfolyamatban = false, arcfolyamatban = false, polifolyamatban = false;
+	bool EL_folyamatban = false, SQ_folyamatban = false, RR_folyamatban = false, BOX_GC_k = false, BOX_CUSTOM_k = false;
+	bool EV_folyamatban = false, SV_folyamatban = false, RV_folyamatban = false, ny_kep = false;
+	bool edit_k = false, edit_t = false, edit_sz = false, custom_sz = false, betoltes = false, vanrajz = false, XY_k=false;
 	//POINT ablak;
 	POINT* eger;
 	float rx, rrx, ry, rry, nagyitas, n_sz;

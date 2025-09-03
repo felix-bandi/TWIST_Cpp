@@ -18,7 +18,7 @@ using namespace std;
 
 void MainWindow::Torol()
 {
-	BOOLEAN t;
+	bool t;
 
 	VONAL_v.clear();
 	for (size_t i = 0; i < VONAL_vector.size(); i++)

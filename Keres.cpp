@@ -397,7 +397,7 @@ void MainWindow::Blokk_szamol()
 	{
 		if (vanrajz)
 		{
-			BOOLEAN k1, k2, k3, k4;
+			bool k1, k2, k3, k4;
 			float vsz2, ksz2;
 			for (int j = 0; j < static_cast<int>(VONAL_vector.size()); j++)
 				if (VONAL_vector[j].blokk == i)

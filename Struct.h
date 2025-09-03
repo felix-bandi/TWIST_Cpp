@@ -247,7 +247,7 @@ struct Csuszka :D2D1_RECT_F
 	float p=0, pp=0, value=0;
 	float length=0;
 	float sz=0;
-	BOOLEAN v=false, k=false, kk=false;
+	bool v=false, k=false, kk=false;
 	D2D1_RECT_F bar;
 	Csuszka() { top = 0; left = 0; bottom = 0; right = 0; }
 };
@@ -257,7 +257,7 @@ struct Dialog :D2D1_RECT_F
 	size_t kkd = 0;
 	int k = 0, kk = 0, out_N = 0, kd = 0;
 	Csuszka cs = {};
-	BOOLEAN ini = FALSE, dirchange = FALSE;
+	bool ini = FALSE, dirchange = FALSE;
 	WIN32_FIND_DATA FindFileData = {}; // Initialize to zero
 	HANDLE hFind = nullptr;
 	WCHAR filepath[MAX_PATH] = { 0 };
