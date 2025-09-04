@@ -45,6 +45,9 @@
     <ClInclude Include="StringConv.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Printers.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TWIST_Cpp.cpp">

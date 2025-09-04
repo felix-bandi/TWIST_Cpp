@@ -19,6 +19,8 @@ using namespace std;
 #include <fstream>
 #include <cstring>
 #include "DPIScale.h"
+#include "printers.h"
+#include <sstream>
 
 
 LRESULT MainWindow::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
@@ -40,6 +42,21 @@ LRESULT MainWindow::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		ScreenHeight = GetSystemMetrics(SM_CYSCREEN);
 		MoveWindow(m_hwnd, 0, 0, ScreenWidth, ScreenHeight, 0);
 		grid.i = 1;
+		// --- Nyomtatók listázása induláskor (inline) ---
+		{
+			auto printers = GetAllPrinters();
+			for (const auto& p : printers) {
+				std::wstringstream ss;
+				ss << L"[Printer] " << p.name
+					<< (p.isDefault ? L"  (DEFAULT)" : L"")
+					<< L"\r\n  Driver: " << p.driver
+					<< L"\r\n  Port:   " << p.port
+					<< L"\r\n  Status: 0x" << std::hex << p.status << std::dec
+					<< L"\r\n";
+				OutputDebugStringW(ss.str().c_str());
+			}
+		}
+		// -----------------------------------------------
 		return 0;
 
 	case WM_DESTROY:
@@ -82,7 +99,6 @@ LRESULT MainWindow::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	case WM_LBUTTONDBLCLK:
-	{
 		// Duplakatt kezelés – könyvtárba belépés fájl módnál
 		if (mode == _file)
 		{
@@ -110,7 +126,7 @@ LRESULT MainWindow::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 					size_t absIndex = scrollOffset + (size_t)relatívSor;
 					if (absIndex < File_vector.size())
 					{
-						WIN32_FIND_DATA &ffd = File_vector[absIndex];
+						WIN32_FIND_DATA& ffd = File_vector[absIndex];
 						bool isDir = (ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) != 0;
 						if (isDir)
 						{
@@ -153,7 +169,6 @@ LRESULT MainWindow::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			}
 		}
 		return 0;
-	}
 
 	case WM_RBUTTONDOWN:
 		OnRButtonDown(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam), (DWORD)wParam);
@@ -175,7 +190,7 @@ LRESULT MainWindow::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			if (wParam == 0x4C) Load(rajz);		// 'L'
 			if (wParam == 0x44) Load(alkatresz);// 'D'
 			if (wParam == VK_DELETE && mode == _torol) Torol();
-			if (wParam == VK_ESCAPE)  DestroyWindow(m_hwnd);
+			//if (wParam == VK_ESCAPE)  DestroyWindow(m_hwnd);
 		}
 		if (wParam == VK_ESCAPE)  DestroyWindow(m_hwnd);
 		if (wParam == VK_F6)
@@ -221,7 +236,8 @@ LRESULT MainWindow::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 				break;
 			}
 			return 0;
-		}		
+		}
+		break;
 	case WM_CHAR:
 		if (dialog.edit.sz)
 		{
@@ -237,66 +253,66 @@ LRESULT MainWindow::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		{
 			switch (wParam)
 			{
-				case 0x30: if (edit.c.size() < 4) edit.c.push_back('0'); break;
-				case 0x31: if (edit.c.size() < 4) edit.c.push_back('1'); break;
-				case 0x32: if (edit.c.size() < 4) edit.c.push_back('2'); break;
-				case 0x33: if (edit.c.size() < 4) edit.c.push_back('3'); break;
-				case 0x34: if (edit.c.size() < 4) edit.c.push_back('4'); break;
-				case 0x35: if (edit.c.size() < 4) edit.c.push_back('5'); break;
-				case 0x36: if (edit.c.size() < 4) edit.c.push_back('6'); break;
-				case 0x37: if (edit.c.size() < 4) edit.c.push_back('7'); break;
-				case 0x38: if (edit.c.size() < 4) edit.c.push_back('8'); break;
-				case 0x39: if (edit.c.size() < 4) edit.c.push_back('9'); break;
-				case VK_BACK: if (!edit.c.empty()) edit.c.pop_back(); break;
-				case VK_RETURN: 
+			case 0x30: if (edit.c.size() < 4) edit.c.push_back('0'); break;
+			case 0x31: if (edit.c.size() < 4) edit.c.push_back('1'); break;
+			case 0x32: if (edit.c.size() < 4) edit.c.push_back('2'); break;
+			case 0x33: if (edit.c.size() < 4) edit.c.push_back('3'); break;
+			case 0x34: if (edit.c.size() < 4) edit.c.push_back('4'); break;
+			case 0x35: if (edit.c.size() < 4) edit.c.push_back('5'); break;
+			case 0x36: if (edit.c.size() < 4) edit.c.push_back('6'); break;
+			case 0x37: if (edit.c.size() < 4) edit.c.push_back('7'); break;
+			case 0x38: if (edit.c.size() < 4) edit.c.push_back('8'); break;
+			case 0x39: if (edit.c.size() < 4) edit.c.push_back('9'); break;
+			case VK_BACK: if (!edit.c.empty()) edit.c.pop_back(); break;
+			case VK_RETURN:
+			{
+				edit_sz = false;
+				if (edit.c.empty()) edit.c.push_back('1');
+				if (grid.sz)
 				{
-					edit_sz = false;				
-					if (edit.c.empty()) edit.c.push_back('1');
-					if (grid.sz)
+					int h = (int)edit.c.size();
+					grid.c.clear();
+					for (int n = 0; n < h; n++) grid.c.push_back(edit.c[n]);
+					grid.sz = false;
+					char w[10]{};
+					for (int j = 0; j < 10; j++) w[j] = ' ';
+					for (int j = 0; j < h; j++) w[j] = grid.c[j];
+					grid.i = stoi(w);
+				}
+				if (custom_sz)
+				{
+					int s = (int)CUSTOM[ALAK_kk].size();
+					int i = 0;
+					while (s >= 1)
 					{
-						int h = (int)edit.c.size();
-						grid.c.clear();
-						for (int n = 0; n < h; n++) grid.c.push_back(edit.c[n]);
-						grid.sz = false;
-						char w[10]{};
-						for (int j = 0; j < 10; j++) w[j] = ' ';
-						for (int j = 0; j < h; j++) w[j] = grid.c[j];
-						grid.i = stoi(w);
-					}
-					if (custom_sz)
-					{
-						int s = (int)CUSTOM[ALAK_kk].size();
-						int i = 0;
-						while (s >= 1)
+						if (CUSTOM_vector[i].sz)
 						{
-							if (CUSTOM_vector[i].sz)
-							{
-								int h = (int)edit.c.size();
-								CUSTOM[ALAK_kk][i].c.clear();
-								for (int n = 0; n < h; n++) CUSTOM[ALAK_kk][i].c.push_back(edit.c[n]);
-								custom_sz = false;
-								CUSTOM_vector[i].sz = false;
-								char w[10]{};
-								for (int j = 0; j < 10; j++) w[j] = ' ';
-								for (int j = 0; j < h; j++) w[j] = CUSTOM[ALAK_kk][i].c[j];
-								CUSTOM[ALAK_kk][i].i = stoi(w);
-							}
-							i++;
-							s--;
+							int h = (int)edit.c.size();
+							CUSTOM[ALAK_kk][i].c.clear();
+							for (int n = 0; n < h; n++) CUSTOM[ALAK_kk][i].c.push_back(edit.c[n]);
+							custom_sz = false;
+							CUSTOM_vector[i].sz = false;
+							char w[10]{};
+							for (int j = 0; j < 10; j++) w[j] = ' ';
+							for (int j = 0; j < h; j++) w[j] = CUSTOM[ALAK_kk][i].c[j];
+							CUSTOM[ALAK_kk][i].i = stoi(w);
 						}
-						vonal_t[0] = CUSTOM[0][0].i;
-						kor_t[0] = CUSTOM[1][0].i;
-						EL_t[0] = CUSTOM[3][0].i; EL_t[1] = CUSTOM[3][1].i; EL_t[2] = CUSTOM[3][2].i;
-						SQ_t[0] = CUSTOM[4][0].i; SQ_t[1] = CUSTOM[4][1].i; SQ_t[2] = CUSTOM[4][2].i;
-						RR_t[0] = CUSTOM[5][0].i; RR_t[1] = CUSTOM[5][1].i; RR_t[2] = CUSTOM[5][2].i;
-						RR_t[3] = CUSTOM[5][3].i; RR_t[4] = CUSTOM[5][4].i;
-						EV_t[0] = CUSTOM[6][0].i; EV_t[1] = CUSTOM[6][1].i; EV_t[2] = CUSTOM[6][2].i;
-						SV_t[0] = CUSTOM[7][0].i; SV_t[1] = CUSTOM[7][1].i; SV_t[2] = CUSTOM[7][2].i;
-						RV_t[0] = CUSTOM[8][0].i; RV_t[1] = CUSTOM[8][1].i; RV_t[2] = CUSTOM[8][2].i;
-						RV_t[3] = CUSTOM[8][3].i; RV_t[4] = CUSTOM[8][4].i;
+						i++;
+						s--;
 					}
-				} break;
-			}				
+					vonal_t[0] = CUSTOM[0][0].i;
+					kor_t[0] = CUSTOM[1][0].i;
+					EL_t[0] = CUSTOM[3][0].i; EL_t[1] = CUSTOM[3][1].i; EL_t[2] = CUSTOM[3][2].i;
+					SQ_t[0] = CUSTOM[4][0].i; SQ_t[1] = CUSTOM[4][1].i; SQ_t[2] = CUSTOM[4][2].i;
+					RR_t[0] = CUSTOM[5][0].i; RR_t[1] = CUSTOM[5][1].i; RR_t[2] = CUSTOM[5][2].i;
+					RR_t[3] = CUSTOM[5][3].i; RR_t[4] = CUSTOM[5][4].i;
+					EV_t[0] = CUSTOM[6][0].i; EV_t[1] = CUSTOM[6][1].i; EV_t[2] = CUSTOM[6][2].i;
+					SV_t[0] = CUSTOM[7][0].i; SV_t[1] = CUSTOM[7][1].i; SV_t[2] = CUSTOM[7][2].i;
+					RV_t[0] = CUSTOM[8][0].i; RV_t[1] = CUSTOM[8][1].i; RV_t[2] = CUSTOM[8][2].i;
+					RV_t[3] = CUSTOM[8][3].i; RV_t[4] = CUSTOM[8][4].i;
+				}
+			} break;
+			}
 		}
 		else if (korfazis == 2 && wParam == VK_SPACE)
 		{
