@@ -21,6 +21,14 @@ void MainWindow::Nyomtat()
 {
 	int x0, y0, x1, y1;
 	POINT p[100] = {};
+	for (auto& e : VONAL_vector)
+		if (e.szint == 0)
+			e.vint = std::max(1, iroundf(e.v));
+
+	for (auto& e : ARC_vector)
+		if (e.szint == 0)
+			e.vint = std::max(1, iroundf(e.v));
+
 
 	for (size_t i = 0; i < VONAL_vector.size(); i++)
 		if (VONAL_vector[i].szint == 0)
