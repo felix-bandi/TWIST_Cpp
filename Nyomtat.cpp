@@ -12,43 +12,54 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 #include <stdlib.h>
-//#include <time.h>
 using namespace std;
 #include "TWIST_Cpp.h"
 #include "PrintHelpers.h"
+#include <set>
+#include <map>
 
 void MainWindow::Nyomtat()
 {
 	int x0, y0, x1, y1;
 	POINT p[100] = {};
+	for (auto& e : VONAL_vector)
+		if (e.szint == 0)
+			e.vint = std::max(1, iroundf(e.v));
+
+	for (auto& e : ARC_vector)
+		if (e.szint == 0)
+			e.vint = std::max(1, iroundf(e.v));
+
+
+	HPEN oldpen = (HPEN)GetCurrentObject(hdc, OBJ_PEN);
 
 	for (size_t i = 0; i < VONAL_vector.size(); i++)
 		if (VONAL_vector[i].szint == 0)
 		{
-			HPEN Pen = CreatePen(PS_SOLID, iroundf(VONAL_vector[i].v), RGB(0, 0, 0));
-			SelectObject(hdc, Pen);
+			SelectObject(hdc, tollak.at(VONAL_vector[i].vint));
 			x0 = iroundf(VONAL_vector[i].x1);
 			y0 = -iroundf(VONAL_vector[i].y1);
 			MoveToEx(hdc, x0, y0, NULL);
 			x0 = iroundf(VONAL_vector[i].x2);
 			y0 = -iroundf(VONAL_vector[i].y2);
 			LineTo(hdc, x0, y0);
-			DeleteObject(Pen);
 		}
 	for (size_t i = 0; i < ARC_vector.size(); i++)
 		if (ARC_vector[i].szint == 0)
 		{
+			SelectObject(hdc, tollak.at(ARC_vector[i].vint));
 			x0 = iroundf(ARC_vector[i].kpx - ARC_vector[i].rx);
 			y0 = iroundf(ARC_vector[i].kpy - ARC_vector[i].ry);
 			x1 = iroundf(ARC_vector[i].kpx + ARC_vector[i].rx);
 			y1 = iroundf(ARC_vector[i].kpy + ARC_vector[i].ry);
 			SetArcDirection(hdc, ARC_vector[i].i == D2D1_SWEEP_DIRECTION_COUNTER_CLOCKWISE ? AD_COUNTERCLOCKWISE : AD_CLOCKWISE);
-			HPEN Pen = CreatePen(PS_SOLID, iroundf(ARC_vector[i].v), RGB(0, 0, 0));
 			Arc(hdc, x0, -y0, x1, -y1, iroundf(ARC_vector[i].xk), -iroundf(ARC_vector[i].yk),
 				iroundf(ARC_vector[i].xv), -iroundf(ARC_vector[i].yv));
-
-			DeleteObject(Pen);
 		}
+	for (auto& pair : tollak)  DeleteObject(pair.second); 
+	
+	SelectObject(hdc, oldpen);
+
 	HPEN Pen = CreatePen(PS_NULL, 1, 1);
 	SelectObject(hdc, Pen);
 	HBRUSH Brush_ny = CreateSolidBrush(RGB(0, 0, 0));
@@ -117,18 +128,6 @@ void MainWindow::Nyomtat()
 		RoundRect(hdc, x0, y0, x1, y1, iroundf(RRVIA_vector[i].rrx), iroundf(RRVIA_vector[i].rry));
 	}
 	DeleteObject(Brush_ny);
-
-	/*LineTo(hdc, int5 - 1, 0);
-	LineTo(hdc, int5 - 1, -int6 + 1);
-	LineTo(hdc, 0, -int6 + 1);
-	LineTo(hdc, 0, 0);
-	MoveToEx(hdc, 1000, -1000, NULL);
-	SelectObject(hdc, Brush);
-	RoundRect(hdc, 200, -200, 800, -800, 100, 100);
-	SelectObject(hdc, B);
-	Ellipse(hdc, 450, -450, 550, -550);
-	SelectObject(hdc, Pen);
-	LineTo(hdc, 2000, -2000);*/
 
 	HBRUSH B = CreateSolidBrush(RGB(255, 255, 255));
 	SelectObject(hdc, B);
