@@ -1,5 +1,4 @@
-// printers.h
-#pragma once
+Ôªø#pragma once
 #include <windows.h>
 #include <winspool.h>
 #include <string>
@@ -15,7 +14,7 @@ struct PrinterInfo {
 
 inline std::vector<PrinterInfo> GetAllPrinters()
 {
-    // 1) AlapÈrtelmezett nyomtatÛ neve
+    // 1) Alap√©rtelmezett nyomtat√≥ neve
     DWORD need = 0;
     std::wstring defName;
     GetDefaultPrinterW(nullptr, &need);
@@ -25,10 +24,10 @@ inline std::vector<PrinterInfo> GetAllPrinters()
             defName.pop_back(); // trailing NUL le
     }
 
-    // 2) ÷sszes helyi + kapcsolat (h·lÛzati) nyomtatÛ
+    // 2) √ñsszes helyi + kapcsolat (h√°l√≥zati) nyomtat√≥
     DWORD flags = PRINTER_ENUM_LOCAL | PRINTER_ENUM_CONNECTIONS;
     DWORD bytesNeeded = 0, count = 0;
-    EnumPrintersW(flags, nullptr, 2, nullptr, 0, &bytesNeeded, &count); // mÈretkÈrÈs
+    EnumPrintersW(flags, nullptr, 2, nullptr, 0, &bytesNeeded, &count); // m√©retk√©r√©s
 
     std::vector<BYTE> buf(bytesNeeded);
     std::vector<PrinterInfo> out;
