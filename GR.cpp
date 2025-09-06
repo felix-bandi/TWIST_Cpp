@@ -12,7 +12,7 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 #include <stdlib.h>
-//#include <time.h>
+#include "DPIScale.h"
 using namespace std;
 #include "TWIST_Cpp.h"
 
@@ -21,7 +21,7 @@ std::wstring string_to_wstring(const std::string& str) {
     if (str.empty()) {
         return std::wstring();
     }
-    int size_needed = MultiByteToWideChar(CP_UTF8, 0, &str[0], (int)str.size(), NULL, 0);		
+    int size_needed = MultiByteToWideChar(CP_UTF8, 0, &str[0], (int)str.size(), nullptr, 0);		
     std::wstring wstrTo(size_needed, 0);
     MultiByteToWideChar(CP_UTF8, 0, &str[0], (int)str.size(), &wstrTo[0], size_needed);
     return wstrTo;
@@ -31,17 +31,28 @@ HRESULT MainWindow::CreateGraphicsResources()
 {
 	HRESULT hr = S_OK;
 
-	if (pRenderTarget == NULL)
+	if (pRenderTarget == nullptr)
 	{
 		RECT rc1;
 		GetClientRect(m_hwnd, &rc1);
-		ablak.x = static_cast<float>(rc1.right - rc1.left); ablak.y = static_cast<float>(rc1.bottom - rc1.top);
-		D2D1_SIZE_U size = D2D1::SizeU(rc1.right, rc1.bottom);
+		//ablak.x = static_cast<float>(rc1.right - rc1.left); ablak.y = static_cast<float>(rc1.bottom - rc1.top);
+		//D2D1_SIZE_U size = D2D1::SizeU(rc1.right, rc1.bottom);
+		const UINT w = rc1.right - rc1.left;
+		const UINT h = rc1.bottom - rc1.top;
+		ablak.x = (float)w;
+		ablak.y = (float)h;
+
+		D2D1_SIZE_U size = D2D1::SizeU(w, h);  // ← EZ a helyes
 
 		hr = pFactory->CreateHwndRenderTarget(
 			D2D1::RenderTargetProperties(),
 			D2D1::HwndRenderTargetProperties(m_hwnd, size),
 			&pRenderTarget);
+		if (FAILED(hr)) return hr;
+
+		const float dx = (float)DPIScale::GetDpiX();
+		const float dy = (float)DPIScale::GetDpiY();
+		pRenderTarget->SetDpi(dx, dy);
 
 		D2D1_RENDER_TARGET_PROPERTIES props = D2D1::RenderTargetProperties(
 			D2D1_RENDER_TARGET_TYPE_DEFAULT,
@@ -55,6 +66,7 @@ HRESULT MainWindow::CreateGraphicsResources()
 		);
 
 		hr = pFactory->CreateDCRenderTarget(&props, &m_pDCRT);
+		if (FAILED(hr)) return hr;
 
 		if (SUCCEEDED(hr))
 		{
@@ -92,7 +104,7 @@ HRESULT MainWindow::CreateGraphicsResources()
 				1.0f,
 				D2D1_DASH_STYLE_SOLID,
 				0.0f),
-				NULL,
+				nullptr,
 				0,
 				&pStrokeStyle);
 
@@ -104,7 +116,7 @@ HRESULT MainWindow::CreateGraphicsResources()
 			_wsetlocale(LC_ALL, L"");
 			pDWriteFactory->CreateTextFormat(
 				L"Georgia",                // Font family name.
-				NULL,                       // Font collection (NULL sets it to use the system font collection).
+				nullptr,                       // Font collection (nullptr sets it to use the system font collection).
 				DWRITE_FONT_WEIGHT_REGULAR,
 				DWRITE_FONT_STYLE_NORMAL,
 				DWRITE_FONT_STRETCH_NORMAL,
@@ -115,8 +127,8 @@ HRESULT MainWindow::CreateGraphicsResources()
 			TF1->SetTextAlignment(DWRITE_TEXT_ALIGNMENT_CENTER);
 			TF1->SetParagraphAlignment(DWRITE_PARAGRAPH_ALIGNMENT_CENTER);
 			pDWriteFactory->CreateTextFormat(
-				L"Ariel",                // Font family name.
-				NULL,                       // Font collection (NULL sets it to use the system font collection).
+				L"Arial",                // Font family name.
+				nullptr,                       // Font collection (nullptr sets it to use the system font collection).
 				DWRITE_FONT_WEIGHT_REGULAR,
 				DWRITE_FONT_STYLE_NORMAL,
 				DWRITE_FONT_STRETCH_NORMAL,
@@ -128,7 +140,7 @@ HRESULT MainWindow::CreateGraphicsResources()
 			TF2->SetParagraphAlignment(DWRITE_PARAGRAPH_ALIGNMENT_CENTER);
 			pDWriteFactory->CreateTextFormat(
 				L"Georgia",                // Font family name.
-				NULL,                       // Font collection (NULL sets it to use the system font collection).
+				nullptr,                       // Font collection (nullptr sets it to use the system font collection).
 				DWRITE_FONT_WEIGHT_BOLD,
 				DWRITE_FONT_STYLE_NORMAL,
 				DWRITE_FONT_STRETCH_NORMAL,

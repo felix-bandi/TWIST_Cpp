@@ -43,7 +43,7 @@ void MainWindow::Nyomtat()
 		LOGBRUSH brush = { 0 };
 		brush.lbStyle = BS_SOLID;
 		brush.lbColor = RGB(0, 0, 0);
-		tollak.emplace(v, ExtCreatePen(PS_GEOMETRIC | PS_SOLID | PS_ENDCAP_ROUND | PS_JOIN_ROUND, v, &brush, 0, NULL));
+		tollak.emplace(v, ExtCreatePen(PS_GEOMETRIC | PS_SOLID | PS_ENDCAP_ROUND | PS_JOIN_ROUND, v, &brush, 0, nullptr));
 	}
 
 	HPEN oldpen = (HPEN)GetCurrentObject(hdc, OBJ_PEN);
@@ -54,7 +54,7 @@ void MainWindow::Nyomtat()
 			SelectObject(hdc, tollak.at(VONAL_vector[i].vint));
 			x0 = iroundf(VONAL_vector[i].x1);
 			y0 = -iroundf(VONAL_vector[i].y1);
-			MoveToEx(hdc, x0, y0, NULL);
+			MoveToEx(hdc, x0, y0, nullptr);
 			x0 = iroundf(VONAL_vector[i].x2);
 			y0 = -iroundf(VONAL_vector[i].y2);
 			LineTo(hdc, x0, y0);

@@ -326,9 +326,9 @@ void MainWindow::OnPaint()
 	}
 }
 
-void MainWindow::Resize()
+/*void MainWindow::Resize()
 {
-	if (pRenderTarget != NULL)
+	if (pRenderTarget != nullptr)
 	{
 		GetClientRect(m_hwnd, &rc);
 		D2D1_SIZE_U size = D2D1::SizeU(rc.right, rc.bottom);
@@ -342,8 +342,38 @@ void MainWindow::Resize()
 		ablak.x = static_cast<float>(rc.right - rc.left); ablak.y = static_cast<float>(rc.bottom - rc.top);
 		BOX_GC.bottom = ablak.y;
 		BOX_GC.top = ablak.y - 40;
-		InvalidateRect(m_hwnd, NULL, FALSE);
+		InvalidateRect(m_hwnd, nullptr, FALSE);
 	}
+}*/
+void MainWindow::Resize(UINT w, UINT h)
+{
+	if (!pRenderTarget) return;
+
+	// Minimize/0 méret ellen védekezés
+	w = std::max<UINT>(1, w);
+	h = std::max<UINT>(1, h);
+
+	// RT átméretezés
+	pRenderTarget->Resize(D2D1::SizeU(w, h));
+
+	// Egér poz frissítés kliensben (ha kell)
+	POINT pt;
+	if (GetCursorPos(&pt)) {
+		ScreenToClient(m_hwnd, &pt);
+		mouse.x = static_cast<FLOAT>(pt.x);
+		mouse.y = static_cast<FLOAT>(pt.y);
+	}
+
+	// Ablak-méret (DIP-ben ha D2D-vel rajzolsz): w,h px -> DIP konverzió opcionális
+	ablak.x = static_cast<float>(w);
+	ablak.y = static_cast<float>(h);
+
+	// Status/bar vagy UI-sáv pozicionálás – 40 legyen DPI-helyes!
+	const float barH = static_cast<float>(DPIScale::DipToPxY(40));  // << fontos
+	BOX_GC.bottom = ablak.y;
+	BOX_GC.top = ablak.y - barH;
+
+	InvalidateRect(m_hwnd, nullptr, FALSE);
 }
 
 int WINAPI wWinMain(
@@ -367,7 +397,7 @@ int WINAPI wWinMain(
     ShowWindow(win->Window(), nCmdShow);
 
     MSG msg;
-    while (GetMessage(&msg, NULL, 0, 0))
+    while (GetMessage(&msg, nullptr, 0, 0))
     {
         if (!TranslateAccelerator(win->Window(), hAccel, &msg))
         {

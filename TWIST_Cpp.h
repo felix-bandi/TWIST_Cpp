@@ -12,7 +12,7 @@ template <class T> void SafeRelease(T** ppT)
 	if (*ppT)
 	{
 		(*ppT)->Release();
-		*ppT = NULL;
+		*ppT = nullptr;
 	}
 }
 
@@ -20,12 +20,12 @@ inline HCURSOR CreateEmptyCursor()
 {
 	BYTE andMask[128]; memset(andMask, 0xFF, sizeof(andMask)); // háttér megtartása
 	BYTE xorMask[128]; memset(xorMask, 0x00, sizeof(xorMask)); // semmi rajzolás
-	return CreateCursor(GetModuleHandle(NULL), 16, 16, 32, 32, andMask, xorMask);
+	return CreateCursor(GetModuleHandle(nullptr), 16, 16, 32, 32, andMask, xorMask);
 }
 
 class MainWindow : public BaseWindow<MainWindow>
 {
-	HCURSOR                 Cursor_system = CreateEmptyCursor(), Cursor_1 = LoadCursor(NULL, IDC_ARROW);
+	HCURSOR                 Cursor_system = CreateEmptyCursor(), Cursor_1 = LoadCursor(nullptr, IDC_ARROW);
 	ID2D1Factory*			pFactory;
 	ID2D1HwndRenderTarget*	pRenderTarget;
 	ID2D1DCRenderTarget*	m_pDCRT;
@@ -90,7 +90,7 @@ class MainWindow : public BaseWindow<MainWindow>
 	vector<WIN32_FIND_DATA>	File_vector;
 	GC						gc;
 	WCHAR					text[MAX_PATH], kiv_drv, dialog_path[MAX_PATH];
-	RECT					rc{};
+	//RECT					rc{};
 	D2D1_RECT_F				BOX_GC{}, BOX_XY{}, BOX_ALAK{}, BOX_CUSTOM{}, BOX_MODE{}, BOX_SZINT{}, BOX_FILE{};
 	D2D1_MATRIX_3X2_F		sc, tr, sc_alk, tr_alk;
 	HDC						hdc;
@@ -101,13 +101,13 @@ class MainWindow : public BaseWindow<MainWindow>
 	bool edit_k = false, edit_t = false, edit_sz = false, custom_sz = false, betoltes = false, vanrajz = false, XY_k=false;
 	//POINT ablak;
 	POINT* eger;
-	float rx, rrx, ry, rry, nagyitas, n_sz;
+	float rx, rrx, ry, rry, nagyitas = 1, n_sz;
 	float xx, xxx, yy, yyy;
-	int xe, ye, wheel, metsz, sz_sz, sz[2], kk;
+	int xe, ye, wheel = 0, metsz, sz_sz, sz[2], kk;
 	size_t hossz, count, NN=0;
 	int ALAK_k = -1, ALAK_kk = 0, GC_k = -1, GC_kk = 0, MODE_k = -1, MODE_kk = 0, SZINT_k = -1, SZINT_kk = 0, alk_sz = 0;
 	int FILE_k = -1, FILE_kk = -1, dialog_last_click_index = -1;
-	D2D1_POINT_2F eltolas, hely, ak, av, mouse_grid, p1, p2, p3, p4, f1, f2, mouse;
+	D2D1_POINT_2F eltolas{ 0.0f, 0.0f }, hely, ak, av, mouse_grid, p1, p2, p3, p4, f1, f2, mouse;
 	D2D1_SIZE_F meret;
 	D2D1_POINT_2F pontok[100], ablak;
 	
@@ -125,7 +125,8 @@ public:
 	HRESULT CreateGraphicsResources();
 	void    DiscardGraphicsResources();
 	void    OnPaint();
-	void    Resize();
+	//void    Resize();
+	void	Resize(UINT w, UINT h);
 	void    OnLButtonDown(int pixelX, int pixelY, DWORD flags);
 	void    OnRButtonDown(int pixelX, int pixelY, DWORD flags);
 	void    OnMouseMove(int pixelX, int pixelY, DWORD flags);
@@ -214,9 +215,9 @@ public:
 public:
 
 	MainWindow() 
-		: pFactory(NULL)
-		, pRenderTarget(NULL)
-		, Brush(NULL)
+		: pFactory(nullptr)
+		, pRenderTarget(nullptr)
+		, Brush(nullptr)
 		, ScreenWidth(0)          // Initialize ScreenWidth
 		, ScreenHeight(0)         // Initialize ScreenHeight
 	{

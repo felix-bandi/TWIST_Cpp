@@ -210,50 +210,50 @@ void MainWindow::Load(mentes tölt)
 			}
 			if(s[0] == 'V')
 			{
-				a = strtok_s(NULL, " ", &b);
+				a = strtok_s(nullptr, " ", &b);
 				vonal.x1 = stof(a);
-				a = strtok_s(NULL, " ", &b);
+				a = strtok_s(nullptr, " ", &b);
 				vonal.y1 = stof(a);
-				a = strtok_s(NULL, " ", &b);
+				a = strtok_s(nullptr, " ", &b);
 				vonal.x2 = stof(a);
-				a = strtok_s(NULL, " ", &b);
+				a = strtok_s(nullptr, " ", &b);
 				vonal.y2 = stof(a);
-				a = strtok_s(NULL, " ", &b);
+				a = strtok_s(nullptr, " ", &b);
 				vonal.v = stof(a);
-				a = strtok_s(NULL, " ", &b);
+				a = strtok_s(nullptr, " ", &b);
 				vonal.szint = atoi(a);
 				VONAL_betolt.push_back(vonal);
 				//save = 40;
 			}
 			if (s[0] == 'K')
 			{
-				a = strtok_s(NULL, " ", &b);
+				a = strtok_s(nullptr, " ", &b);
 				if (atoi(a) == 1) arc.i = D2D1_SWEEP_DIRECTION_CLOCKWISE; else arc.i = D2D1_SWEEP_DIRECTION_COUNTER_CLOCKWISE;
-				a = strtok_s(NULL, " ", &b);
+				a = strtok_s(nullptr, " ", &b);
 				arc.kpx = stof(a);
-				a = strtok_s(NULL, " ", &b);
+				a = strtok_s(nullptr, " ", &b);
 				arc.kpy = stof(a);
-				a = strtok_s(NULL, " ", &b);
+				a = strtok_s(nullptr, " ", &b);
 				arc.ksz = stof(a);
-				a = strtok_s(NULL, " ", &b);
+				a = strtok_s(nullptr, " ", &b);
 				arc.rx = stof(a);
-				a = strtok_s(NULL, " ", &b);
+				a = strtok_s(nullptr, " ", &b);
 				arc.ry = stof(a);
-				a = strtok_s(NULL, " ", &b);
+				a = strtok_s(nullptr, " ", &b);
 				if (atoi(a) == 0) arc.s = D2D1_ARC_SIZE_SMALL; else arc.s = D2D1_ARC_SIZE_LARGE;
-				a = strtok_s(NULL, " ", &b);
+				a = strtok_s(nullptr, " ", &b);
 				arc.szint = atoi(a);
-				a = strtok_s(NULL, " ", &b);
+				a = strtok_s(nullptr, " ", &b);
 				arc.v = stof(a);
-				a = strtok_s(NULL, " ", &b);
+				a = strtok_s(nullptr, " ", &b);
 				arc.vsz = stof(a);
-				a = strtok_s(NULL, " ", &b);
+				a = strtok_s(nullptr, " ", &b);
 				arc.xk = stof(a);
-				a = strtok_s(NULL, " ", &b);
+				a = strtok_s(nullptr, " ", &b);
 				arc.xv = stof(a);
-				a = strtok_s(NULL, " ", &b);
+				a = strtok_s(nullptr, " ", &b);
 				arc.yk = stof(a);
-				a = strtok_s(NULL, " ", &b);
+				a = strtok_s(nullptr, " ", &b);
 				arc.yv = stof(a);
 				ARC_betolt.push_back(arc);
 				ARC_rajzol(ARC_betolt);
@@ -264,15 +264,15 @@ void MainWindow::Load(mentes tölt)
 				poli.pont.clear();
 				//pontok.
 				save = 0;
-				a = strtok_s(NULL, " ", &b);
+				a = strtok_s(nullptr, " ", &b);
 				poli.szint = atoi(a);
-				a = strtok_s(NULL, " ", &b);
+				a = strtok_s(nullptr, " ", &b);
 				int k = atoi(a);
 				for (int p = 0; p < k; p++)
 				{
-					a = strtok_s(NULL, " ", &b);
+					a = strtok_s(nullptr, " ", &b);
 					pont.x = stof(a);
-					a = strtok_s(NULL, " ", &b);
+					a = strtok_s(nullptr, " ", &b);
 					pont.y = stof(a);
 					poli.pont.push_back(pont);
 					save++;
@@ -285,100 +285,100 @@ void MainWindow::Load(mentes tölt)
 			if (s[0] == 'E' && s[1] == 'L')
 			{
 				save++;
-				a = strtok_s(NULL, " ", &b);
+				a = strtok_s(nullptr, " ", &b);
 				el.r = stof(a);
-				a = strtok_s(NULL, " ", &b);
+				a = strtok_s(nullptr, " ", &b);
 				el.rx = stof(a);
-				a = strtok_s(NULL, " ", &b);
+				a = strtok_s(nullptr, " ", &b);
 				el.ry = stof(a);
-				a = strtok_s(NULL, " ", &b);
+				a = strtok_s(nullptr, " ", &b);
 				el.szint = atoi(a);
-				a = strtok_s(NULL, " ", &b);
+				a = strtok_s(nullptr, " ", &b);
 				el.x = stof(a);
-				a = strtok_s(NULL, " ", &b);
+				a = strtok_s(nullptr, " ", &b);
 				el.y = stof(a);
 				EL_betolt.push_back(el);
 			}//save = 50;
 			
 			if (s[0] == 'S' && s[1] == 'Q')
 			{
-				a = strtok_s(NULL, " ", &b);
+				a = strtok_s(nullptr, " ", &b);
 				sq.r = stof(a);
-				a = strtok_s(NULL, " ", &b);
+				a = strtok_s(nullptr, " ", &b);
 				sq.rx = stof(a);
-				a = strtok_s(NULL, " ", &b);
+				a = strtok_s(nullptr, " ", &b);
 				sq.ry = stof(a);
-				a = strtok_s(NULL, " ", &b);
+				a = strtok_s(nullptr, " ", &b);
 				sq.szint = atoi(a);
-				a = strtok_s(NULL, " ", &b);
+				a = strtok_s(nullptr, " ", &b);
 				sq.x = stof(a);
-				a = strtok_s(NULL, " ", &b);
+				a = strtok_s(nullptr, " ", &b);
 				sq.y = stof(a);
 				SQ_betolt.push_back(sq);
 			}
 			if (s[0] == 'R' && s[1] == 'R')
 			{
-				a = strtok_s(NULL, " ", &b);
+				a = strtok_s(nullptr, " ", &b);
 				rr.r = stof(a);
-				a = strtok_s(NULL, " ", &b);
+				a = strtok_s(nullptr, " ", &b);
 				rr.rx = stof(a);
-				a = strtok_s(NULL, " ", &b);
+				a = strtok_s(nullptr, " ", &b);
 				rr.ry = stof(a);
-				a = strtok_s(NULL, " ", &b);
+				a = strtok_s(nullptr, " ", &b);
 				rr.rrx = stof(a);
-				a = strtok_s(NULL, " ", &b);
+				a = strtok_s(nullptr, " ", &b);
 				rr.rry = stof(a);
-				a = strtok_s(NULL, " ", &b);
+				a = strtok_s(nullptr, " ", &b);
 				rr.szint = atoi(a);
-				a = strtok_s(NULL, " ", &b);
+				a = strtok_s(nullptr, " ", &b);
 				rr.x = stof(a);
-				a = strtok_s(NULL, " ", &b);
+				a = strtok_s(nullptr, " ", &b);
 				rr.y = stof(a);
 				RR_betolt.push_back(rr);
 			}
 			if (s[0] == 'E' && s[1] == 'V')
 			{
-				a = strtok_s(NULL, " ", &b);
+				a = strtok_s(nullptr, " ", &b);
 				ev.r = stof(a);
-				a = strtok_s(NULL, " ", &b);
+				a = strtok_s(nullptr, " ", &b);
 				ev.rx = stof(a);
-				a = strtok_s(NULL, " ", &b);
+				a = strtok_s(nullptr, " ", &b);
 				ev.ry = stof(a);
-				a = strtok_s(NULL, " ", &b);
+				a = strtok_s(nullptr, " ", &b);
 				ev.x = stof(a);
-				a = strtok_s(NULL, " ", &b);
+				a = strtok_s(nullptr, " ", &b);
 				ev.y = stof(a);
 				ELVIA_betolt.push_back(ev);
 			}
 			if (s[0] == 'S' && s[1] == 'V')
 			{
-				a = strtok_s(NULL, " ", &b);
+				a = strtok_s(nullptr, " ", &b);
 				sv.r = stof(a);
-				a = strtok_s(NULL, " ", &b);
+				a = strtok_s(nullptr, " ", &b);
 				sv.rx = stof(a);
-				a = strtok_s(NULL, " ", &b);
+				a = strtok_s(nullptr, " ", &b);
 				sv.ry = stof(a);
-				a = strtok_s(NULL, " ", &b);
+				a = strtok_s(nullptr, " ", &b);
 				sv.x = stof(a);
-				a = strtok_s(NULL, " ", &b);
+				a = strtok_s(nullptr, " ", &b);
 				sv.y = stof(a);
 				SQVIA_betolt.push_back(sv);
 			}
 			if (s[0] == 'R' && s[1] == 'V')
 			{
-				a = strtok_s(NULL, " ", &b);
+				a = strtok_s(nullptr, " ", &b);
 				rv.r = stof(a);
-				a = strtok_s(NULL, " ", &b);
+				a = strtok_s(nullptr, " ", &b);
 				rv.rx = stof(a);
-				a = strtok_s(NULL, " ", &b);
+				a = strtok_s(nullptr, " ", &b);
 				rv.ry = stof(a);
-				a = strtok_s(NULL, " ", &b);
+				a = strtok_s(nullptr, " ", &b);
 				rv.rrx = stof(a);
-				a = strtok_s(NULL, " ", &b);
+				a = strtok_s(nullptr, " ", &b);
 				rv.rry = stof(a);
-				a = strtok_s(NULL, " ", &b);
+				a = strtok_s(nullptr, " ", &b);
 				rv.x = stof(a);
-				a = strtok_s(NULL, " ", &b);
+				a = strtok_s(nullptr, " ", &b);
 				rv.y = stof(a);
 				RRVIA_betolt.push_back(rv);
 			}

@@ -292,11 +292,9 @@ void MainWindow::OnLButtonDown(int X, int Y, DWORD flags)
 
 				StartDoc(hdc, &di);
 				StartPage(hdc);
+				RECT rc{};
 				GetClientRect(m_hwnd, &rc);
 				m_pDCRT->BindDC(hdc, &rc);
-				//HBRUSH Brush = CreateSolidBrush(RGB(0, 0, 0));
-				//HBRUSH B = CreateSolidBrush(RGB(255, 255, 255));
-				//HPEN Pen = CreatePen(PS_SOLID, 250, RGB(0, 0, 0));
 				Nyomtat();
 
 				EndPage(hdc);
@@ -371,7 +369,7 @@ void MainWindow::OnLButtonDown(int X, int Y, DWORD flags)
 			s--;
 		}
 	}
-	InvalidateRect(m_hwnd, NULL, FALSE);
+	InvalidateRect(m_hwnd, nullptr, FALSE);
 }
 
 void MainWindow::OnRButtonDown(int X, int Y, DWORD flags)
@@ -432,7 +430,7 @@ void MainWindow::OnMouseMove(int X, int Y, DWORD flags)
 	mouse_grid.x = (xx + eltolas.x) * nagyitas;		// képernyő kordináta grid: X
 	mouse_grid.y = (yy + eltolas.y) * nagyitas;		// képernyő kordináta grid: Y
 
-	InvalidateRect(m_hwnd, NULL, FALSE);
+	InvalidateRect(m_hwnd, nullptr, FALSE);
 	ALAK_keres();
 	GC_keres();
 	CUSTOM_keres();

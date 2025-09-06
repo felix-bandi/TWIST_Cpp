@@ -28,20 +28,18 @@ LRESULT MainWindow::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 	switch (uMsg)
 	{
-	case WM_CREATE:
+	case WM_CREATE: {
+		DPIScale::Initialize(m_hwnd);
 		if (FAILED(D2D1CreateFactory(
 			D2D1_FACTORY_TYPE_SINGLE_THREADED, &pFactory)))
-		{
 			return -1;  // Fail CreateWindowEx.
-		}
-		DPIScale::Initialize(m_hwnd);
-		eltolas.x = 0; eltolas.y = 0;
-		nagyitas = 1;
-		wheel = 0;
-		ScreenWidth = GetSystemMetrics(SM_CXSCREEN);
-		ScreenHeight = GetSystemMetrics(SM_CYSCREEN);
-		MoveWindow(m_hwnd, 0, 0, ScreenWidth, ScreenHeight, 0);
-		grid.i = 1;
+		ShowWindow(m_hwnd, SW_MAXIMIZE);                // 2) az OS DPI-helyesen maxolja
+
+		RECT rc{};
+		GetClientRect(m_hwnd, &rc);
+		ScreenWidth = rc.right - rc.left;
+		ScreenHeight = rc.bottom - rc.top;
+
 		// --- Nyomtatók listázása induláskor (inline) ---
 		{
 			auto printers = GetAllPrinters();
@@ -58,47 +56,53 @@ LRESULT MainWindow::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		}
 		// -----------------------------------------------
 		return 0;
+	}
 
-	case WM_DESTROY:
+	case WM_DESTROY: {
 		DiscardGraphicsResources();
 		PostQuitMessage(0);
 		return 0;
-
-	case WM_PAINT:
+	}
+	case WM_PAINT: {
 		OnPaint();
-		return 0;
-
-	case WM_SIZE:
-		Resize();
-		return 0;
-
-	case WM_DPICHANGED:
-	{
-		if (auto rc1 = DPIScale::HandleDpiChanged(m_hwnd, wParam, lParam))
-		{
-			SetWindowPos(m_hwnd, nullptr,
-				rc1->left, rc1->top,
-				rc1->right - rc1->left, rc1->bottom - rc1->top,
-				SWP_NOZORDER | SWP_NOACTIVATE);
-		}
-
-		// Ha van D2D HWND render target-ed: érdemes újrakreálni vagy SetDpi-t hívni.
-		// Példa: ha újrakreálod, itt jelöld meg újraépítésre:
-		// needRecreateD2D = true;
-
-		InvalidateRect(m_hwnd, nullptr, TRUE);
 		return 0;
 	}
 
-	case WM_LBUTTONDOWN:
+	case WM_SIZE: {
+		const UINT w = LOWORD(lParam);
+		const UINT h = HIWORD(lParam);
+		Resize(w, h);                  // add át a méretet, ne mérd újra
+		return 0;
+	}
+
+	case WM_DPICHANGED:
+	{
+		const RECT* s = reinterpret_cast<const RECT*>(lParam);
+		SetWindowPos(m_hwnd, nullptr, s->left, s->top,
+			s->right - s->left, s->bottom - s->top,
+			SWP_NOZORDER | SWP_NOACTIVATE);
+
+		DPIScale::Refresh(m_hwnd);
+		const float dpx = (float)DPIScale::GetDpiX();
+		const float dpy = (float)DPIScale::GetDpiY();
+		if (pRenderTarget) pRenderTarget->SetDpi(dpx, dpy);
+		if (m_pDCRT)       m_pDCRT->SetDpi(dpx, dpy);
+
+		InvalidateRect(m_hwnd, nullptr, FALSE);
+		return 0;
+	}
+
+	case WM_LBUTTONDOWN: {
 		OnLButtonDown(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam), (DWORD)wParam);
 		return 0;
+	}
 
-	case WM_LBUTTONUP:
+	case WM_LBUTTONUP: {
 		dialog.cs.kk = false;
 		return 0;
+	}
 
-	case WM_LBUTTONDBLCLK:
+	case WM_LBUTTONDBLCLK: {
 		// Duplakatt kezelés – könyvtárba belépés fájl módnál
 		if (mode == _file)
 		{
@@ -162,27 +166,31 @@ LRESULT MainWindow::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 							}
 							dialog.dirchange = true;
 							dialog.ini = true;
-							InvalidateRect(m_hwnd, NULL, FALSE);
+							InvalidateRect(m_hwnd, nullptr, FALSE);
 						}
 					}
 				}
 			}
 		}
 		return 0;
+	}
 
-	case WM_RBUTTONDOWN:
+	case WM_RBUTTONDOWN: {
 		OnRButtonDown(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam), (DWORD)wParam);
 		return 0;
+	}
 
-	case WM_MOUSEMOVE:
+	case WM_MOUSEMOVE: {
 		OnMouseMove(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam), (DWORD)wParam);
 		return 0;
+	}
 
-	case WM_MOUSEWHEEL:
+	case WM_MOUSEWHEEL: {
 		OnMouseWheel(GET_WHEEL_DELTA_WPARAM(wParam));
 		return 0;
+	}
 
-	case WM_KEYDOWN:
+	case WM_KEYDOWN: {
 		if (!edit.sz && !dialog.edit.sz)
 		{
 			if (wParam == 0x4D) Save(rajz);		// 'M'
@@ -202,8 +210,9 @@ LRESULT MainWindow::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			InvalidateRect(m_hwnd, nullptr, FALSE);
 		}
 		return 0;
+	}
 
-	case WM_COMMAND:
+	case WM_COMMAND: {
 		if (!krv && !dialog.edit.sz)
 		{
 			vonalfolyamatban = false;
@@ -238,7 +247,8 @@ LRESULT MainWindow::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			return 0;
 		}
 		break;
-	case WM_CHAR:
+	}
+	case WM_CHAR: {
 		if (dialog.edit.sz)
 		{
 			if (wParam == VK_BACK) dialog.edit.c.pop_back();
@@ -320,6 +330,7 @@ LRESULT MainWindow::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			else { arc.i = D2D1_SWEEP_DIRECTION_CLOCKWISE; }
 		}
 		return 0;
+	}
 	}
 	return DefWindowProc(m_hwnd, uMsg, wParam, lParam);
 }

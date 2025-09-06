@@ -181,7 +181,7 @@ struct GOMB:D2D1_RECT_F
 	bool sz = false;
 	wstring t;
 	vector<char> c;
-	int i = 0;
+	int i = 20;
 	GOMB() { top = 0; left = 0; bottom = 0; right = 0; }
 };
 

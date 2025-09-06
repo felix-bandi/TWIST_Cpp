@@ -90,7 +90,7 @@ std::optional<RECT> DPIScale::HandleDpiChanged(HWND hwnd, WPARAM wParam, LPARAM 
     // lParam: ajánlott új ablak-geometria (RECT*)
     if (lParam)
     {
-        RECT* rc = reinterpret_cast<RECT*>(lParam);
+        const RECT* rc = reinterpret_cast<const RECT*>(lParam);
         return *rc;
     }
     return std::nullopt;

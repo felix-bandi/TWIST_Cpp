@@ -67,6 +67,9 @@ public:
 private:
     static UINT s_dpiX;
     static UINT s_dpiY;
+    static UINT s_effDpiX, s_effDpiY;  // UI/D2D
+    static UINT s_rawDpiX, s_rawDpiY;  // fizikai
+
 
     // SHCore/GetDpiForMonitor dinamikus hívása
     static bool TryGetDpiForMonitor(HMONITOR hmon, UINT* dpiX, UINT* dpiY);
