@@ -26,11 +26,11 @@ inline HCURSOR CreateEmptyCursor()
 class MainWindow : public BaseWindow<MainWindow>
 {
 	HCURSOR                 Cursor_system = CreateEmptyCursor(), Cursor_1 = LoadCursor(nullptr, IDC_ARROW);
-	ID2D1Factory*			pFactory;
-	ID2D1HwndRenderTarget*	pRenderTarget;
+	ID2D1Factory*			pFactory = nullptr;
+	ID2D1HwndRenderTarget*	pRenderTarget = nullptr;
 	ID2D1DCRenderTarget*	m_pDCRT;
 	ID2D1SolidColorBrush	*Brush, *bv[2][2], *bp[2][2], *fekete, *feher, *cyan;
-	IDWriteFactory*			pDWriteFactory;
+	IDWriteFactory*			pDWriteFactory = nullptr;
 	IDWriteTextFormat		*TF1, *TF2, *TF2_dir;
 	ID2D1StrokeStyle*		pStrokeStyle;
 	ID2D1PathGeometry*		pPathGeometry;
@@ -123,7 +123,8 @@ public:
 	
 
 	HRESULT CreateGraphicsResources();
-	void    DiscardGraphicsResources();
+	void	DiscardDeviceResources();
+	void	Cleanup();
 	void    OnPaint();
 	//void    Resize();
 	void	Resize(UINT w, UINT h);

@@ -12,7 +12,6 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 #include <stdlib.h>
-//#include <time.h>
 using namespace std;
 #include "TWIST_Cpp.h"
 #include "DPIScale.h"
@@ -48,9 +47,8 @@ void MainWindow::OnPaint()
 	}
 
 	HRESULT hr = CreateGraphicsResources();
-
-	if (SUCCEEDED(hr))
-	{
+	if (FAILED(hr)) return;
+	
 		pRenderTarget->BeginDraw();
 
 		pRenderTarget->Clear(D2D1::ColorF(D2D1::ColorF::Black));
@@ -255,9 +253,6 @@ void MainWindow::OnPaint()
 				pRenderTarget->DrawLine(mouse, p1, Brush, 1.0, pStrokeStyle);
 			}
 		}
-		/*p1.x = -sin(delta_) * 500 + mouse.x; p1.y = -cos(delta_) * 500 + mouse.y;
-		Brush->SetColor(D2D1::ColorF(D2D1::ColorF::Green));
-		pRenderTarget->DrawLine(mouse, p1, Brush, 5.0, pStrokeStyle);*/
 
 		EL_lyuk_rajzol();
 		SQ_lyuk_rajzol();
@@ -300,51 +295,17 @@ void MainWindow::OnPaint()
 		ORIGO_rajzol();
 		XY_rajzol();
 
-		/*Kiir("Mentees", save, 100, 100);
-		Kiir("arc.ksz", arc.ksz, 100, 150);
-		Kiir("arc.vsz", arc.vsz, 100, 200);
-		Kiir("save", save, 100, 250);
-		Kiir("int1", int1, 100, 300);
-		Kiir("int2", int2, 100, 350);
-		Kiir("int3", int3, 100, 400);
-		Kiir("int4", int4, 100, 450);
-		Kiir("flo5", flo5, 100, 500);
-		Kiir("flo6", flo6, 100, 550);
-		Kiir("int5", int5, 100, 600);
-		Kiir("int6", int6, 100, 650);*/
-
-		//Kiir("metsz", metsz, 100, 450);
-		//Kiir("alfa_-gamma", alfa_-gamma, 100, 300);
-
-		//if (ALAK_k < 0 && GetCursor() == hCursor && BOX_GC_k == false) Cursor_rajzol();
 		if (GetCursor() == Cursor_system) Cursor_rajzol();
 		hr = pRenderTarget->EndDraw();
-		if (FAILED(hr) || hr == D2DERR_RECREATE_TARGET)
-		{
-			DiscardGraphicsResources();
+		if (hr == D2DERR_RECREATE_TARGET || FAILED(hr)) {
+			DiscardDeviceResources();                // csak RT/brush/geom!
+			InvalidateRect(m_hwnd, nullptr, FALSE);  // kérj újrafestést
+			return;                                  // fontos: itt kilépünk
 		}
-	}
+
+		ValidateRect(m_hwnd, nullptr);   // <- lezárja a WM_PAINT ciklust
 }
 
-/*void MainWindow::Resize()
-{
-	if (pRenderTarget != nullptr)
-	{
-		GetClientRect(m_hwnd, &rc);
-		D2D1_SIZE_U size = D2D1::SizeU(rc.right, rc.bottom);
-		pRenderTarget->Resize(size);
-		if (GetCursorPos(eger))
-		{
-			ScreenToClient(m_hwnd, eger);
-			mouse.x = static_cast<FLOAT>(eger->x);
-			mouse.y = static_cast<FLOAT>(eger->y);
-		}
-		ablak.x = static_cast<float>(rc.right - rc.left); ablak.y = static_cast<float>(rc.bottom - rc.top);
-		BOX_GC.bottom = ablak.y;
-		BOX_GC.top = ablak.y - 40;
-		InvalidateRect(m_hwnd, nullptr, FALSE);
-	}
-}*/
 void MainWindow::Resize(UINT w, UINT h)
 {
 	if (!pRenderTarget) return;

@@ -592,25 +592,15 @@ void MainWindow::Betolt_clear()
 	RRVIA_betolt.clear();
 }
 
-void MainWindow::DiscardGraphicsResources()
+// --- csak RT-hez kötődő erőforrásokat dob el ---
+void MainWindow::DiscardDeviceResources()
 {
 	SafeRelease(&pRenderTarget);
 	SafeRelease(&m_pDCRT);
 	SafeRelease(&Brush);
-	SafeRelease(&pPathGeometry);
-	SafeRelease(&pPathGeometry_2);
-	SafeRelease(&pPathGeometry_3);
-	SafeRelease(&pPathGeometry_4);
-	SafeRelease(&pPathGeometry_5);
-	SafeRelease(&pFactory);
-	SafeRelease(&pDWriteFactory);
-	SafeRelease(&TF1);
-	SafeRelease(&TF2);
-	SafeRelease(&TF2_dir);
 	SafeRelease(&fekete);
 	SafeRelease(&feher);
 	SafeRelease(&cyan);
-	SafeRelease(&pStrokeStyle);
 	SafeRelease(&bv[0][0]);
 	SafeRelease(&bv[0][1]);
 	SafeRelease(&bv[1][0]);
@@ -619,6 +609,26 @@ void MainWindow::DiscardGraphicsResources()
 	SafeRelease(&bp[0][1]);
 	SafeRelease(&bp[1][0]);
 	SafeRelease(&bp[1][1]);
+}
+
+// --- a teljes program végi cleanup ---
+void MainWindow::Cleanup()
+{
+	// először dobj el mindent, ami az RT-hez tartozik
+	DiscardDeviceResources();
+	// Gyári / RT-független erőforrások (EZEK MARADJANAK ÉLVE FUTÁS KÖZBEN!)
+	SafeRelease(&pStrokeStyle);      // ID2D1Factory hozza létre → RT-független
+	SafeRelease(&TF1);               // IDWriteTextFormat → RT-független
+	SafeRelease(&TF2);
+	SafeRelease(&TF2_dir);
+
+	// Path geometriák: ID2D1Factory hozza létre → RT-független
+	SafeRelease(&pPathGeometry);
+	SafeRelease(&pPathGeometry_2);
+	SafeRelease(&pPathGeometry_3);
+	SafeRelease(&pPathGeometry_4);
+	SafeRelease(&pPathGeometry_5);
+	
 	for (size_t i = 0; i < ARC_vector.size(); i++) SafeRelease(&ARC_vector[i].pg);
 	for (size_t i = 0; i < POLIGON_vector.size(); i++) SafeRelease(&POLIGON_vector[i].pg);
 	for (size_t i = 0; i < ARC_v.size(); i++) SafeRelease(&ARC_v[i].pg);
@@ -628,4 +638,8 @@ void MainWindow::DiscardGraphicsResources()
 		for (size_t j = 0; j < Alkatresz[i].a.size(); j++) SafeRelease(&Alkatresz[i].a[j].pg);
 		for (size_t j = 0; j < Alkatresz[i].p.size(); j++) SafeRelease(&Alkatresz[i].p[j].pg);
 	}
+
+	// VÉGÜL a gyárak
+	SafeRelease(&pDWriteFactory);
+	SafeRelease(&pFactory);
 }
