@@ -6,6 +6,42 @@
 #include <wincodec.h>
 #include <Windows.h>
 #include <cstring>
+#include <d2d1.h>
+#include <dwrite.h>
+#include <vector>
+#include <string>
+#include "printers.h"
+
+enum class PrintUIResult { None, Ok, Cancel };
+enum class Orientation { Portrait = 0, Landscape = 1 };
+struct PrintCaps {
+	int dpiX = 300, dpiY = 300;
+	int horz = 0, vert = 0;      // HORZRES / VERTRES in px
+	float wMil = 0, hMil = 0;    // printable w/h mil-ben (1/1000 inch)
+	D2D1_SIZE_F paperPx{};   // vizuál
+	D2D1_RECT_F printablePx{};
+};
+
+struct PrintUIState {
+	bool visible = false;
+	PrintUIResult result = PrintUIResult::None;
+
+	// lista
+	std::vector<PrinterInfo> printers; // Printers.h-ban definiált struktúra
+	int selected = 0;
+	int scroll = 0; // lista görgetés
+	int rows = 5;
+
+	// beállítások
+	Orientation orientation = Orientation::Portrait;
+	PrintCaps caps; // kiválasztott nyomtató kapcsai
+
+	// UI téglalapok hit-testhez
+	D2D1_RECT_F panel, listArea, detailsArea;
+	D2D1_RECT_F btnPortrait, btnLandscape;
+	D2D1_RECT_F btnOk, btnCancel;
+	D2D1_RECT_F previewArea;
+};
 
 template <class T> void SafeRelease(T** ppT)
 {
@@ -127,6 +163,10 @@ public:
 	Dialog dialog;
 	List list, list2;
 	
+	void	OpenPrintUI();
+	void	UpdatePrintCaps();
+	void	LayoutPrintUI();
+	void	RenderPrintUI();
 
 	HRESULT CreateGraphicsResources();
 	void	DiscardDeviceResources();

@@ -214,6 +214,7 @@
     <ClCompile Include="Alkatresz.cpp" />
     <ClCompile Include="Mouse.cpp" />
     <ClCompile Include="Nyomtat.cpp" />
+    <ClCompile Include="Nyomtat_2.cpp" />
     <ClCompile Include="Rajzol.cpp" />
     <ClCompile Include="S_L.cpp" />
     <ClCompile Include="TWIST_Cpp.cpp" />

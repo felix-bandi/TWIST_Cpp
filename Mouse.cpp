@@ -369,6 +369,47 @@ void MainWindow::OnLButtonDown(int X, int Y, DWORD flags)
 			s--;
 		}
 	}
+	if (!uiPrint.visible) return;
+
+	D2D1_POINT_2F p = D2D1::Point2F((float)X, (float)Y);
+	auto in = [](D2D1_POINT_2F q, D2D1_RECT_F r) {
+		return q.x >= r.left && q.x <= r.right && q.y >= r.top && q.y <= r.bottom;
+		};
+
+	if (in(p, uiPrint.listArea)) {
+		float rowH = 28.0f;
+		int idx = uiPrint.scroll + int((p.y - uiPrint.listArea.top) / rowH);
+		if (idx >= 0 && idx < (int)uiPrint.printers.size()) {
+			uiPrint.selected = idx;
+			UpdatePrintCaps();
+			InvalidateRect(m_hwnd, nullptr, FALSE);
+		}
+		return;
+	}
+	if (in(p, uiPrint.btnPortrait)) {
+		uiPrint.orientation = (Orientation)0;
+		InvalidateRect(m_hwnd, nullptr, FALSE);
+		return;
+	}
+	if (in(p, uiPrint.btnLandscape)) {
+		uiPrint.orientation = (Orientation)1;
+		InvalidateRect(m_hwnd, nullptr, FALSE);
+		return;
+	}
+	if (in(p, uiPrint.btnOk)) {
+		uiPrint.result = PrintUIResult::Ok;
+		uiPrint.visible = false;
+		// itt elindíthatod a GDI nyomtatást a kiválasztott nyomtatóra és beállításokkal
+		StartGDIPrint(uiPrint.printers[uiPrint.selected].name, uiPrint.orientation);
+		InvalidateRect(m_hwnd, nullptr, FALSE);
+		return;
+	}
+	if (in(p, uiPrint.btnCancel)) {
+		uiPrint.result = PrintUIResult::Cancel;
+		uiPrint.visible = false;
+		InvalidateRect(m_hwnd, nullptr, FALSE);
+		return;
+	}
 	InvalidateRect(m_hwnd, nullptr, FALSE);
 }
 
@@ -468,4 +509,10 @@ void MainWindow::OnMouseWheel(int d)
 		mouse_grid.x = (xx + eltolas.x) * nagyitas;
 		mouse_grid.y = (yy + eltolas.y) * nagyitas;
 	}
+	if (!uiPrint.visible) return;
+	int n = (int)uiPrint.printers.size();
+	if (n <= uiPrint.rows) return;
+	uiPrint.scroll -= (delta > 0 ? 1 : -1);
+	uiPrint.scroll = std::max(0, std::min(uiPrint.scroll, n - uiPrint.rows));
+	InvalidateRect(m_hwnd, nullptr, FALSE);
 }

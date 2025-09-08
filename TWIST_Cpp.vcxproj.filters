@@ -89,6 +89,9 @@
     <ClCompile Include="Types.h">
       <Filter>Header Files</Filter>
     </ClCompile>
+    <ClCompile Include="Nyomtat_2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="input.rc">

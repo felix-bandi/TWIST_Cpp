@@ -108,7 +108,7 @@ void MainWindow::ARC_rajzol(std::vector<ARC>& ARC)
 	SafeRelease(&pSink);
 }*/
 
-void MainWindow::ARC_rajzol_2()
+void MainWindow::ARC_rajzol_2() // FIXME: 2felkoros 
 {
 	SafeRelease(&pPathGeometry_2);
 	pFactory->CreatePathGeometry(&pPathGeometry_2);
@@ -117,11 +117,6 @@ void MainWindow::ARC_rajzol_2()
 	ak.x = arc.xk;
 	ak.y = arc.yk;
 	arc.vsz = atan2((arc.kpx - xx), (arc.kpy - yy));
-	//if (arc.i == D2D1_SWEEP_DIRECTION_CLOCKWISE) { szt = arc.ksz - arc.vsz; }
-	//else { szt = arc.vsz - arc.ksz; }
-	//if (szt < 0) szt += 2 * M_PI;
-	//if (szt <= M_PI) { arc.s = D2D1_ARC_SIZE_SMALL; }
-	//else if (szt > M_PI) { arc.s = D2D1_ARC_SIZE_LARGE; }
 	float szt = (arc.i == D2D1_SWEEP_DIRECTION_CLOCKWISE) ? (arc.ksz - arc.vsz) : (arc.vsz - arc.ksz);
 	if (szt < 0) szt += 2 * M_PI;
 	arc.s = (szt <= (float)M_PI) ? D2D1_ARC_SIZE_SMALL : D2D1_ARC_SIZE_LARGE;
