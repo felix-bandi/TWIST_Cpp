@@ -110,40 +110,39 @@ void MainWindow::ARC_rajzol(std::vector<ARC>& ARC)
 
 void MainWindow::ARC_rajzol_2()
 {
-	//SafeRelease(&pPathGeometry_2);
-	//pFactory->CreatePathGeometry(&pPathGeometry_2);
-	ComPtr<ID2D1PathGeometry> pg;
-	if (FAILED(pFactory->CreatePathGeometry(&pg))) return;
-	ComPtr<ID2D1GeometrySink> sink;
-	if (FAILED(pg->Open(&sink))) return;
-	//ID2D1GeometrySink* pSink;
-	//pPathGeometry_2->Open(&pSink);
+	SafeRelease(&pPathGeometry_2);
+	pFactory->CreatePathGeometry(&pPathGeometry_2);
+	ID2D1GeometrySink* pSink;
+	pPathGeometry_2->Open(&pSink);
 	ak.x = arc.xk;
 	ak.y = arc.yk;
 	arc.vsz = atan2((arc.kpx - xx), (arc.kpy - yy));
-	if (arc.i == D2D1_SWEEP_DIRECTION_CLOCKWISE) { szt = arc.ksz - arc.vsz; }
-	else { szt = arc.vsz - arc.ksz; }
+	//if (arc.i == D2D1_SWEEP_DIRECTION_CLOCKWISE) { szt = arc.ksz - arc.vsz; }
+	//else { szt = arc.vsz - arc.ksz; }
+	//if (szt < 0) szt += 2 * M_PI;
+	//if (szt <= M_PI) { arc.s = D2D1_ARC_SIZE_SMALL; }
+	//else if (szt > M_PI) { arc.s = D2D1_ARC_SIZE_LARGE; }
+	float szt = (arc.i == D2D1_SWEEP_DIRECTION_CLOCKWISE) ? (arc.ksz - arc.vsz) : (arc.vsz - arc.ksz);
 	if (szt < 0) szt += 2 * M_PI;
-	if (szt <= M_PI) { arc.s = D2D1_ARC_SIZE_SMALL; }
-	else if (szt > M_PI) { arc.s = D2D1_ARC_SIZE_LARGE; }
+	arc.s = (szt <= (float)M_PI) ? D2D1_ARC_SIZE_SMALL : D2D1_ARC_SIZE_LARGE;
 	av.x = arc.kpx - sin(arc.vsz) * arc.rx;
 	av.y = arc.kpy - cos(arc.vsz) * arc.ry;
 	meret.width = arc.rx;
 	meret.height = arc.ry;
-	if (ak.x == av.x && ak.y == av.y) 
+	if (majdnem(ak, av)) 
 	{
 		D2D1_POINT_2F start = D2D1::Point2F(arc.kpx + rx, arc.kpy);
 		D2D1_POINT_2F mid = D2D1::Point2F(arc.kpx - rx, arc.kpy);
 		D2D1_POINT_2F end = start;
-		sink->BeginFigure(start, D2D1_FIGURE_BEGIN_HOLLOW);
-		sink->AddArc(D2D1::ArcSegment(
+		pSink->BeginFigure(start, D2D1_FIGURE_BEGIN_HOLLOW);
+		pSink->AddArc(D2D1::ArcSegment(
 			mid,
 			D2D1::SizeF(rx, ry),
 			0.0f,
 			D2D1_SWEEP_DIRECTION_CLOCKWISE,
 			D2D1_ARC_SIZE_LARGE));
 
-		sink->AddArc(D2D1::ArcSegment(
+		pSink->AddArc(D2D1::ArcSegment(
 			end,
 			D2D1::SizeF(rx, ry),
 			0.0f,
@@ -152,13 +151,12 @@ void MainWindow::ARC_rajzol_2()
 	}
 	else
 	{
-		sink->BeginFigure(ak, D2D1_FIGURE_BEGIN_HOLLOW);
-		sink->AddArc(D2D1::ArcSegment(av, meret, 0.0, arc.i, arc.s));
+		pSink->BeginFigure(ak, D2D1_FIGURE_BEGIN_HOLLOW);
+		pSink->AddArc(D2D1::ArcSegment(av, meret, 0.0, arc.i, arc.s));
 	}
-	sink->EndFigure(D2D1_FIGURE_END_OPEN);
-	if (FAILED(sink->Close())) return;
-	//pSink->Close();
-	//SafeRelease(&pSink);
+	pSink->EndFigure(D2D1_FIGURE_END_OPEN);
+	pSink->Close();
+	SafeRelease(&pSink);
 }
 
 void MainWindow::POLIGON_rajzol(vector<POLI> &POLI)

@@ -23,6 +23,12 @@ inline HCURSOR CreateEmptyCursor()
 	return CreateCursor(GetModuleHandle(nullptr), 16, 16, 32, 32, andMask, xorMask);
 }
 
+inline bool majdnem(const D2D1_POINT_2F& a, const D2D1_POINT_2F& b, float eps = 1e-3f)
+{
+	return (std::fabs(a.x - b.x) < eps) &&
+		(std::fabs(a.y - b.y) < eps);
+}
+
 class MainWindow : public BaseWindow<MainWindow>
 {
 	HCURSOR                 Cursor_system = CreateEmptyCursor(), Cursor_1 = LoadCursor(nullptr, IDC_ARROW);
