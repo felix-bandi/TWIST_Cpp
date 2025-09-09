@@ -254,6 +254,7 @@ void MainWindow::OnLButtonDown(int X, int Y, DWORD flags)
 
 	if (MODE_k >= 0 && !krv)
 	{
+		MODE_kk = MODE_k;
 		switch (MODE_k)
 		{
 		case 0:
@@ -269,6 +270,11 @@ void MainWindow::OnLButtonDown(int X, int Y, DWORD flags)
 			break;
 		case 3:
 			mode = _print;
+			OpenPrintUI();           // ÚJ: a panel jelenjen meg
+			
+			InvalidateRect(m_hwnd, nullptr, FALSE);
+			
+			/*
 			ny_kep = true;
 			PRINTDLG pd = { 0 };
 			pd.lStructSize = sizeof(pd);
@@ -300,10 +306,9 @@ void MainWindow::OnLButtonDown(int X, int Y, DWORD flags)
 				EndPage(hdc);
 				EndDoc(hdc);
 				RestoreDC(hdc, TRUE);
-			}
+			}*/
 			break;
 		}
-		MODE_kk = MODE_k;
 	}
 
 	if (FILE_k >= 0 && !krv)
@@ -515,4 +520,36 @@ void MainWindow::OnMouseWheel(int d)
 	uiPrint.scroll -= (delta > 0 ? 1 : -1);
 	uiPrint.scroll = std::max(0, std::min(uiPrint.scroll, n - uiPrint.rows));
 	InvalidateRect(m_hwnd, nullptr, FALSE);
+}
+
+void MainWindow::StartGDIPrint(const std::wstring& printerName, Orientation ori)
+{
+	// 1) Nyomtató DC
+	HDC hdc = CreateDCW(nullptr, printerName.c_str(), nullptr, nullptr);
+	if (!hdc) return;
+
+	// 2) DEVMODE orientáció (ha szükséges)
+	// (Egyszerű: sok driver elfogadja a StartDoc előtt beállított ESCAPE-et,
+	// de a tiszta út a PrintDlg/DocumentProperties. Minimálban kihagyjuk.)
+
+	// 3) DOCINFO
+	DOCINFOW di{}; di.cbSize = sizeof(di);
+	di.lpszDocName = L"TWIST Print";
+
+	if (StartDocW(hdc, &di) <= 0) { DeleteDC(hdc); return; }
+	SaveDC(hdc);
+
+	// 4) Oldal indítás + DCRenderTarget bind
+	StartPage(hdc);
+	RECT rc{}; GetClientRect(m_hwnd, &rc);
+	m_pDCRT->BindDC(hdc, &rc);
+
+	// 5) Rajz (a meglévő GDI-s/Direct2D-es Nyomtat() logikád)
+	Nyomtat();   // <-- nálad már létezik
+
+	// 6) Lezárás
+	EndPage(hdc);
+	RestoreDC(hdc, TRUE);
+	EndDoc(hdc);
+	DeleteDC(hdc);
 }

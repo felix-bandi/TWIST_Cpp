@@ -294,6 +294,10 @@ void MainWindow::OnPaint()
 		SZINT_rajzol();
 		ORIGO_rajzol();
 		XY_rajzol();
+		// ... a meglévő rajzolások után:
+		if (uiPrint.visible) {
+			RenderPrintUI();
+		}
 
 		if (GetCursor() == Cursor_system) Cursor_rajzol();
 		hr = pRenderTarget->EndDraw();

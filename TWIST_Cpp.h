@@ -167,6 +167,7 @@ public:
 	void	UpdatePrintCaps();
 	void	LayoutPrintUI();
 	void	RenderPrintUI();
+	void	StartGDIPrint(const std::wstring& printerName, Orientation ori);
 
 	HRESULT CreateGraphicsResources();
 	void	DiscardDeviceResources();
