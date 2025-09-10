@@ -10,7 +10,7 @@ class BaseWindow
 public:
     static LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
     {
-        DERIVED_TYPE *pThis = NULL;
+        DERIVED_TYPE *pThis = nullptr;
 
         if (uMsg == WM_NCCREATE)
         {
@@ -28,7 +28,7 @@ public:
         return DefWindowProc(hwnd, uMsg, wParam, lParam);
     }
 
-    BaseWindow() : m_hwnd(NULL) { }
+    BaseWindow() : m_hwnd(nullptr) { }
 
     BOOL Create(
         PCWSTR lpWindowName,
@@ -44,7 +44,7 @@ public:
     {
         // Ellenőrizzük, hogy már regisztrálták-e a class-t (hogy elkerüljük az ütközést).
         WNDCLASS existing = {};
-        HINSTANCE hInst = GetModuleHandle(NULL);
+        HINSTANCE hInst = GetModuleHandle(nullptr);
         if (!GetClassInfo(hInst, ClassName(), &existing))
         {
             WNDCLASS wc = {};
@@ -52,7 +52,7 @@ public:
             wc.lpfnWndProc   = DERIVED_TYPE::WindowProc;
             wc.hInstance     = hInst;
             wc.lpszClassName = ClassName();
-            // (Igény szerint lehet: wc.hCursor = LoadCursor(NULL, IDC_ARROW); wc.hbrBackground = (HBRUSH)(COLOR_WINDOW+1);)
+            // (Igény szerint lehet: wc.hCursor = LoadCursor(nullptr, IDC_ARROW); wc.hbrBackground = (HBRUSH)(COLOR_WINDOW+1);)
 
             if (!RegisterClass(&wc))
                 return FALSE;
@@ -63,7 +63,7 @@ public:
             nWidth, nHeight, hWndParent, hMenu, hInst, this
         );
 
-        return m_hwnd != NULL;
+        return m_hwnd != nullptr;
     }
 
     HWND Window() const { return m_hwnd; }

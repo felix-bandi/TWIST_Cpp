@@ -146,7 +146,7 @@ LRESULT MainWindow::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 							}
 							dialog.dirchange = true;
 							dialog.ini = true;
-							InvalidateRect(m_hwnd, NULL, FALSE);
+							InvalidateRect(m_hwnd, nullptr, FALSE);
 						}
 					}
 				}

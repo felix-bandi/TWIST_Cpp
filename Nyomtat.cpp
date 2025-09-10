@@ -54,7 +54,7 @@ void MainWindow::Nyomtat()
 			SelectObject(hdc, tollak.at(VONAL_vector[i].vint));
 			x0 = iroundf(VONAL_vector[i].x1);
 			y0 = -iroundf(VONAL_vector[i].y1);
-			MoveToEx(hdc, x0, y0, NULL);
+			MoveToEx(hdc, x0, y0, nullptr);
 			x0 = iroundf(VONAL_vector[i].x2);
 			y0 = -iroundf(VONAL_vector[i].y2);
 			LineTo(hdc, x0, y0);

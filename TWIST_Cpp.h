@@ -17,7 +17,7 @@ template <class T> void SafeRelease(T** ppT)
 	if (*ppT)
 	{
 		(*ppT)->Release();
-		*ppT = NULL;
+		*ppT = nullptr;
 	}
 }
 
@@ -25,12 +25,12 @@ inline HCURSOR CreateEmptyCursor()
 {
 	BYTE andMask[128]; memset(andMask, 0xFF, sizeof(andMask)); // háttér megtartása
 	BYTE xorMask[128]; memset(xorMask, 0x00, sizeof(xorMask)); // semmi rajzolás
-	return CreateCursor(GetModuleHandle(NULL), 16, 16, 32, 32, andMask, xorMask);
+	return CreateCursor(GetModuleHandle(nullptr), 16, 16, 32, 32, andMask, xorMask);
 }
 
 class MainWindow : public BaseWindow<MainWindow>
 {
-	HCURSOR                 Cursor_system = CreateEmptyCursor(), Cursor_1 = LoadCursor(NULL, IDC_ARROW);
+	HCURSOR                 Cursor_system = CreateEmptyCursor(), Cursor_1 = LoadCursor(nullptr, IDC_ARROW);
 	ID2D1Factory*			pFactory;
 	ID2D1HwndRenderTarget*	pRenderTarget;
 	ID2D1DCRenderTarget*	m_pDCRT;
@@ -219,9 +219,9 @@ public:
 public:
 
 	MainWindow() 
-		: pFactory(NULL)
-		, pRenderTarget(NULL)
-		, Brush(NULL)
+		: pFactory(nullptr)
+		, pRenderTarget(nullptr)
+		, Brush(nullptr)
 		, ScreenWidth(0)          // Initialize ScreenWidth
 		, ScreenHeight(0)         // Initialize ScreenHeight
 	{

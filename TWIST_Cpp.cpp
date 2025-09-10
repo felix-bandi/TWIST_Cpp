@@ -328,7 +328,7 @@ void MainWindow::OnPaint()
 
 void MainWindow::Resize()
 {
-	if (pRenderTarget != NULL)
+	if (pRenderTarget != nullptr)
 	{
 		GetClientRect(m_hwnd, &rc);
 		D2D1_SIZE_U size = D2D1::SizeU(rc.right, rc.bottom);
@@ -342,7 +342,7 @@ void MainWindow::Resize()
 		ablak.x = static_cast<float>(rc.right - rc.left); ablak.y = static_cast<float>(rc.bottom - rc.top);
 		BOX_GC.bottom = ablak.y;
 		BOX_GC.top = ablak.y - 40;
-		InvalidateRect(m_hwnd, NULL, FALSE);
+		InvalidateRect(m_hwnd, nullptr, FALSE);
 	}
 }
 
@@ -367,7 +367,7 @@ int WINAPI wWinMain(
     ShowWindow(win->Window(), nCmdShow);
 
     MSG msg;
-    while (GetMessage(&msg, NULL, 0, 0))
+    while (GetMessage(&msg, nullptr, 0, 0))
     {
         if (!TranslateAccelerator(win->Window(), hAccel, &msg))
         {
