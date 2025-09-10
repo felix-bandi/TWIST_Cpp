@@ -22,14 +22,29 @@ void MainWindow::Nyomtat()
 {
 	int x0, y0, x1, y1;
 	POINT p[100] = {};
+	std::set<int> vastagsag;
+	std::map<int, HPEN> tollak;
+
 	for (auto& e : VONAL_vector)
 		if (e.szint == 0)
+		{
 			e.vint = std::max(1, iroundf(e.v));
+			vastagsag.emplace(e.vint);
+		}
 
 	for (auto& e : ARC_vector)
 		if (e.szint == 0)
+		{
 			e.vint = std::max(1, iroundf(e.v));
+			vastagsag.emplace(e.vint);
+		}
 
+	for (const auto& v : vastagsag) {
+		LOGBRUSH brush = { 0 };
+		brush.lbStyle = BS_SOLID;
+		brush.lbColor = RGB(0, 0, 0);
+		tollak.emplace(v, ExtCreatePen(PS_GEOMETRIC | PS_SOLID | PS_ENDCAP_ROUND | PS_JOIN_ROUND, v, &brush, 0, nullptr));
+	}
 
 	HPEN oldpen = (HPEN)GetCurrentObject(hdc, OBJ_PEN);
 

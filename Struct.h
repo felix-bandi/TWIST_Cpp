@@ -46,6 +46,7 @@ struct VONAL
 	float x2=0;
 	float y2=0;
 	float v=0;
+	int vint = 0;
 	int szint=0;
 	int alk=0;
 	int blokk=0;
@@ -64,6 +65,7 @@ struct ARC
 	Real ksz=0;
 	Real vsz=0;
 	Real v=0;
+	int vint = 0;
 	D2D1_SWEEP_DIRECTION i=D2D1_SWEEP_DIRECTION_CLOCKWISE;
 	D2D1_ARC_SIZE s=D2D1_ARC_SIZE_SMALL;
 	ID2D1PathGeometry* pg=nullptr;

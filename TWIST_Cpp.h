@@ -6,6 +6,11 @@
 #include <wincodec.h>
 #include <Windows.h>
 #include <cstring>
+inline bool majdnem(const D2D1_POINT_2F& a, const D2D1_POINT_2F& b, float eps = 1e-3f)
+{
+	return (std::fabs(a.x - b.x) < eps) &&
+		(std::fabs(a.y - b.y) < eps);
+}
 
 template <class T> void SafeRelease(T** ppT)
 {
