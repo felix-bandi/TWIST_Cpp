@@ -276,6 +276,7 @@ void MainWindow::OnLButtonDown(int X, int Y, DWORD flags)
 			pd.Flags = PD_RETURNDC;
 
 			static DOCINFO di = { sizeof(DOCINFO), TEXT("Test Page : Printing...") };
+			
 			if (PrintDlg(&pd) == TRUE)
 			{
 				hdc = pd.hDC;
@@ -294,14 +295,10 @@ void MainWindow::OnLButtonDown(int X, int Y, DWORD flags)
 				StartPage(hdc);
 				GetClientRect(m_hwnd, &rc);
 				m_pDCRT->BindDC(hdc, &rc);
-				//HBRUSH Brush = CreateSolidBrush(RGB(0, 0, 0));
-				//HBRUSH B = CreateSolidBrush(RGB(255, 255, 255));
-				//HPEN Pen = CreatePen(PS_SOLID, 250, RGB(0, 0, 0));
 				Nyomtat();
 
 				EndPage(hdc);
 				EndDoc(hdc);
-				RestoreDC(hdc, TRUE);
 			}
 			break;
 		}
