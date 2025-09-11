@@ -210,6 +210,7 @@
     <ClCompile Include="Mouse.cpp" />
     <ClCompile Include="nemhasznalt.cpp" />
     <ClCompile Include="Nyomtat.cpp" />
+    <ClCompile Include="PrintHelpers.cpp" />
     <ClCompile Include="Rajzol.cpp" />
     <ClCompile Include="S_L.cpp" />
     <ClCompile Include="TWIST_Cpp.cpp" />

@@ -12,13 +12,13 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 #include <stdlib.h>
-//#include <time.h>
 using namespace std;
 #include "TWIST_Cpp.h"
 #include <iostream>
 #include <fstream>
 #include <cstring>
 #include "DPIScale.h"
+#include "PrintHelpers.h"
 
 
 LRESULT MainWindow::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
@@ -40,6 +40,7 @@ LRESULT MainWindow::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		ScreenHeight = GetSystemMetrics(SM_CYSCREEN);
 		MoveWindow(m_hwnd, 0, 0, ScreenWidth, ScreenHeight, 0);
 		grid.i = 1;
+		GetPrintersByType(localPrinters, networkPrinters);
 		return 0;
 
 	case WM_DESTROY:

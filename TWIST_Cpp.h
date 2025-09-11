@@ -1,11 +1,11 @@
 ﻿#pragma once
-
 #include "basewin.h"
 #include "resource.h"
 #include "Struct.h"
 #include <wincodec.h>
 #include <Windows.h>
 #include <cstring>
+
 inline bool majdnem(const D2D1_POINT_2F& a, const D2D1_POINT_2F& b, float eps = 1e-3f)
 {
 	return (std::fabs(a.x - b.x) < eps) &&
@@ -64,6 +64,7 @@ class MainWindow : public BaseWindow<MainWindow>
 	vector<GOMB>			ALAK_vector, CUSTOM_vector, gt, MODE_vector, SZINT_vector, FILE_vector;
 	vector<vector<GOMB>>	CUSTOM;	
 	vector<GC>				GC_vector;
+	vector<wstring>			localPrinters, networkPrinters;
 	vector<wstring>			alak_nevek = { L"Vonal", L"Körív", L"Poligon", L"EL_pad", L"SQ_pad", L"RR_pad", L"EL_via", L"SQ_via", L"RR_via" };
 	vector<wstring>			mode_nevek = { L"Rajzolás", L"Törlés", L"File", L"Print"};
 	vector<wstring>			szint_nevek = { L"Top", L"Bottom" };
@@ -202,6 +203,8 @@ public:
 	void	Betolt_clear();
 	void	Filedialog_init();
 	void	Filedialog_rajzol();
+	void	Printdialog_init();
+	void	Printdialog_rajzol();
 	void	List_init();
 	void	List_rajzol();
 	//void	List_keres();

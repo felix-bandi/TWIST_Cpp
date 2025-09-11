@@ -213,6 +213,15 @@ void MainWindow::ALAK_init()
 	 dialog.edit.left = dialog.client.left;
 	 dialog.edit.right = dialog.client.right;
  }
+ void MainWindow::Printdialog_init() 
+ {
+	 float w1 = static_cast<float>(ScreenWidth) / 6;
+	 float h1 = static_cast<float>(ScreenHeight) / 8;
+	 dialog.left = 2 * w1;
+	 dialog.right = 4 * w1;
+	 dialog.top = h1;
+	 dialog.bottom = 7 * h1;
+ }
 
  
 void MainWindow::CUSTOM_init()
