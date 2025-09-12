@@ -271,6 +271,13 @@ struct Dialog :D2D1_RECT_F
 	Dialog() { top = 0; left = 0; bottom = 0; right = 0; }	
 };
 
+struct Dialog_2 :D2D1_RECT_F
+{
+	D2D1_RECT_F list = {};
+	Csuszka cs = {};
+	Dialog_2() { top = 0; left = 0; bottom = 0; right = 0; }	
+};
+
 struct List :D2D1_RECT_F
 {
 	int k=0, kk=0, out_N=0, kd=0, kkd=0;
