@@ -146,6 +146,7 @@ HRESULT MainWindow::CreateGraphicsResources()
 			ALAK_init();
 			CUSTOM_init();
 			Filedialog_init();
+			Printdialog_init();
 			GC_init();
 			GRID_init();
 			ORIGO_init();
@@ -182,7 +183,6 @@ void MainWindow::ALAK_init()
 	for (size_t i = 0; i < alak_nevek.size(); i++) ALAK_vector[i].t = alak_nevek[i];
 }
 
-
  void MainWindow::Filedialog_init()
  {
 	 float w1 = static_cast<float>(ScreenWidth) / 6;
@@ -213,6 +213,7 @@ void MainWindow::ALAK_init()
 	 dialog.edit.left = dialog.client.left;
 	 dialog.edit.right = dialog.client.right;
  }
+
  void MainWindow::Printdialog_init() 
  {
 	 float w1 = static_cast<float>(ScreenWidth) / 6;
@@ -221,10 +222,20 @@ void MainWindow::ALAK_init()
 	 dialog_2.right = 4 * w1;
 	 dialog_2.top = h1;
 	 dialog_2.bottom = 7 * h1;
-
+	 dialog_2.top = dialog_2.top + 10;
+	 dialog_2.bottom = dialog_2.bottom - 10;
+	 dialog_2.list.left = dialog_2.left + 10;
+	 dialog_2.list.right = dialog_2.right - 10;
+	 dialog_2.list.top = dialog_2.top + 10;
+	 dialog_2.list.bottom = dialog_2.top + 3*h1;
+	 dialog_2.cs.top = dialog_2.list.top + 4;
+	 dialog_2.cs.bottom = dialog_2.list.bottom - 4;
+	 dialog_2.cs.right = dialog_2.right - 4;
+	 dialog_2.cs.left = dialog_2.right - 22;
+	 dialog_2.p1.x = dialog_2.left; dialog_2.p2.x = dialog_2.right;
+	 dialog_2.p1.y = dialog_2.p2.y = dialog_2.list.bottom + 10;
  }
 
- 
 void MainWindow::CUSTOM_init()
 {
 	BOX_CUSTOM.top = BOX_ALAK.bottom;

@@ -63,8 +63,7 @@ class MainWindow : public BaseWindow<MainWindow>
 	vector<ALKATRESZ>			Alkatresz;
 	vector<GOMB>			ALAK_vector, CUSTOM_vector, gt, MODE_vector, SZINT_vector, FILE_vector;
 	vector<vector<GOMB>>	CUSTOM;	
-	vector<GC>				GC_vector;
-	vector<wstring>			localPrinters, networkPrinters;
+	vector<GC>				GC_vector;	
 	vector<wstring>			alak_nevek = { L"Vonal", L"Körív", L"Poligon", L"EL_pad", L"SQ_pad", L"RR_pad", L"EL_via", L"SQ_via", L"RR_via" };
 	vector<wstring>			mode_nevek = { L"Rajzolás", L"Törlés", L"File", L"Print"};
 	vector<wstring>			szint_nevek = { L"Top", L"Bottom" };

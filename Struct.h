@@ -3,6 +3,7 @@
 #include <Windows.h>
 #pragma once
 #include "Precision.h"
+#include <d2d1.h>
 
 enum ALAK
 {
@@ -76,7 +77,7 @@ struct ARC
 
 struct POLI
 {
-    vector<D2D1_POINT_2F> pont;
+	std::vector<D2D1_POINT_2F> pont;
     ID2D1PathGeometry* pg = nullptr;
     int szint = 0;
     int alk = 0;
@@ -158,16 +159,16 @@ struct RR_VIA
 
 struct ALKATRESZ
 {
-	vector<char> nev;
-	vector<VONAL> v;
-	vector<ARC> a;
-	vector<POLI> p;
-	vector<EL_PAD> ep;
-	vector<SQ_PAD> sp;
-	vector<RR_PAD> rp;
-	vector<EL_VIA> ev;
-	vector<SQ_VIA> sv;
-	vector<RR_VIA> rv;
+	std::vector<char> nev;
+	std::vector<VONAL> v;
+	std::vector<ARC> a;
+	std::vector<POLI> p;
+	std::vector<EL_PAD> ep;
+	std::vector<SQ_PAD> sp;
+	std::vector<RR_PAD> rp;
+	std::vector<EL_VIA> ev;
+	std::vector<SQ_VIA> sv;
+	std::vector<RR_VIA> rv;
 };
 
 struct GOMB:D2D1_RECT_F
@@ -179,8 +180,8 @@ struct GOMB:D2D1_RECT_F
 	bool k = false;
 	bool kk = false;
 	bool sz = false;
-	wstring t;
-	vector<char> c;
+	std::wstring t;
+	std::vector<char> c;
 	int i = 0;
 	GOMB() { top = 0; left = 0; bottom = 0; right = 0; }
 };
@@ -190,13 +191,13 @@ struct GOMB_1
 	D2D1_RECT_F r;
 	bool k=false;
 	bool kk=false;
-	wstring t;
+	std::wstring t;
 };
 
 struct GOMB_2:D2D1_RECT_F
 {
 	char ch = '\0'; // Initialize to null character
-	wstring t;
+	std::wstring t;
 	WCHAR tt[MAX_PATH] = { 0 }; // Initialize all elements to zero
 	bool k = false; // Initialize to false
 	GOMB_2() { top = 0; left = 0; bottom = 0; right = 0; }
@@ -205,7 +206,7 @@ struct GOMB_2:D2D1_RECT_F
 struct EDIT :D2D1_RECT_F
 {
     bool sz = false, k = false, kk = false; // Initialize all bool members to false
-    vector<u8> c;
+    std::vector<u8> c;
     u8 tt[MAX_PATH] = { 0 }; // Initialize all elements to zero
 	EDIT() { top = 0; left = 0; bottom = 0; right = 0; } // Default constructor initializing rectangle members to zero
 };
@@ -263,7 +264,7 @@ struct Dialog :D2D1_RECT_F
 	WIN32_FIND_DATA FindFileData = {}; // Initialize to zero
 	HANDLE hFind = nullptr;
 	WCHAR filepath[MAX_PATH] = { 0 };
-	vector<WCHAR[MAX_PATH]> path;
+	std::vector<WCHAR[MAX_PATH]> path;
 	D2D1_RECT_F client = {};
 	EDIT edit;
 	D2D1_POINT_2F p1 = {}, p2 = {};
@@ -275,7 +276,8 @@ struct Dialog_2 :D2D1_RECT_F
 {
 	D2D1_RECT_F list = {};
 	Csuszka cs = {};
-	vector<wstring> nyomtatok;
+	D2D1_POINT_2F p1 = {}, p2 = {};
+	std::vector<std::wstring> nyomtatok;
 
 	Dialog_2() { top = 0; left = 0; bottom = 0; right = 0; }	
 };

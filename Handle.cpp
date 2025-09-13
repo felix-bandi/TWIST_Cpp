@@ -40,7 +40,6 @@ LRESULT MainWindow::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		ScreenHeight = GetSystemMetrics(SM_CYSCREEN);
 		MoveWindow(m_hwnd, 0, 0, ScreenWidth, ScreenHeight, 0);
 		grid.i = 1;
-		GetPrintersByType(localPrinters, networkPrinters);
 		return 0;
 
 	case WM_DESTROY:

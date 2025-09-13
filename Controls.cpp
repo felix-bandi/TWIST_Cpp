@@ -300,8 +300,8 @@ void MainWindow::Filedialog_rajzol()
 
 		rect.left = dialog.client.left + 10;
 		rect.right = dialog.client.right - 20;
-		rect.top = dialog.client.top + i * 16;
-		rect.bottom = rect.top + 16;
+		rect.top = dialog.client.top + i * 20;
+		rect.bottom = rect.top + 20;
 
 		bool hover = (rect.left <= mouse.x && rect.right >= mouse.x &&
 			rect.top < mouse.y && rect.bottom >= mouse.y);
@@ -397,6 +397,42 @@ void MainWindow::Filedialog_rajzol()
 	pRenderTarget->DrawText(text, (UINT32)save1.t.size(), TF1, save1, Brush);
 }
 
+void MainWindow::Printdialog_rajzol()
+{
+	Brush->SetColor(D2D1::ColorF(D2D1::ColorF::DarkBlue));
+	pRenderTarget->FillRectangle(dialog_2, Brush);
+	Brush->SetColor(D2D1::ColorF(D2D1::ColorF::DarkGreen));
+	pRenderTarget->DrawRectangle(dialog_2, Brush, 2);
+	Brush->SetColor(D2D1::ColorF(D2D1::ColorF::DarkGreen));
+	pRenderTarget->DrawLine(dialog_2.p1, dialog_2.p2, Brush, 2);
+	// Görgetősáv (ha kell)
+	dialog_2.cs.v = true;
+	if (dialog_2.cs.v)
+	{
+		dialog_2.cs.k = false;
+		if (dialog_2.cs.left <= mouse.x && dialog_2.cs.right >= mouse.x &&
+			dialog_2.cs.top <= mouse.y && dialog_2.cs.bottom >= mouse.y)
+			dialog_2.cs.k = true;
+
+		dialog_2.cs.max = dialog_2.cs.bottom - dialog_2.cs.length - 3;
+		dialog_2.cs.range = dialog_2.cs.max - dialog_2.cs.min;
+		dialog_2.cs.value = dialog_2.cs.p - dialog_2.cs.min;
+
+		pRenderTarget->DrawRectangle(dialog_2.cs, Brush, 2);
+
+		dialog_2.cs.bar.left = dialog_2.cs.left + 3;
+		dialog_2.cs.bar.right = dialog_2.cs.right - 3;
+		dialog_2.cs.bar.top = dialog_2.cs.p;
+		dialog_2.cs.bar.bottom = dialog_2.cs.p + dialog_2.cs.length;
+
+		if (dialog_2.cs.kk) Brush->SetColor(D2D1::ColorF(D2D1::ColorF::Yellow));
+		else if (dialog_2.cs.k) Brush->SetColor(D2D1::ColorF(D2D1::ColorF::YellowGreen));
+		else Brush->SetColor(D2D1::ColorF(D2D1::ColorF::Goldenrod));
+
+		pRenderTarget->FillRectangle(dialog_2.cs.bar, Brush);
+		Brush->SetColor(D2D1::ColorF(D2D1::ColorF::YellowGreen));
+	}
+}
 void MainWindow::CUSTOM_rajzol()
 {
 	Brush->SetColor(D2D1::ColorF(D2D1::ColorF::Gray));
@@ -649,7 +685,6 @@ void MainWindow::XY_rajzol()
 
 void MainWindow::UpdateDialogContents()
 {
-
 	WCHAR base[MAX_PATH];
 	if (dialog_path[0] == 0)
 		swprintf_s(base, L"%c:\\", drivers[dialog.kkd].ch);
@@ -697,7 +732,7 @@ void MainWindow::UpdateDialogContents()
 	if (dialog.ini)
 	{
 		dialog.cs.v = false;
-		size_t TF = 16;
+		size_t TF = 20;
 		size_t fileN = File_vector.size();
 		size_t helyN = (size_t)((dialog.client.bottom - dialog.client.top) / TF);
 

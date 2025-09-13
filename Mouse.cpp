@@ -17,6 +17,10 @@
 //#include <time.h>
 using namespace std;
 #include "TWIST_Cpp.h"
+#include "DPIScale.h"
+#include <crtdbg.h>
+#include "StringConv.h"
+#include "PrintHelpers.h"
 
 
 void MainWindow::OnLButtonDown(int X, int Y, DWORD flags)
@@ -269,6 +273,8 @@ void MainWindow::OnLButtonDown(int X, int Y, DWORD flags)
 			break;
 		case 3:
 			mode = _print;
+			GetPrintersByType(nyomtato, false);
+			/*
 			ny_kep = true;
 			PRINTDLG pd = { 0 };
 			pd.lStructSize = sizeof(pd);
@@ -299,7 +305,7 @@ void MainWindow::OnLButtonDown(int X, int Y, DWORD flags)
 
 				EndPage(hdc);
 				EndDoc(hdc);
-			}
+			}*/
 			break;
 		}
 		MODE_kk = MODE_k;

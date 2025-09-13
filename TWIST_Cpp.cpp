@@ -284,12 +284,8 @@ void MainWindow::OnPaint()
 				Brush->SetColor(D2D1::ColorF(D2D1::ColorF::GreenYellow));
 				pRenderTarget->DrawRectangle(rect, Brush, 1);
 			}
-		if (mode == _file) 
-		{
-			Filedialog_rajzol();
-			//FILE_rajzol(); 
-			//List2_rajzol();
-		}
+		if (mode == _file)  Filedialog_rajzol();
+		if (mode == _print) Printdialog_rajzol();
 		ALAK_rajzol();
 		CUSTOM_rajzol();
 		GC_rajzol();
