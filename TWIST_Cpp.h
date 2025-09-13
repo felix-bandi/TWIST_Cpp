@@ -125,6 +125,7 @@ public:
 	int ScreenWidth, ScreenHeight, int1=0, int2=0, int3=0, int4=0, int5=0, int6=0;
 	float flo5 = 0, flo6 = 0;
 	Dialog dialog;
+	Dialog_2 dialog_2;
 	List list, list2;
 	
 

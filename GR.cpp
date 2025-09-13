@@ -217,10 +217,11 @@ void MainWindow::ALAK_init()
  {
 	 float w1 = static_cast<float>(ScreenWidth) / 6;
 	 float h1 = static_cast<float>(ScreenHeight) / 8;
-	 dialog.left = 2 * w1;
-	 dialog.right = 4 * w1;
-	 dialog.top = h1;
-	 dialog.bottom = 7 * h1;
+	 dialog_2.left = 2 * w1;
+	 dialog_2.right = 4 * w1;
+	 dialog_2.top = h1;
+	 dialog_2.bottom = 7 * h1;
+
  }
 
  

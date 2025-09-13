@@ -275,6 +275,8 @@ struct Dialog_2 :D2D1_RECT_F
 {
 	D2D1_RECT_F list = {};
 	Csuszka cs = {};
+	vector<wstring> nyomtatok;
+
 	Dialog_2() { top = 0; left = 0; bottom = 0; right = 0; }	
 };
 
