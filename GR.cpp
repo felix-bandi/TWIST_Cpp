@@ -471,21 +471,21 @@ void MainWindow::List_init()
 	list.right = static_cast<float>(ScreenWidth);
 	list.left = list.right - 139;
 	list.bottom = static_cast<float>(ScreenHeight);
-	list.cs.top = list.top + 4;
-	list.cs.bottom = list.bottom - 4;
-	list.cs.right = list.right - 4;
-	list.cs.left = list.cs.right - 20;
+	list.sb.top = list.top + 4;
+	list.sb.bottom = list.bottom - 4;
+	list.sb.right = list.right - 4;
+	list.sb.left = list.sb.right - 20;
 	float m=0, H=0, N=0;
 	m = 25;
 	H = (list.bottom - list.top) / m;
 	N = static_cast<float>(Alkatresz.size());
 	if (N == 0) N = 2;
 	float arány = H/N;
-	list.cs.length = list.cs.bottom - list.cs.top - 4;
-	if (arány < 1) list.cs.length = arány * (list.bottom - list.top - 10);
-	list.cs.posMin = list.cs.pos = list.cs.top + 2;
-	list.cs.posMax = list.cs.bottom - list.cs.length - 2;
-	list.cs.range = list.cs.posMax - list.cs.posMin;
+	list.sb.length = list.sb.bottom - list.sb.top - 4;
+	if (arány < 1) list.sb.length = arány * (list.bottom - list.top - 10);
+	list.sb.posMin = list.sb.pos = list.sb.top + 2;
+	list.sb.posMax = list.sb.bottom - list.sb.length - 2;
+	list.sb.range = list.sb.posMax - list.sb.posMin;
 }
 
 void MainWindow::List2_init()
@@ -499,15 +499,15 @@ void MainWindow::List2_init()
 	list2.right = 4 * w;
 	list2.left = 2 * w;
 	list2.bottom = 7 * h;
-	list2.cs.top = list2.top + 4;
-	list2.cs.bottom = list2.bottom - 4;
-	list2.cs.right = list2.right - 4;
-	list2.cs.left = list2.cs.right - 20;
+	list2.sb.top = list2.top + 4;
+	list2.sb.bottom = list2.bottom - 4;
+	list2.sb.right = list2.right - 4;
+	list2.sb.left = list2.sb.right - 20;
 	float m = 0, H = 0;// , N = 0;
 	m = 25;
 	H = (list2.bottom - list2.top) / m;
-	list2.cs.length = list2.cs.bottom - list2.cs.top - 4;
-	list2.cs.posMin = list2.cs.pos = list2.cs.top + 2;
+	list2.sb.length = list2.sb.bottom - list2.sb.top - 4;
+	list2.sb.posMin = list2.sb.pos = list2.sb.top + 2;
 	/*N = Alkatrész.size();
 	if (N == 0) N = 2;
 	float arány = float(H) / float(N);

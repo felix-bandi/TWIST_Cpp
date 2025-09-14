@@ -275,6 +275,7 @@ struct Dialog :D2D1_RECT_F
 struct Dialog_2 :D2D1_RECT_F
 {
 	size_t kkd = 0;
+	bool ini = FALSE;
 	int k = 0, kk = 0, out_N = 0, kd = 0;
 	D2D1_RECT_F list = {};
 	ScrollBar sb = {};
@@ -286,7 +287,7 @@ struct Dialog_2 :D2D1_RECT_F
 struct List :D2D1_RECT_F
 {
 	int k=0, kk=0, out_N=0, kd=0, kkd=0;
-	ScrollBar cs = {};
+	ScrollBar sb = {};
 	bool BOX_k=false;
 	List() { top = 0; left = 0; bottom = 0; right = 0; BOX_k = false; }	
 };

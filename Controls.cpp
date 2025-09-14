@@ -133,19 +133,19 @@ void MainWindow::List_rajzol()
 		else list.BOX_k = false;
 	Brush->SetColor(D2D1::ColorF(D2D1::ColorF::DarkGreen));
 	pRenderTarget->DrawRectangle(list, Brush, 2);
-	pRenderTarget->DrawRectangle(list.cs, Brush, 1);
-	list.cs.value = list.cs.pos - list.cs.posMin;
-	list.cs.thumb.left = list.cs.left + 2;
-	list.cs.thumb.right = list.cs.right - 2;
-	list.cs.thumb.top = list.cs.pos;
-	list.cs.thumb.bottom = list.cs.length + list.cs.pos;
-	pRenderTarget->FillRectangle(list.cs.thumb, Brush);
+	pRenderTarget->DrawRectangle(list.sb, Brush, 1);
+	list.sb.value = list.sb.pos - list.sb.posMin;
+	list.sb.thumb.left = list.sb.left + 2;
+	list.sb.thumb.right = list.sb.right - 2;
+	list.sb.thumb.top = list.sb.pos;
+	list.sb.thumb.bottom = list.sb.length + list.sb.pos;
+	pRenderTarget->FillRectangle(list.sb.thumb, Brush);
 	list.k = -1;
 	for (int i = 0; i < static_cast<int>(Alkatresz.size()); i++)
 	{
 		rect.top = list.top + 4 + i * 25;
 		rect.bottom = rect.top + 24;
-		rect.right = list.cs.left - 4;
+		rect.right = list.sb.left - 4;
 		rect.left = list.left + 4;
 		if (rect.left <= mouse.x && rect.right >= mouse.x && rect.bottom >= mouse.y && rect.top < mouse.y)
 		{
@@ -166,13 +166,13 @@ void MainWindow::List2_rajzol()
 	else list2.BOX_k = false;
 	Brush->SetColor(D2D1::ColorF(D2D1::ColorF::DarkGreen));
 	pRenderTarget->DrawRectangle(list2, Brush, 2);
-	pRenderTarget->DrawRectangle(list2.cs, Brush, 1);
-	list2.cs.value = list2.cs.pos - list2.cs.posMin;
-	list2.cs.thumb.left = list2.cs.left + 2;
-	list2.cs.thumb.right = list2.cs.right - 2;
-	list2.cs.thumb.top = list2.cs.pos;
-	list2.cs.thumb.bottom = list2.cs.length + list2.cs.pos;
-	pRenderTarget->FillRectangle(list2.cs.thumb, Brush);
+	pRenderTarget->DrawRectangle(list2.sb, Brush, 1);
+	list2.sb.value = list2.sb.pos - list2.sb.posMin;
+	list2.sb.thumb.left = list2.sb.left + 2;
+	list2.sb.thumb.right = list2.sb.right - 2;
+	list2.sb.thumb.top = list2.sb.pos;
+	list2.sb.thumb.bottom = list2.sb.length + list2.sb.pos;
+	pRenderTarget->FillRectangle(list2.sb.thumb, Brush);
 
 }
 
@@ -400,7 +400,7 @@ void MainWindow::Filedialog_rajzol()
 
 void MainWindow::Printdialog_rajzol()
 {
-	// 20 elemű vegyes típusú teszt lista generálása a nyomtato vektorba
+	/*// 20 elemű vegyes típusú teszt lista generálása a nyomtato vektorba
 	nyomtato.clear();
 	for (int i = 1; i <= 30; ++i) {
 		Nyomtato p;
@@ -413,34 +413,37 @@ void MainWindow::Printdialog_rajzol()
 		case 0: p.tipus = std::byte{ 4 }; p.name += L" (hálózati virtuális)"; break;
 		}
 		nyomtato.push_back(p);
-	}
+	}*/
 	Brush->SetColor(D2D1::ColorF(D2D1::ColorF::DarkBlue));
 	pRenderTarget->FillRectangle(dialog_2, Brush);
 	Brush->SetColor(D2D1::ColorF(D2D1::ColorF::DarkGreen));
 	pRenderTarget->DrawRectangle(dialog_2, Brush, 2);
 	Brush->SetColor(D2D1::ColorF(D2D1::ColorF::DarkGreen));
 	pRenderTarget->DrawLine(dialog_2.p1, dialog_2.p2, Brush, 2);
-
-	size_t helyN = static_cast<size_t>(dialog_2.list.bottom - dialog_2.list.top) / 20;
-	size_t N = nyomtato.size();
-	Kiir((int)N,100,100);
-	if (N == 0)
-	{
-		NN = 0;
-		dialog_2.out_N = 0;
-		dialog_2.sb.length = 0;
-		dialog_2.sb.posMin = dialog_2.sb.posMax = dialog_2.sb.pos = dialog_2.sb.top;
-		dialog_2.sb.range = 1;
-	}
-	else
-	{
-		if (helyN < N) { NN = helyN; dialog_2.sb.isHover = true; dialog_2.out_N = (int)(N - helyN); }
-		else { NN = N; dialog_2.out_N = 0; }
-		float arany = (float)helyN / (float)N;
-		dialog_2.sb.length = arany * (dialog_2.list.bottom - dialog_2.list.top);
-		dialog_2.sb.posMin = dialog_2.sb.top + 3;
-	}
 	
+	if(dialog_2.ini)
+	{
+		size_t helyN = static_cast<size_t>(dialog_2.list.bottom - dialog_2.list.top) / 20;
+		size_t N = nyomtato.size();
+		Kiir((int)N, 100, 100);
+		if (N == 0)
+		{
+			NN = 0;
+			dialog_2.out_N = 0;
+			dialog_2.sb.length = 0;
+			dialog_2.sb.posMin = dialog_2.sb.posMax = dialog_2.sb.pos = dialog_2.sb.top;
+			dialog_2.sb.range = 1;
+		}
+		else
+		{
+			if (helyN < N) { NN = helyN; dialog_2.sb.isHover = true; dialog_2.out_N = (int)(N - helyN); }
+			else { NN = N; dialog_2.out_N = 0; }
+			float arany = (float)helyN / (float)N;
+			dialog_2.sb.length = arany * (dialog_2.list.bottom - dialog_2.list.top);
+			dialog_2.sb.posMin = dialog_2.sb.pos = dialog_2.sb.top + 3;
+		}
+		dialog_2.ini = false;
+	}
 	//dialog_2.cs.v = true; //ideiglenes
 	if (dialog_2.sb.isHover)
 	{
@@ -476,14 +479,14 @@ void MainWindow::Printdialog_rajzol()
 		kOffset = (size_t)lround(dialog_2.out_N * rel);
 		if (kOffset > (size_t)dialog_2.out_N) kOffset = dialog_2.out_N;
 	}
-	for(size_t i=0; i<N; i++)
+	for(size_t i=0; i<NN; i++)
 	{
 		rect.left = dialog_2.list.left + 10;
 		rect.right = dialog_2.list.right - 20;
 		rect.top = dialog_2.list.top + i * 20;
 		rect.bottom = rect.top + 20;
-		UINT32 nameLen = (UINT32)nyomtato[i].name.length();
-		pRenderTarget->DrawText(nyomtato[i].name.c_str(), nameLen, TF2, rect, Brush);
+		UINT32 nameLen = (UINT32)nyomtato[i+kOffset].name.length();
+		pRenderTarget->DrawText(nyomtato[i+kOffset].name.c_str(), nameLen, TF2, rect, Brush);
 	}
 	//float h = N * 20;
 }

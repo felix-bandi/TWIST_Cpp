@@ -269,6 +269,7 @@ void MainWindow::OnLButtonDown(int X, int Y, DWORD flags)
 		case 2:
 			mode = _file;
 			dialog.ini = true;
+			dialog_2.ini = true;
 			dialog.dirchange = true;
 			break;
 		case 3:
@@ -336,7 +337,7 @@ void MainWindow::OnLButtonDown(int X, int Y, DWORD flags)
 	if (dialog.kd >= 0) { dialog.kkd = dialog.kd; dialog.ini = true;  dialog.dirchange = true; kiv_drv = drivers[dialog.kkd].ch; }
 	if (dialog.sb.isPressed) { dialog.sb.isDragging = true; dialog.sb.dragOffset = mouse.y - dialog.sb.pos; }
 	if (dialog.edit.k) { dialog.edit.kk = true; dialog.edit.sz = true; }
-	if (dialog_2.k >= 0) dialog_2.kk = dialog_2.k;
+	if (dialog_2.k >= 0) dialog_2.kk = dialog_2.k; dialog_2.ini = true;
 	if (dialog_2.sb.isPressed) { dialog_2.sb.isDragging = true; dialog_2.sb.dragOffset = mouse.y - dialog_2.sb.pos; }
 	if (list.k >= 0 && !krv) { list.kk = list.k; if (list.kk >= 0) ALAK_kk = -1; }
 	//int3 = ALAK_kk;
