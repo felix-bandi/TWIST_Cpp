@@ -334,10 +334,10 @@ void MainWindow::OnLButtonDown(int X, int Y, DWORD flags)
 
 	if (dialog.k >= 0) dialog.kk = dialog.k;
 	if (dialog.kd >= 0) { dialog.kkd = dialog.kd; dialog.ini = true;  dialog.dirchange = true; kiv_drv = drivers[dialog.kkd].ch; }
-	if (dialog.cs.k) { dialog.cs.kk = true; dialog.cs.pp = mouse.y - dialog.cs.p; }
+	if (dialog.sb.isPressed) { dialog.sb.isDragging = true; dialog.sb.dragOffset = mouse.y - dialog.sb.pos; }
 	if (dialog.edit.k) { dialog.edit.kk = true; dialog.edit.sz = true; }
 	if (dialog_2.k >= 0) dialog_2.kk = dialog_2.k;
-	if (dialog_2.cs.k) { dialog_2.cs.kk = true; dialog_2.cs.pp = mouse.y - dialog_2.cs.p; }
+	if (dialog_2.sb.isPressed) { dialog_2.sb.isDragging = true; dialog_2.sb.dragOffset = mouse.y - dialog_2.sb.pos; }
 	if (list.k >= 0 && !krv) { list.kk = list.k; if (list.kk >= 0) ALAK_kk = -1; }
 	//int3 = ALAK_kk;
 	if (GC_k >= 0) GC_kk = GC_k;
@@ -446,15 +446,15 @@ void MainWindow::OnMouseMove(int X, int Y, DWORD flags)
 	XY_keres();
 	if (ALAK_k >= 0 || BOX_GC_k || grid.k || BOX_CUSTOM_k || MODE_k >= 0 || XY_k || SZINT_k >= 0 || origo.k || mode == _file || list.BOX_k) SetCursor(Cursor_1);
 	else SetCursor(Cursor_system);
-	if (dialog.cs.kk)
+	if (dialog.sb.isDragging)
 	{
-		float f = mouse.y - dialog.cs.pp;
-		if (dialog.cs.min <= f && dialog.cs.max >= f) dialog.cs.p = f;
+		float f = mouse.y - dialog.sb.dragOffset;
+		if (dialog.sb.posMin <= f && dialog.sb.posMax >= f) dialog.sb.pos = f;
 	}
-	if (dialog_2.cs.kk)
+	if (dialog_2.sb.isDragging)
 	{
-		float f = mouse.y - dialog_2.cs.pp;
-		if (dialog_2.cs.min <= f && dialog_2.cs.max >= f) dialog_2.cs.p = f;
+		float f = mouse.y - dialog_2.sb.dragOffset;
+		if (dialog_2.sb.posMin <= f && dialog_2.sb.posMax >= f) dialog_2.sb.pos = f;
 	}
 }
 

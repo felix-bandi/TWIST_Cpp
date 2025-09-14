@@ -78,8 +78,8 @@ LRESULT MainWindow::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	case WM_LBUTTONUP:
-		dialog.cs.kk = false;
-		dialog_2.cs.kk = false;
+		dialog.sb.isDragging = false;
+		dialog_2.sb.isDragging = false;
 		return 0;
 
 	case WM_LBUTTONDBLCLK:
@@ -100,9 +100,9 @@ LRESULT MainWindow::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 				{
 					// Görgetési offset kiszámítása
 					size_t scrollOffset = 0;
-					if (dialog.cs.range > 0)
+					if (dialog.sb.range > 0)
 					{
-						float rel = (dialog.cs.p - dialog.cs.min) / dialog.cs.range;
+						float rel = (dialog.sb.pos - dialog.sb.posMin) / dialog.sb.range;
 						if (rel < 0) rel = 0;
 						if (rel > 1) rel = 1;
 						scrollOffset = (size_t)lround(dialog.out_N * rel);

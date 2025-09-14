@@ -244,22 +244,22 @@ struct Talalat
 	int i=0;
 };
 
-struct Csuszka :D2D1_RECT_F
+struct ScrollBar :D2D1_RECT_F
 {
-	float min=0, max=0, range=0;
-	float p=0, pp=0, value=0;
+	float posMin=0, posMax=0, range=0;
+	float pos=0, dragOffset=0, value=0;
 	float length=0;
 	float sz=0;
-	bool v=false, k=false, kk=false;
-	D2D1_RECT_F bar;
-	Csuszka() { top = 0; left = 0; bottom = 0; right = 0; }
+	bool isHover=false, isPressed=false, isDragging=false;
+	D2D1_RECT_F thumb;
+	ScrollBar() { top = 0; left = 0; bottom = 0; right = 0; }
 };
 
 struct Dialog :D2D1_RECT_F
 {
 	size_t kkd = 0;
 	int k = 0, kk = 0, out_N = 0, kd = 0;
-	Csuszka cs = {};
+	ScrollBar sb = {};
 	bool ini = FALSE, dirchange = FALSE;
 	WIN32_FIND_DATA FindFileData = {}; // Initialize to zero
 	HANDLE hFind = nullptr;
@@ -277,17 +277,16 @@ struct Dialog_2 :D2D1_RECT_F
 	size_t kkd = 0;
 	int k = 0, kk = 0, out_N = 0, kd = 0;
 	D2D1_RECT_F list = {};
-	Csuszka cs = {};
+	ScrollBar sb = {};
 	D2D1_POINT_2F p1 = {}, p2 = {};
 	std::vector<std::wstring> nyomtatok;
-
 	Dialog_2() { top = 0; left = 0; bottom = 0; right = 0; }	
 };
 
 struct List :D2D1_RECT_F
 {
 	int k=0, kk=0, out_N=0, kd=0, kkd=0;
-	Csuszka cs = {};
+	ScrollBar cs = {};
 	bool BOX_k=false;
 	List() { top = 0; left = 0; bottom = 0; right = 0; BOX_k = false; }	
 };

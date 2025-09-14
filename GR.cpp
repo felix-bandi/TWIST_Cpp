@@ -193,8 +193,8 @@ void MainWindow::ALAK_init()
 	 dialog.bottom = 7 * h1;
 	 dialog.p1.x = dialog.left; dialog.p2.x = dialog.right;
 	 dialog.p1.y = dialog.p2.y = dialog.top + 50;
-	 dialog.cs.k = false;
-	 dialog.cs.kk = false;
+	 dialog.sb.isPressed = false;
+	 dialog.sb.isDragging = false;
 	 dialog.kk = -1;
 	 dialog.kd = -1;
 	 dialog.kkd = 0;
@@ -204,10 +204,10 @@ void MainWindow::ALAK_init()
 	 dialog.client.right = dialog.right - 10;
 	 dialog.client.top = dialog.top + 60;
 	 dialog.client.bottom = dialog.bottom - 90;
-	 dialog.cs.top = dialog.client.top + 4;
-	 dialog.cs.bottom = dialog.client.bottom - 4;
-	 dialog.cs.right = dialog.right - 4;
-	 dialog.cs.left = dialog.right - 22;
+	 dialog.sb.top = dialog.client.top + 4;
+	 dialog.sb.bottom = dialog.client.bottom - 4;
+	 dialog.sb.right = dialog.right - 4;
+	 dialog.sb.left = dialog.right - 22;
 	 dialog.edit.bottom = dialog.bottom - 50;
 	 dialog.edit.top = dialog.edit.bottom - 30;
 	 dialog.edit.left = dialog.client.left;
@@ -228,10 +228,10 @@ void MainWindow::ALAK_init()
 	 dialog_2.list.right = dialog_2.right - 10;
 	 dialog_2.list.top = dialog_2.top + 10;
 	 dialog_2.list.bottom = dialog_2.top + 3*h1;
-	 dialog_2.cs.top = dialog_2.list.top + 4;
-	 dialog_2.cs.bottom = dialog_2.list.bottom - 4;
-	 dialog_2.cs.right = dialog_2.right - 4;
-	 dialog_2.cs.left = dialog_2.right - 22;
+	 dialog_2.sb.top = dialog_2.list.top + 4;
+	 dialog_2.sb.bottom = dialog_2.list.bottom - 4;
+	 dialog_2.sb.right = dialog_2.right - 4;
+	 dialog_2.sb.left = dialog_2.right - 22;
 	 dialog_2.p1.x = dialog_2.left; dialog_2.p2.x = dialog_2.right;
 	 dialog_2.p1.y = dialog_2.p2.y = dialog_2.list.bottom + 10;
  }
@@ -483,9 +483,9 @@ void MainWindow::List_init()
 	float arány = H/N;
 	list.cs.length = list.cs.bottom - list.cs.top - 4;
 	if (arány < 1) list.cs.length = arány * (list.bottom - list.top - 10);
-	list.cs.min = list.cs.p = list.cs.top + 2;
-	list.cs.max = list.cs.bottom - list.cs.length - 2;
-	list.cs.range = list.cs.max - list.cs.min;
+	list.cs.posMin = list.cs.pos = list.cs.top + 2;
+	list.cs.posMax = list.cs.bottom - list.cs.length - 2;
+	list.cs.range = list.cs.posMax - list.cs.posMin;
 }
 
 void MainWindow::List2_init()
@@ -507,7 +507,7 @@ void MainWindow::List2_init()
 	m = 25;
 	H = (list2.bottom - list2.top) / m;
 	list2.cs.length = list2.cs.bottom - list2.cs.top - 4;
-	list2.cs.min = list2.cs.p = list2.cs.top + 2;
+	list2.cs.posMin = list2.cs.pos = list2.cs.top + 2;
 	/*N = Alkatrész.size();
 	if (N == 0) N = 2;
 	float arány = float(H) / float(N);

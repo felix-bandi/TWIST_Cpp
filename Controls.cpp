@@ -134,12 +134,12 @@ void MainWindow::List_rajzol()
 	Brush->SetColor(D2D1::ColorF(D2D1::ColorF::DarkGreen));
 	pRenderTarget->DrawRectangle(list, Brush, 2);
 	pRenderTarget->DrawRectangle(list.cs, Brush, 1);
-	list.cs.value = list.cs.p - list.cs.min;
-	list.cs.bar.left = list.cs.left + 2;
-	list.cs.bar.right = list.cs.right - 2;
-	list.cs.bar.top = list.cs.p;
-	list.cs.bar.bottom = list.cs.length + list.cs.p;
-	pRenderTarget->FillRectangle(list.cs.bar, Brush);
+	list.cs.value = list.cs.pos - list.cs.posMin;
+	list.cs.thumb.left = list.cs.left + 2;
+	list.cs.thumb.right = list.cs.right - 2;
+	list.cs.thumb.top = list.cs.pos;
+	list.cs.thumb.bottom = list.cs.length + list.cs.pos;
+	pRenderTarget->FillRectangle(list.cs.thumb, Brush);
 	list.k = -1;
 	for (int i = 0; i < static_cast<int>(Alkatresz.size()); i++)
 	{
@@ -167,12 +167,12 @@ void MainWindow::List2_rajzol()
 	Brush->SetColor(D2D1::ColorF(D2D1::ColorF::DarkGreen));
 	pRenderTarget->DrawRectangle(list2, Brush, 2);
 	pRenderTarget->DrawRectangle(list2.cs, Brush, 1);
-	list2.cs.value = list2.cs.p - list2.cs.min;
-	list2.cs.bar.left = list2.cs.left + 2;
-	list2.cs.bar.right = list2.cs.right - 2;
-	list2.cs.bar.top = list2.cs.p;
-	list2.cs.bar.bottom = list2.cs.length + list2.cs.p;
-	pRenderTarget->FillRectangle(list2.cs.bar, Brush);
+	list2.cs.value = list2.cs.pos - list2.cs.posMin;
+	list2.cs.thumb.left = list2.cs.left + 2;
+	list2.cs.thumb.right = list2.cs.right - 2;
+	list2.cs.thumb.top = list2.cs.pos;
+	list2.cs.thumb.bottom = list2.cs.length + list2.cs.pos;
+	pRenderTarget->FillRectangle(list2.cs.thumb, Brush);
 
 }
 
@@ -252,29 +252,29 @@ void MainWindow::Filedialog_rajzol()
 	UpdateDialogContents();
 
 	// Görgetősáv (ha kell)
-	if (dialog.cs.v)
+	if (dialog.sb.isHover)
 	{
-		dialog.cs.k = false;
-		if (dialog.cs.left <= mouse.x && dialog.cs.right >= mouse.x &&
-			dialog.cs.top <= mouse.y && dialog.cs.bottom >= mouse.y)
-			dialog.cs.k = true;
+		dialog.sb.isPressed = false;
+		if (dialog.sb.left <= mouse.x && dialog.sb.right >= mouse.x &&
+			dialog.sb.top <= mouse.y && dialog.sb.bottom >= mouse.y)
+			dialog.sb.isPressed = true;
 
-		dialog.cs.max = dialog.cs.bottom - dialog.cs.length - 3;
-		dialog.cs.range = dialog.cs.max - dialog.cs.min;
-		dialog.cs.value = dialog.cs.p - dialog.cs.min;
+		dialog.sb.posMax = dialog.sb.bottom - dialog.sb.length - 3;
+		dialog.sb.range = dialog.sb.posMax - dialog.sb.posMin;
+		dialog.sb.value = dialog.sb.pos - dialog.sb.posMin;
 
-		pRenderTarget->DrawRectangle(dialog.cs, Brush, 2);
+		pRenderTarget->DrawRectangle(dialog.sb, Brush, 2);
 
-		dialog.cs.bar.left = dialog.cs.left + 3;
-		dialog.cs.bar.right = dialog.cs.right - 3;
-		dialog.cs.bar.top = dialog.cs.p;
-		dialog.cs.bar.bottom = dialog.cs.p + dialog.cs.length;
+		dialog.sb.thumb.left = dialog.sb.left + 3;
+		dialog.sb.thumb.right = dialog.sb.right - 3;
+		dialog.sb.thumb.top = dialog.sb.pos;
+		dialog.sb.thumb.bottom = dialog.sb.pos + dialog.sb.length;
 
-		if (dialog.cs.kk) Brush->SetColor(D2D1::ColorF(D2D1::ColorF::Yellow));
-		else if (dialog.cs.k) Brush->SetColor(D2D1::ColorF(D2D1::ColorF::YellowGreen));
+		if (dialog.sb.isDragging) Brush->SetColor(D2D1::ColorF(D2D1::ColorF::Yellow));
+		else if (dialog.sb.isPressed) Brush->SetColor(D2D1::ColorF(D2D1::ColorF::YellowGreen));
 		else Brush->SetColor(D2D1::ColorF(D2D1::ColorF::Goldenrod));
 
-		pRenderTarget->FillRectangle(dialog.cs.bar, Brush);
+		pRenderTarget->FillRectangle(dialog.sb.thumb, Brush);
 		Brush->SetColor(D2D1::ColorF(D2D1::ColorF::YellowGreen));
 	}
 
@@ -286,9 +286,9 @@ void MainWindow::Filedialog_rajzol()
 
 	size_t fileN = File_vector.size();
 	size_t kOffset = 0;
-	if (dialog.cs.v && dialog.cs.range > 0.0001f)
+	if (dialog.sb.isHover && dialog.sb.range > 0.0001f)
 	{
-		float rel = (dialog.cs.p - dialog.cs.min) / dialog.cs.range;
+		float rel = (dialog.sb.pos - dialog.sb.posMin) / dialog.sb.range;
 		if (rel < 0) rel = 0;
 		if (rel > 1) rel = 1;
 		kOffset = (size_t)lround(dialog.out_N * rel);
@@ -428,49 +428,49 @@ void MainWindow::Printdialog_rajzol()
 	{
 		NN = 0;
 		dialog_2.out_N = 0;
-		dialog_2.cs.length = 0;
-		dialog_2.cs.min = dialog_2.cs.max = dialog_2.cs.p = dialog_2.cs.top;
-		dialog_2.cs.range = 1;
+		dialog_2.sb.length = 0;
+		dialog_2.sb.posMin = dialog_2.sb.posMax = dialog_2.sb.pos = dialog_2.sb.top;
+		dialog_2.sb.range = 1;
 	}
 	else
 	{
-		if (helyN < N) { NN = helyN; dialog_2.cs.v = true; dialog_2.out_N = (int)(N - helyN); }
+		if (helyN < N) { NN = helyN; dialog_2.sb.isHover = true; dialog_2.out_N = (int)(N - helyN); }
 		else { NN = N; dialog_2.out_N = 0; }
 		float arany = (float)helyN / (float)N;
-		dialog_2.cs.length = arany * (dialog_2.list.bottom - dialog_2.list.top);
-		dialog_2.cs.min = dialog_2.cs.p = dialog_2.cs.top + 3;
+		dialog_2.sb.length = arany * (dialog_2.list.bottom - dialog_2.list.top);
+		dialog_2.sb.posMin = dialog_2.sb.top + 3;
 	}
 	
 	//dialog_2.cs.v = true; //ideiglenes
-	if (dialog_2.cs.v)
+	if (dialog_2.sb.isHover)
 	{
-		dialog_2.cs.k = false;
-		if (dialog_2.cs.left <= mouse.x && dialog_2.cs.right >= mouse.x &&
-			dialog_2.cs.top <= mouse.y && dialog_2.cs.bottom >= mouse.y)
-			dialog_2.cs.k = true;
+		dialog_2.sb.isPressed = false;
+		if (dialog_2.sb.left <= mouse.x && dialog_2.sb.right >= mouse.x &&
+			dialog_2.sb.top <= mouse.y && dialog_2.sb.bottom >= mouse.y)
+			dialog_2.sb.isPressed = true;
 
-		dialog_2.cs.max = dialog_2.cs.bottom - dialog_2.cs.length - 3;
-		dialog_2.cs.range = dialog_2.cs.max - dialog_2.cs.min;
-		dialog_2.cs.value = dialog_2.cs.p - dialog_2.cs.min;
+		dialog_2.sb.posMax = dialog_2.sb.bottom - dialog_2.sb.length - 3;
+		dialog_2.sb.range = dialog_2.sb.posMax - dialog_2.sb.posMin;
+		dialog_2.sb.value = dialog_2.sb.pos - dialog_2.sb.posMin;
 
-		pRenderTarget->DrawRectangle(dialog_2.cs, Brush, 2);
+		pRenderTarget->DrawRectangle(dialog_2.sb, Brush, 2);
 
-		dialog_2.cs.bar.left = dialog_2.cs.left + 3;
-		dialog_2.cs.bar.right = dialog_2.cs.right - 3;
-		dialog_2.cs.bar.top = dialog_2.cs.p;
-		dialog_2.cs.bar.bottom = dialog_2.cs.p + dialog_2.cs.length;
+		dialog_2.sb.thumb.left = dialog_2.sb.left + 3;
+		dialog_2.sb.thumb.right = dialog_2.sb.right - 3;
+		dialog_2.sb.thumb.top = dialog_2.sb.pos;
+		dialog_2.sb.thumb.bottom = dialog_2.sb.pos + dialog_2.sb.length;
 
-		if (dialog_2.cs.kk) Brush->SetColor(D2D1::ColorF(D2D1::ColorF::Yellow));
-		else if (dialog_2.cs.k) Brush->SetColor(D2D1::ColorF(D2D1::ColorF::YellowGreen));
+		if (dialog_2.sb.isDragging) Brush->SetColor(D2D1::ColorF(D2D1::ColorF::Yellow));
+		else if (dialog_2.sb.isPressed) Brush->SetColor(D2D1::ColorF(D2D1::ColorF::YellowGreen));
 		else Brush->SetColor(D2D1::ColorF(D2D1::ColorF::Goldenrod));
 
-		pRenderTarget->FillRectangle(dialog_2.cs.bar, Brush);
+		pRenderTarget->FillRectangle(dialog_2.sb.thumb, Brush);
 		Brush->SetColor(D2D1::ColorF(D2D1::ColorF::YellowGreen));
 	}
 	size_t kOffset = 0;
-	if (dialog_2.cs.v && dialog_2.cs.range > 0.0001f)
+	if (dialog_2.sb.isHover && dialog_2.sb.range > 0.0001f)
 	{
-		float rel = (dialog_2.cs.p - dialog_2.cs.min) / dialog_2.cs.range;
+		float rel = (dialog_2.sb.pos - dialog_2.sb.posMin) / dialog_2.sb.range;
 		if (rel < 0) rel = 0;
 		if (rel > 1) rel = 1;
 		kOffset = (size_t)lround(dialog_2.out_N * rel);
@@ -785,7 +785,7 @@ void MainWindow::UpdateDialogContents()
 
 	if (dialog.ini)
 	{
-		dialog.cs.v = false;
+		dialog.sb.isHover = false;
 		size_t TF = 20;
 		size_t fileN = File_vector.size();
 		size_t helyN = (size_t)((dialog.client.bottom - dialog.client.top) / TF);
@@ -794,17 +794,17 @@ void MainWindow::UpdateDialogContents()
 		{
 			NN = 0;
 			dialog.out_N = 0;
-			dialog.cs.length = 0;
-			dialog.cs.min = dialog.cs.max = dialog.cs.p = dialog.cs.top;
-			dialog.cs.range = 1;
+			dialog.sb.length = 0;
+			dialog.sb.posMin = dialog.sb.posMax = dialog.sb.pos = dialog.sb.top;
+			dialog.sb.range = 1;
 		}
 		else
 		{
-			if (helyN < fileN) { NN = helyN; dialog.cs.v = true; dialog.out_N = (int)(fileN - helyN); }
+			if (helyN < fileN) { NN = helyN; dialog.sb.isHover = true; dialog.out_N = (int)(fileN - helyN); }
 			else { NN = fileN; dialog.out_N = 0; }
 			float arany = (float)helyN / (float)fileN;
-			dialog.cs.length = arany * (dialog.client.bottom - dialog.client.top);
-			dialog.cs.min = dialog.cs.p = dialog.cs.top + 3;
+			dialog.sb.length = arany * (dialog.client.bottom - dialog.client.top);
+			dialog.sb.posMin = dialog.sb.pos = dialog.sb.top + 3;
 
 			// Rendelés csak ha >1
 			if (fileN > 1)
