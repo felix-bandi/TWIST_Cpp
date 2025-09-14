@@ -274,6 +274,8 @@ struct Dialog :D2D1_RECT_F
 
 struct Dialog_2 :D2D1_RECT_F
 {
+	size_t kkd = 0;
+	int k = 0, kk = 0, out_N = 0, kd = 0;
 	D2D1_RECT_F list = {};
 	Csuszka cs = {};
 	D2D1_POINT_2F p1 = {}, p2 = {};

@@ -18,6 +18,7 @@ using namespace std;
 #include <strsafe.h>
 #include <stdio.h>
 #include <algorithm>
+#include "PrintHelpers.h"
 
 static bool IsDriveReady(wchar_t letter)
 {
@@ -399,14 +400,48 @@ void MainWindow::Filedialog_rajzol()
 
 void MainWindow::Printdialog_rajzol()
 {
+	// 20 elemű vegyes típusú teszt lista generálása a nyomtato vektorba
+	nyomtato.clear();
+	for (int i = 1; i <= 30; ++i) {
+		Nyomtato p;
+		p.name = L"Teszt nyomtató " + std::to_wstring(i);
+		// 1: helyi, 2: helyi virtuális, 3: hálózati, 4: hálózati virtuális
+		switch (i % 4) {
+		case 1: p.tipus = std::byte{ 1 }; p.name += L" (helyi)"; break;
+		case 2: p.tipus = std::byte{ 2 }; p.name += L" (helyi virtuális)"; break;
+		case 3: p.tipus = std::byte{ 3 }; p.name += L" (hálózati)"; break;
+		case 0: p.tipus = std::byte{ 4 }; p.name += L" (hálózati virtuális)"; break;
+		}
+		nyomtato.push_back(p);
+	}
 	Brush->SetColor(D2D1::ColorF(D2D1::ColorF::DarkBlue));
 	pRenderTarget->FillRectangle(dialog_2, Brush);
 	Brush->SetColor(D2D1::ColorF(D2D1::ColorF::DarkGreen));
 	pRenderTarget->DrawRectangle(dialog_2, Brush, 2);
 	Brush->SetColor(D2D1::ColorF(D2D1::ColorF::DarkGreen));
 	pRenderTarget->DrawLine(dialog_2.p1, dialog_2.p2, Brush, 2);
-	// Görgetősáv (ha kell)
-	dialog_2.cs.v = true;
+
+	size_t helyN = static_cast<size_t>(dialog_2.list.bottom - dialog_2.list.top) / 20;
+	size_t N = nyomtato.size();
+	Kiir((int)N,100,100);
+	if (N == 0)
+	{
+		NN = 0;
+		dialog_2.out_N = 0;
+		dialog_2.cs.length = 0;
+		dialog_2.cs.min = dialog_2.cs.max = dialog_2.cs.p = dialog_2.cs.top;
+		dialog_2.cs.range = 1;
+	}
+	else
+	{
+		if (helyN < N) { NN = helyN; dialog_2.cs.v = true; dialog_2.out_N = (int)(N - helyN); }
+		else { NN = N; dialog_2.out_N = 0; }
+		float arany = (float)helyN / (float)N;
+		dialog_2.cs.length = arany * (dialog_2.list.bottom - dialog_2.list.top);
+		dialog_2.cs.min = dialog_2.cs.p = dialog_2.cs.top + 3;
+	}
+	
+	//dialog_2.cs.v = true; //ideiglenes
 	if (dialog_2.cs.v)
 	{
 		dialog_2.cs.k = false;
@@ -432,6 +467,25 @@ void MainWindow::Printdialog_rajzol()
 		pRenderTarget->FillRectangle(dialog_2.cs.bar, Brush);
 		Brush->SetColor(D2D1::ColorF(D2D1::ColorF::YellowGreen));
 	}
+	size_t kOffset = 0;
+	if (dialog_2.cs.v && dialog_2.cs.range > 0.0001f)
+	{
+		float rel = (dialog_2.cs.p - dialog_2.cs.min) / dialog_2.cs.range;
+		if (rel < 0) rel = 0;
+		if (rel > 1) rel = 1;
+		kOffset = (size_t)lround(dialog_2.out_N * rel);
+		if (kOffset > (size_t)dialog_2.out_N) kOffset = dialog_2.out_N;
+	}
+	for(size_t i=0; i<N; i++)
+	{
+		rect.left = dialog_2.list.left + 10;
+		rect.right = dialog_2.list.right - 20;
+		rect.top = dialog_2.list.top + i * 20;
+		rect.bottom = rect.top + 20;
+		UINT32 nameLen = (UINT32)nyomtato[i].name.length();
+		pRenderTarget->DrawText(nyomtato[i].name.c_str(), nameLen, TF2, rect, Brush);
+	}
+	//float h = N * 20;
 }
 void MainWindow::CUSTOM_rajzol()
 {

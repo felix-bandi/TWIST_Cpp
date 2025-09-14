@@ -79,6 +79,7 @@ LRESULT MainWindow::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 	case WM_LBUTTONUP:
 		dialog.cs.kk = false;
+		dialog_2.cs.kk = false;
 		return 0;
 
 	case WM_LBUTTONDBLCLK:
