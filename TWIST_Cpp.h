@@ -36,7 +36,7 @@ class MainWindow : public BaseWindow<MainWindow>
 	ID2D1DCRenderTarget*	m_pDCRT;
 	ID2D1SolidColorBrush	*Brush, *bv[2][2], *bp[2][2], *fekete, *feher, *cyan;
 	IDWriteFactory*			pDWriteFactory;
-	IDWriteTextFormat		*TF1, *TF2, *TF2_dir;
+	IDWriteTextFormat		*TF1, *TF2, *TF2_dir, *TF_edit;
 	ID2D1StrokeStyle*		pStrokeStyle;
 	ID2D1PathGeometry*		pPathGeometry;
 	ID2D1PathGeometry*		pPathGeometry_2;
@@ -92,7 +92,7 @@ class MainWindow : public BaseWindow<MainWindow>
 	GOMB					gomb, edit, grid, origo;
 	//GOMB_1					File_gomb;
 	vector<GOMB_2>			drivers; GOMB_2 driver, save1, save2, load;
-	vector<WIN32_FIND_DATA>	File_vector;
+	vector<WIN32_FIND_DATAW>	File_vector;
 	GC						gc;
 	WCHAR					text[MAX_PATH], kiv_drv, dialog_path[MAX_PATH];
 	RECT					rc{};

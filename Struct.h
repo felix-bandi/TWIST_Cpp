@@ -4,6 +4,7 @@
 #pragma once
 #include "Precision.h"
 #include <d2d1.h>
+#include <cwctype>
 
 enum ALAK
 {
@@ -205,10 +206,10 @@ struct GOMB_2:D2D1_RECT_F
 
 struct EDIT :D2D1_RECT_F
 {
-    bool sz = false, k = false, kk = false; // Initialize all bool members to false
+    bool sz = false, k = false, kk = false; 
     std::vector<u8> c;
-    u8 tt[MAX_PATH] = { 0 }; // Initialize all elements to zero
-	EDIT() { top = 0; left = 0; bottom = 0; right = 0; } // Default constructor initializing rectangle members to zero
+    u8 tt[MAX_PATH] = { 0 }; 
+	EDIT() { top = 0; left = 0; bottom = 0; right = 0; } 
 };
 
 struct EDIT_W : D2D1_RECT_F
@@ -261,12 +262,12 @@ struct Dialog :D2D1_RECT_F
 	int k = 0, kk = 0, out_N = 0, kd = 0;
 	ScrollBar sb = {};
 	bool ini = FALSE, dirchange = FALSE;
-	WIN32_FIND_DATA FindFileData = {}; // Initialize to zero
+	WIN32_FIND_DATAW FindFileData = {}; // Initialize to zero
 	HANDLE hFind = nullptr;
 	WCHAR filepath[MAX_PATH] = { 0 };
 	std::vector<WCHAR[MAX_PATH]> path;
 	D2D1_RECT_F client = {};
-	EDIT edit;
+	EDIT_W edit;
 	D2D1_POINT_2F p1 = {}, p2 = {};
 	DWORD lastEnumError = 0; 
 	Dialog() { top = 0; left = 0; bottom = 0; right = 0; }	

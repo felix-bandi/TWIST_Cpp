@@ -61,7 +61,7 @@ void GetPrintersByType(std::vector<Nyomtato>& ny, bool includeConnections = fals
 	AppendTypeToName(ny);
 }
 // 1) Segédfüggvény: default nyomtató neve
-static bool GetDefaultPrinterName(std::wstring& out)
+bool GetDefaultPrinterName(std::wstring& out)
 {
     DWORD need = 0;
     GetDefaultPrinterW(nullptr, &need);

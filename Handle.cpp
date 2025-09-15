@@ -94,13 +94,13 @@ LRESULT MainWindow::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			if (mx >= dialog.client.left && mx <= dialog.client.right &&
 				my >= dialog.client.top && my < dialog.client.bottom)
 			{
-				
-				int relatívSor = (my - (int)dialog.client.top) / sorMag;
-				if (relatívSor >= 0)
+
+				int relativSor = (my - (int)dialog.client.top) / sorMag;
+				if (relativSor >= 0)
 				{
 					// Görgetési offset kiszámítása
 					size_t scrollOffset = 0;
-					if (dialog.sb.range > 0)
+					if (dialog.sb.range > 0.0f)
 					{
 						float rel = (dialog.sb.pos - dialog.sb.posMin) / dialog.sb.range;
 						if (rel < 0) rel = 0;
@@ -108,48 +108,55 @@ LRESULT MainWindow::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 						scrollOffset = (size_t)lround(dialog.out_N * rel);
 						if (scrollOffset > (size_t)dialog.out_N) scrollOffset = dialog.out_N;
 					}
-					size_t absIndex = scrollOffset + (size_t)relatívSor;
-					if (absIndex < File_vector.size())
+					if (relativSor < 0) return 0;
+					size_t absIndex = scrollOffset + (size_t)relativSor;
+					if (absIndex >= File_vector.size()) return 0;
+					WIN32_FIND_DATAW& ffd = File_vector[absIndex];
+					bool isDir = (ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) != 0;
+					if (isDir)
 					{
-						WIN32_FIND_DATA &ffd = File_vector[absIndex];
-						bool isDir = (ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) != 0;
-						if (isDir)
+						const WCHAR* name = ffd.cFileName;
+						if (wcscmp(name, L".") == 0)
 						{
-							const WCHAR* name = ffd.cFileName;
-							if (wcscmp(name, L".") == 0)
-							{
-								// maradunk
-							}
-							else if (wcscmp(name, L"..") == 0)
-							{
-								// vissza egy szinttel
-								size_t len = wcslen(dialog_path);
-								if (len > 0)
-								{
-									if (dialog_path[len - 1] == L'/') len--;
-									while (len > 0 && dialog_path[len - 1] != L'/') len--;
-									dialog_path[len] = 0;
-								}
-							}
-							else
-							{
-								// belépünk: hozzáfűzés név + '/'
-								size_t cur = wcslen(dialog_path);
-								size_t nlen = wcslen(name);
-								if (cur + nlen + 2 < 260)
-								{
-									for (size_t i = 0; i < nlen; ++i)
-										dialog_path[cur + i] = name[i];
-									cur += nlen;
-									dialog_path[cur++] = L'/';
-									dialog_path[cur] = 0;
-								}
-							}
-							dialog.dirchange = true;
-							dialog.ini = true;
-							InvalidateRect(m_hwnd, nullptr, FALSE);
+							// maradunk
 						}
+						else if (wcscmp(name, L"..") == 0)
+						{
+							// vissza egy szinttel
+							size_t len = wcslen(dialog_path);
+							if (len > 0)
+							{
+								if (dialog_path[len - 1] == L'/') len--;
+								while (len > 0 && dialog_path[len - 1] != L'/') len--;
+								dialog_path[len] = 0;
+							}
+							dialog.edit.c.assign(dialog_path);
+							wcscpy_s(dialog.edit.tt, dialog.edit.c.c_str());
+						}
+						else
+						{
+							// belépünk: hozzáfűzés név + '/'
+							size_t cur = wcslen(dialog_path);
+							size_t nlen = wcslen(name);
+							if (cur + nlen + 2 < 260)
+							{
+								for (size_t i = 0; i < nlen; ++i)
+									dialog_path[cur + i] = name[i];
+								cur += nlen;
+								dialog_path[cur++] = L'/';
+								dialog_path[cur] = 0;
+							}
+							dialog.edit.c.assign(dialog_path);
+							wcscpy_s(dialog.edit.tt, dialog.edit.c.c_str());
+						}
+						//OutputDebugStringW(L"[PATH ] "); OutputDebugStringW(dialog_path); OutputDebugStringW(L"\n");
+						//OutputDebugStringW(L"[EDIT ] "); OutputDebugStringW(dialog.edit.c.c_str()); OutputDebugStringW(L"\n");
+
+						dialog.dirchange = true;
+						dialog.ini = true;
+						InvalidateRect(m_hwnd, nullptr, FALSE);
 					}
+
 				}
 			}
 		}
@@ -222,82 +229,87 @@ LRESULT MainWindow::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 				break;
 			}
 			return 0;
-		}		
+		}
 	case WM_CHAR:
 		if (dialog.edit.sz)
 		{
-			if (wParam == VK_BACK) dialog.edit.c.pop_back();
-			else
-			{
-				char w = (char)wParam;
-				if (isalnum((unsigned char)w)) dialog.edit.c.push_back(w);
-				int2 = w;
+			wchar_t ch = static_cast<wchar_t>(wParam);
+
+			// Backspace: csak ha nem üres
+			if (ch == L'\b') {
+				if (!dialog.edit.c.empty()) dialog.edit.c.pop_back();
+			}
+			else {
+				// Engedjünk meg minden nyomtatható Unicode karaktert (útvonalhoz ez bőven jó)
+				if (iswprint(static_cast<wint_t>(ch))) {
+					dialog.edit.c.push_back(ch);
+				}
 			}
 		}
 		if (edit_sz)
 		{
 			switch (wParam)
 			{
-				case 0x30: if (edit.c.size() < 4) edit.c.push_back('0'); break;
-				case 0x31: if (edit.c.size() < 4) edit.c.push_back('1'); break;
-				case 0x32: if (edit.c.size() < 4) edit.c.push_back('2'); break;
-				case 0x33: if (edit.c.size() < 4) edit.c.push_back('3'); break;
-				case 0x34: if (edit.c.size() < 4) edit.c.push_back('4'); break;
-				case 0x35: if (edit.c.size() < 4) edit.c.push_back('5'); break;
-				case 0x36: if (edit.c.size() < 4) edit.c.push_back('6'); break;
-				case 0x37: if (edit.c.size() < 4) edit.c.push_back('7'); break;
-				case 0x38: if (edit.c.size() < 4) edit.c.push_back('8'); break;
-				case 0x39: if (edit.c.size() < 4) edit.c.push_back('9'); break;
-				case VK_BACK: if (!edit.c.empty()) edit.c.pop_back(); break;
-				case VK_RETURN: 
+			case 0x30: if (edit.c.size() < 4) edit.c.push_back('0'); break;
+			case 0x31: if (edit.c.size() < 4) edit.c.push_back('1'); break;
+			case 0x32: if (edit.c.size() < 4) edit.c.push_back('2'); break;
+			case 0x33: if (edit.c.size() < 4) edit.c.push_back('3'); break;
+			case 0x34: if (edit.c.size() < 4) edit.c.push_back('4'); break;
+			case 0x35: if (edit.c.size() < 4) edit.c.push_back('5'); break;
+			case 0x36: if (edit.c.size() < 4) edit.c.push_back('6'); break;
+			case 0x37: if (edit.c.size() < 4) edit.c.push_back('7'); break;
+			case 0x38: if (edit.c.size() < 4) edit.c.push_back('8'); break;
+			case 0x39: if (edit.c.size() < 4) edit.c.push_back('9'); break;
+			case VK_BACK: if (!edit.c.empty()) edit.c.pop_back(); break;
+			case VK_RETURN:
+			{
+				edit_sz = false;
+				if (edit.c.empty()) edit.c.push_back('1');
+				if (grid.sz)
 				{
-					edit_sz = false;				
-					if (edit.c.empty()) edit.c.push_back('1');
-					if (grid.sz)
+					int h = (int)edit.c.size();
+					grid.c.clear();
+					for (int n = 0; n < h; n++) grid.c.push_back(edit.c[n]);
+					grid.sz = false;
+					char w[10]{};
+					for (int j = 0; j < 10; j++) w[j] = ' ';
+					for (int j = 0; j < h; j++) w[j] = grid.c[j];
+					grid.i = stoi(w);
+				}
+				if (custom_sz)
+				{
+					int s = (int)CUSTOM[ALAK_kk].size();
+					int i = 0;
+					while (s >= 1)
 					{
-						int h = (int)edit.c.size();
-						grid.c.clear();
-						for (int n = 0; n < h; n++) grid.c.push_back(edit.c[n]);
-						grid.sz = false;
-						char w[10]{};
-						for (int j = 0; j < 10; j++) w[j] = ' ';
-						for (int j = 0; j < h; j++) w[j] = grid.c[j];
-						grid.i = stoi(w);
-					}
-					if (custom_sz)
-					{
-						int s = (int)CUSTOM[ALAK_kk].size();
-						int i = 0;
-						while (s >= 1)
+						if (CUSTOM_vector[i].sz)
 						{
-							if (CUSTOM_vector[i].sz)
-							{
-								int h = (int)edit.c.size();
-								CUSTOM[ALAK_kk][i].c.clear();
-								for (int n = 0; n < h; n++) CUSTOM[ALAK_kk][i].c.push_back(edit.c[n]);
-								custom_sz = false;
-								CUSTOM_vector[i].sz = false;
-								char w[10]{};
-								for (int j = 0; j < 10; j++) w[j] = ' ';
-								for (int j = 0; j < h; j++) w[j] = CUSTOM[ALAK_kk][i].c[j];
-								CUSTOM[ALAK_kk][i].i = stoi(w);
-							}
-							i++;
-							s--;
+							int h = (int)edit.c.size();
+							CUSTOM[ALAK_kk][i].c.clear();
+							for (int n = 0; n < h; n++) CUSTOM[ALAK_kk][i].c.push_back(edit.c[n]);
+							custom_sz = false;
+							CUSTOM_vector[i].sz = false;
+							char w[10]{};
+							for (int j = 0; j < 10; j++) w[j] = ' ';
+							for (int j = 0; j < h; j++) w[j] = CUSTOM[ALAK_kk][i].c[j];
+							CUSTOM[ALAK_kk][i].i = stoi(w);
 						}
-						vonal_t[0] = CUSTOM[0][0].i;
-						kor_t[0] = CUSTOM[1][0].i;
-						EL_t[0] = CUSTOM[3][0].i; EL_t[1] = CUSTOM[3][1].i; EL_t[2] = CUSTOM[3][2].i;
-						SQ_t[0] = CUSTOM[4][0].i; SQ_t[1] = CUSTOM[4][1].i; SQ_t[2] = CUSTOM[4][2].i;
-						RR_t[0] = CUSTOM[5][0].i; RR_t[1] = CUSTOM[5][1].i; RR_t[2] = CUSTOM[5][2].i;
-						RR_t[3] = CUSTOM[5][3].i; RR_t[4] = CUSTOM[5][4].i;
-						EV_t[0] = CUSTOM[6][0].i; EV_t[1] = CUSTOM[6][1].i; EV_t[2] = CUSTOM[6][2].i;
-						SV_t[0] = CUSTOM[7][0].i; SV_t[1] = CUSTOM[7][1].i; SV_t[2] = CUSTOM[7][2].i;
-						RV_t[0] = CUSTOM[8][0].i; RV_t[1] = CUSTOM[8][1].i; RV_t[2] = CUSTOM[8][2].i;
-						RV_t[3] = CUSTOM[8][3].i; RV_t[4] = CUSTOM[8][4].i;
+						i++;
+						s--;
 					}
-				} break;
-			}				
+					vonal_t[0] = CUSTOM[0][0].i;
+					kor_t[0] = CUSTOM[1][0].i;
+					EL_t[0] = CUSTOM[3][0].i; EL_t[1] = CUSTOM[3][1].i; EL_t[2] = CUSTOM[3][2].i;
+					SQ_t[0] = CUSTOM[4][0].i; SQ_t[1] = CUSTOM[4][1].i; SQ_t[2] = CUSTOM[4][2].i;
+					RR_t[0] = CUSTOM[5][0].i; RR_t[1] = CUSTOM[5][1].i; RR_t[2] = CUSTOM[5][2].i;
+					RR_t[3] = CUSTOM[5][3].i; RR_t[4] = CUSTOM[5][4].i;
+					EV_t[0] = CUSTOM[6][0].i; EV_t[1] = CUSTOM[6][1].i; EV_t[2] = CUSTOM[6][2].i;
+					SV_t[0] = CUSTOM[7][0].i; SV_t[1] = CUSTOM[7][1].i; SV_t[2] = CUSTOM[7][2].i;
+					RV_t[0] = CUSTOM[8][0].i; RV_t[1] = CUSTOM[8][1].i; RV_t[2] = CUSTOM[8][2].i;
+					RV_t[3] = CUSTOM[8][3].i; RV_t[4] = CUSTOM[8][4].i;
+				}
+			} break;
+			}
 		}
 		else if (korfazis == 2 && wParam == VK_SPACE)
 		{

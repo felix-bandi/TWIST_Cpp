@@ -291,6 +291,7 @@ void MainWindow::OnPaint()
 		GC_rajzol();
 		GRID_rajzol();
 		MODE_rajzol();
+		FILE_rajzol();
 		List_rajzol();
 		SZINT_rajzol();
 		ORIGO_rajzol();

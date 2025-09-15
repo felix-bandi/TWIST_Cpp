@@ -19,6 +19,7 @@ using namespace std;
 #include <stdio.h>
 #include <algorithm>
 #include "PrintHelpers.h"
+#include <wrl/client.h>
 
 static bool IsDriveReady(wchar_t letter)
 {
@@ -314,7 +315,7 @@ void MainWindow::Filedialog_rajzol()
 		}
 		else Brush->SetColor(D2D1::ColorF(D2D1::ColorF::Gray));
 
-		const WIN32_FIND_DATA &ffd = File_vector[kOffset + i];
+		const WIN32_FIND_DATAW &ffd = File_vector[kOffset + i];
 		const WCHAR* fname = ffd.cFileName;
 		size_t nameLen = wcslen(fname);
 
@@ -374,7 +375,8 @@ void MainWindow::Filedialog_rajzol()
 	pRenderTarget->DrawRectangle(dialog.edit, Brush, 1);
 	for (int i = 0; i < (int)dialog.edit.c.size(); i++)
 		dialog.filepath[i] = dialog.edit.c[i];
-	pRenderTarget->DrawText(dialog.filepath, (UINT32)dialog.edit.c.size(), TF2, dialog.edit, Brush, D2D1_DRAW_TEXT_OPTIONS_CLIP);
+	
+	pRenderTarget->DrawText(dialog.edit.c.c_str(), static_cast<UINT32>(dialog.edit.c.length()), TF2, dialog.edit, Brush);
 
 	// Mentés gomb
 	save1.bottom = dialog.bottom - 10;
@@ -796,12 +798,34 @@ void MainWindow::UpdateDialogContents()
 			dialog.lastEnumError = ERROR_NOT_READY;
 		}
 
-		dialog.edit.c.clear();
-		std::wstring wst(base);
-		for (auto ch : wst) if (ch < 128) dialog.edit.c.push_back(static_cast<unsigned char>(ch));
+		Microsoft::WRL::ComPtr<IDWriteTextLayout> layout;
+		pDWriteFactory->CreateTextLayout(
+			dialog.edit.c.c_str(),
+			(UINT32)dialog.edit.c.length(),
+			TF2,
+			dialog.edit.right - dialog.edit.left,   // elérhető szélesség
+			10000.0f,                               // nagy magasság, hogy elférjen
+			&layout
+		);
 
-		dialog.ini = true;
-		dialog.dirchange = false;
+		DWRITE_TEXT_METRICS m = {};
+		layout->GetMetrics(&m);
+
+		// Sorok száma:
+		UINT32 lines = (m.lineCount > 0) ? m.lineCount : 1;
+
+		// Új magasság: a DirectWrite által számolt teljes magasság
+		float newHeight = std::ceil(m.height);
+
+		// (opcionálisan limitáld max N sorra)
+		const UINT32 maxLines = 3; // pl. 3 sort engedünk
+		if (lines > maxLines) {
+			float perLine = m.height / lines;
+			newHeight = std::ceil(perLine * maxLines);
+		}
+
+		dialog.edit.bottom = dialog.edit.top + newHeight;
+
 	}
 
 	if (dialog.ini)
@@ -833,7 +857,7 @@ void MainWindow::UpdateDialogContents()
 				if (dialogSortMode == DIALOG_SORT_DIR_FIRST)
 				{
 					std::sort(File_vector.begin(), File_vector.end(),
-						[](const WIN32_FIND_DATA &a, const WIN32_FIND_DATA &b)
+						[](const WIN32_FIND_DATAW &a, const WIN32_FIND_DATAW &b)
 						{
 							bool ad = (a.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) != 0;
 							bool bd = (b.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) != 0;
@@ -844,7 +868,7 @@ void MainWindow::UpdateDialogContents()
 				else // DIALOG_SORT_MIXED
 				{
 					std::sort(File_vector.begin(), File_vector.end(),
-						[](const WIN32_FIND_DATA &a, const WIN32_FIND_DATA &b)
+						[](const WIN32_FIND_DATAW &a, const WIN32_FIND_DATAW &b)
 						{
 							return _wcsicmp(a.cFileName, b.cFileName) < 0;
 						});

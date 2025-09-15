@@ -109,20 +109,20 @@ HRESULT MainWindow::CreateGraphicsResources()
 				DWRITE_FONT_STYLE_NORMAL,
 				DWRITE_FONT_STRETCH_NORMAL,
 				17.0f,
-				L"",
+				L"hu-HU",
 				&TF1
 			);
 			TF1->SetTextAlignment(DWRITE_TEXT_ALIGNMENT_CENTER);
 			TF1->SetParagraphAlignment(DWRITE_PARAGRAPH_ALIGNMENT_CENTER);
 			TF1->SetWordWrapping(DWRITE_WORD_WRAPPING_NO_WRAP);
 			pDWriteFactory->CreateTextFormat(
-				L"Ariel",                // Font family name.
+				L"Arial",                // Font family name.
 				nullptr,                       // Font collection (nullptr sets it to use the system font collection).
 				DWRITE_FONT_WEIGHT_REGULAR,
 				DWRITE_FONT_STYLE_NORMAL,
 				DWRITE_FONT_STRETCH_NORMAL,
 				17.0f,
-				L"",
+				L"hu-HU",
 				&TF2
 			);
 			TF2->SetTextAlignment(DWRITE_TEXT_ALIGNMENT_LEADING);
@@ -135,9 +135,22 @@ HRESULT MainWindow::CreateGraphicsResources()
 				DWRITE_FONT_STYLE_NORMAL,
 				DWRITE_FONT_STRETCH_NORMAL,
 				17.0f,
-				L"",
+				L"hu-HU",
 				&TF2_dir
 			);
+			pDWriteFactory->CreateTextFormat(
+				L"Consolas",                // Font family name.
+				nullptr,                       // Font collection (nullptr sets it to use the system font collection).
+				DWRITE_FONT_WEIGHT_REGULAR,
+				DWRITE_FONT_STYLE_NORMAL,
+				DWRITE_FONT_STRETCH_NORMAL,
+				17.0f,
+				L"hu-HU",
+				&TF_edit
+			);
+			TF2->SetTextAlignment(DWRITE_TEXT_ALIGNMENT_LEADING);
+			TF2->SetParagraphAlignment(DWRITE_PARAGRAPH_ALIGNMENT_CENTER);
+			TF2->SetWordWrapping(DWRITE_WORD_WRAPPING_WRAP);
 			TF2_dir->SetTextAlignment(DWRITE_TEXT_ALIGNMENT_LEADING);
 			TF2_dir->SetParagraphAlignment(DWRITE_PARAGRAPH_ALIGNMENT_CENTER);
 			TF2_dir->SetWordWrapping(DWRITE_WORD_WRAPPING_NO_WRAP);
