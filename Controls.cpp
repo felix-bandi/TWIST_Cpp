@@ -63,7 +63,7 @@ void MainWindow::ALAK_rajzol()
 		pRenderTarget->DrawRectangle(rect, Brush, 1);
 		hossz = ALAK_vector[i].t.length();
 		for (size_t n = 0; n < hossz; n++) text[n] = ALAK_vector[i].t[n];
-		pRenderTarget->DrawText(text, static_cast<UINT32>(hossz), TF1, rect, Brush);
+		pRenderTarget->DrawText(text, static_cast<UINT32>(hossz), TF1, rect, Brush, D2D1_DRAW_TEXT_OPTIONS_CLIP);
 	}
 }
 
@@ -83,7 +83,7 @@ void MainWindow::MODE_rajzol()
 		pRenderTarget->DrawRectangle(rect, Brush, 1);
 		hossz = MODE_vector[i].t.length();
 		for (size_t n = 0; n < hossz; n++) text[n] = MODE_vector[i].t[n];
-		pRenderTarget->DrawText(text, static_cast<UINT32>(hossz), TF1, rect, Brush);
+		pRenderTarget->DrawText(text, static_cast<UINT32>(hossz), TF1, rect, Brush, D2D1_DRAW_TEXT_OPTIONS_CLIP);
 	}
 }
 
@@ -103,7 +103,7 @@ void MainWindow::FILE_rajzol()
 		pRenderTarget->DrawRectangle(rect, Brush, 1);
 		hossz = FILE_vector[i].t.length();
 		for (size_t n = 0; n < hossz; n++) text[n] = FILE_vector[i].t[n];
-		pRenderTarget->DrawText(text, static_cast<UINT32>(hossz), TF1, rect, Brush);
+		pRenderTarget->DrawText(text, static_cast<UINT32>(hossz), TF1, rect, Brush, D2D1_DRAW_TEXT_OPTIONS_CLIP);
 	}
 }
 
@@ -123,7 +123,7 @@ void MainWindow::SZINT_rajzol()
 		pRenderTarget->DrawRectangle(rect, Brush, 1);
 		hossz = SZINT_vector[i].t.length();
 		for (size_t n = 0; n < hossz; n++) text[n] = SZINT_vector[i].t[n];
-		pRenderTarget->DrawText(text, static_cast<UINT32>(hossz), TF1, rect, Brush);
+		pRenderTarget->DrawText(text, static_cast<UINT32>(hossz), TF1, rect, Brush, D2D1_DRAW_TEXT_OPTIONS_CLIP);
 	}
 }
 
@@ -156,7 +156,7 @@ void MainWindow::List_rajzol()
 		if (list.kk == i ) Brush->SetColor(D2D1::ColorF(D2D1::ColorF::Orange));
 		hossz = Alkatresz[i].nev.size();
 		for (size_t j = 0; j < hossz; j++) text[j] = Alkatresz[i].nev[j];
-		pRenderTarget->DrawText(text, static_cast<UINT32>(hossz), TF2, rect, Brush);
+		pRenderTarget->DrawText(text, static_cast<UINT32>(hossz), TF2, rect, Brush, D2D1_DRAW_TEXT_OPTIONS_CLIP);
 	}
 }
 
@@ -244,7 +244,7 @@ void MainWindow::Filedialog_rajzol()
 
 		text[0] = drivers[i].ch; text[1] = ' '; text[2] = ':';
 		Brush->SetColor(D2D1::ColorF(D2D1::ColorF::White));
-		pRenderTarget->DrawText(text, 3, TF1, driver, Brush);
+		pRenderTarget->DrawText(text, 3, TF1, driver, Brush, D2D1_DRAW_TEXT_OPTIONS_CLIP);
 	}
 
 	// --- RÉGI enumerációs kód TÖRÖLVE ---
@@ -502,9 +502,9 @@ void MainWindow::Printdialog_rajzol()
 			//if (nyomtato[i + kOffset].alap)
 			displayName = L"★ " + displayName;
 			UINT32 nameLen = static_cast<UINT32>(displayName.length());
-			pRenderTarget->DrawText(displayName.c_str(), nameLen, TF2_dir, rect, Brush);
+			pRenderTarget->DrawText(displayName.c_str(), nameLen, TF2_dir, rect, Brush, D2D1_DRAW_TEXT_OPTIONS_CLIP);
 		}
-		else pRenderTarget->DrawText(nyomtato[i + kOffset].name.c_str(), nameLen, TF2, rect, Brush);
+		else pRenderTarget->DrawText(nyomtato[i + kOffset].name.c_str(), nameLen, TF2, rect, Brush, D2D1_DRAW_TEXT_OPTIONS_CLIP);
 	}
 }
 
@@ -523,7 +523,7 @@ void MainWindow::CUSTOM_rajzol()
 		ws = L"Custom " + alak_nevek[ALAK_kk];
 		hossz = ws.length();
 		for (size_t n = 0; n < hossz; n++) text[n] = ws[n];
-		pRenderTarget->DrawText(text, static_cast<UINT32>(hossz), TF1, rect, Brush);
+		pRenderTarget->DrawText(text, static_cast<UINT32>(hossz), TF1, rect, Brush, D2D1_DRAW_TEXT_OPTIONS_CLIP);
 		size_t s = CUSTOM[ALAK_kk].size();
 		int i = 0;
 		while (s >= 1)
@@ -538,14 +538,14 @@ void MainWindow::CUSTOM_rajzol()
 			if (CUSTOM_vector[i].sz)
 			{
 				Brush->SetColor(D2D1::ColorF(D2D1::ColorF::Red));
-				pRenderTarget->DrawText(text, static_cast<UINT32>(hossz), TF1, rect, Brush);
+				pRenderTarget->DrawText(text, static_cast<UINT32>(hossz), TF1, rect, Brush, D2D1_DRAW_TEXT_OPTIONS_CLIP);
 				rect.top = rect.top + 3;
 				rect.left = BOX_CUSTOM.left + 70;
 				rect.right = BOX_CUSTOM.right - 5;
 				pRenderTarget->DrawRectangle(rect, Brush, 1);
 				rect.top = rect.top - 2;
 				for (size_t ii = 0; ii < edit.c.size(); ii++) text[ii] = edit.c[ii];
-				pRenderTarget->DrawText(text, static_cast<UINT32>(edit.c.size()), TF1, rect, Brush);
+				pRenderTarget->DrawText(text, static_cast<UINT32>(edit.c.size()), TF1, rect, Brush, D2D1_DRAW_TEXT_OPTIONS_CLIP);
 			}
 			else
 			{
@@ -553,7 +553,7 @@ void MainWindow::CUSTOM_rajzol()
 					Brush->SetColor(D2D1::ColorF(D2D1::ColorF::Coral));
 				else
 					Brush->SetColor(D2D1::ColorF(D2D1::ColorF::Blue));
-				pRenderTarget->DrawText(text, static_cast<UINT32>(hossz), TF1, rect, Brush);
+				pRenderTarget->DrawText(text, static_cast<UINT32>(hossz), TF1, rect, Brush, D2D1_DRAW_TEXT_OPTIONS_CLIP);
 				rect.top = rect.top + 3;
 				rect.left = BOX_CUSTOM.left + 70;
 				rect.right = BOX_CUSTOM.right - 5;
@@ -603,7 +603,7 @@ void MainWindow::ORIGO_rajzol()
 	pRenderTarget->DrawRectangle(origo, Brush, 1);
 	hossz = origo.t.length();
 	for (size_t n = 0; n < hossz; n++) text[n] = origo.t[n];
-	pRenderTarget->DrawText(text, static_cast<UINT32>(hossz), TF1, origo, Brush);
+	pRenderTarget->DrawText(text, static_cast<UINT32>(hossz), TF1, origo, Brush, D2D1_DRAW_TEXT_OPTIONS_CLIP);
 }
 
 void MainWindow::Origo_athelyez()
