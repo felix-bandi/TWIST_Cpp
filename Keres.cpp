@@ -237,11 +237,15 @@ void MainWindow::MODE_keres()
 void MainWindow::FILE_keres()
 {
 	FILE_k = -1;
+	if (mouse.x < BOX_FILE.left || mouse.x > BOX_FILE.right) return;
+	const float y = mouse.y - BOX_FILE.top;
 	for (size_t i = 0; i < FILE_vector.size(); i++)
 	{
-		if ((BOX_FILE.left <= mouse.x) && (BOX_FILE.right >= mouse.x) &&
-			((FILE_vector[i].y1 + BOX_FILE.top) <= mouse.y) && ((FILE_vector[i].y2 + BOX_FILE.top) >= mouse.y))
+		if (FILE_vector[i].y1 <= y && y <= FILE_vector[i].y2)
+		{
 			FILE_k = static_cast<int>(i);
+			break;
+		}
 	}
 }
 

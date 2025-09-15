@@ -400,29 +400,37 @@ void MainWindow::Filedialog_rajzol()
 
 void MainWindow::Printdialog_rajzol()
 {
-	/*// 20 elemű vegyes típusú teszt lista generálása a nyomtato vektorba
-	nyomtato.clear();
-	for (int i = 1; i <= 30; ++i) {
-		Nyomtato p;
-		p.name = L"Teszt nyomtató " + std::to_wstring(i);
-		// 1: helyi, 2: helyi virtuális, 3: hálózati, 4: hálózati virtuális
-		switch (i % 4) {
-		case 1: p.tipus = std::byte{ 1 }; p.name += L" (helyi)"; break;
-		case 2: p.tipus = std::byte{ 2 }; p.name += L" (helyi virtuális)"; break;
-		case 3: p.tipus = std::byte{ 3 }; p.name += L" (hálózati)"; break;
-		case 0: p.tipus = std::byte{ 4 }; p.name += L" (hálózati virtuális)"; break;
-		}
-		nyomtato.push_back(p);
-	}*/
 	Brush->SetColor(D2D1::ColorF(D2D1::ColorF::DarkBlue));
 	pRenderTarget->FillRectangle(dialog_2, Brush);
 	Brush->SetColor(D2D1::ColorF(D2D1::ColorF::DarkGreen));
 	pRenderTarget->DrawRectangle(dialog_2, Brush, 2);
 	Brush->SetColor(D2D1::ColorF(D2D1::ColorF::DarkGreen));
 	pRenderTarget->DrawLine(dialog_2.p1, dialog_2.p2, Brush, 2);
-	
+
+	std::vector<D2D1::ColorF> colors = {
+		D2D1::ColorF(0.0f, 1.0f, 0.0f), 
+		D2D1::ColorF(0.1f, 0.8f, 0.1f), 
+		D2D1::ColorF(1.0f, 0.8f, 0.0f), 
+		D2D1::ColorF(0.9f, 0.7f, 0.2f)  
+	};
+
 	if(dialog_2.ini)
 	{
+		// 20 elemű vegyes típusú teszt lista generálása a nyomtato vektorba
+		/*nyomtato.clear();
+		for (int i = 1; i <= 30; ++i) {
+			Nyomtato p;
+			p.name = L"Teszt nyomtató " + std::to_wstring(i);
+			// 1: helyi, 2: helyi virtuális, 3: hálózati, 4: hálózati virtuális
+			switch (i % 4) {
+			case 1: p.tipus = std::byte{ 1 }; p.name += L" (helyi)"; break;
+			case 2: p.tipus = std::byte{ 2 }; p.name += L" (helyi virtuális)"; break;
+			case 3: p.tipus = std::byte{ 3 }; p.name += L" (hálózati)"; break;
+			case 0: p.tipus = std::byte{ 4 }; p.name += L" (hálózati virtuális)"; break;
+			}
+			nyomtato.push_back(p);
+		}*/
+		
 		size_t helyN = static_cast<size_t>(dialog_2.list.bottom - dialog_2.list.top) / 20;
 		size_t N = nyomtato.size();
 		Kiir((int)N, 100, 100);
@@ -485,11 +493,21 @@ void MainWindow::Printdialog_rajzol()
 		rect.right = dialog_2.list.right - 20;
 		rect.top = dialog_2.list.top + i * 20;
 		rect.bottom = rect.top + 20;
+		Brush->SetColor(colors[static_cast<int>(nyomtato[i+kOffset].tipus)-1]);
 		UINT32 nameLen = (UINT32)nyomtato[i+kOffset].name.length();
-		pRenderTarget->DrawText(nyomtato[i+kOffset].name.c_str(), nameLen, TF2, rect, Brush);
+		if (nyomtato[i + kOffset].alap)
+		{
+			Brush->SetColor(D2D1::ColorF(D2D1::ColorF::White));
+			std::wstring displayName = nyomtato[i + kOffset].name;
+			//if (nyomtato[i + kOffset].alap)
+			displayName = L"★ " + displayName;
+			UINT32 nameLen = static_cast<UINT32>(displayName.length());
+			pRenderTarget->DrawText(displayName.c_str(), nameLen, TF2_dir, rect, Brush);
+		}
+		else pRenderTarget->DrawText(nyomtato[i + kOffset].name.c_str(), nameLen, TF2, rect, Brush);
 	}
-	//float h = N * 20;
 }
+
 void MainWindow::CUSTOM_rajzol()
 {
 	Brush->SetColor(D2D1::ColorF(D2D1::ColorF::Gray));

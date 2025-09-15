@@ -1,6 +1,7 @@
 ﻿#include "PrintHelpers.h"
 #include <windows.h>
 #include <winspool.h>
+//#pragma comment(lib, "Winspool.lib")
 #include <vector>
 #include <string>
 #include <cwctype>
@@ -24,6 +25,8 @@ static bool is_virtual_by_name(const std::wstring& name) {
 // includeConnections=false → csak helyi; true → a felhasználói kapcsolatok is (lassabb lehet)
 void GetPrintersByType(std::vector<Nyomtato>& ny, bool includeConnections = false)
 {
+    std::wstring defaultName;
+    const bool haveDefault = GetDefaultPrinterName(defaultName);
     const DWORD flags = PRINTER_ENUM_LOCAL | (includeConnections ? PRINTER_ENUM_CONNECTIONS : 0);
 
     DWORD needed = 0, returned = 0;
@@ -39,10 +42,11 @@ void GetPrintersByType(std::vector<Nyomtato>& ny, bool includeConnections = fals
     ny.clear();
     ny.reserve(returned);
 
-    for (DWORD i = 0; i < returned; ++i) {
+    for (DWORD i = 0; i < returned; ++i) 
+    {
         const auto& pi = printers[i];
         Nyomtato p;
-        p.name = pi.pPrinterName ? pi.pPrinterName : L"";
+        p.name = pi.pPrinterName ? pi.pPrinterName : L"?----?";
 
         const bool isNet = (pi.Attributes & PRINTER_ATTRIBUTE_NETWORK) != 0
             || (pi.pServerName && *pi.pServerName); // szervernév → gyakran hálózati
@@ -51,7 +55,40 @@ void GetPrintersByType(std::vector<Nyomtato>& ny, bool includeConnections = fals
         p.tipus = isNet ? (isVirt ? std::byte{ 4 } : std::byte{ 3 })
             : (isVirt ? std::byte{ 2 } : std::byte{ 1 });
 
+        p.alap = haveDefault && (p.name == defaultName);
         ny.push_back(std::move(p));
+    }
+	AppendTypeToName(ny);
+}
+// 1) Segédfüggvény: default nyomtató neve
+static bool GetDefaultPrinterName(std::wstring& out)
+{
+    DWORD need = 0;
+    GetDefaultPrinterW(nullptr, &need);
+    if (need == 0) return false;
+    out.resize(need - 1); // need tartalmazza a záró nullát
+    return GetDefaultPrinterW(out.data(), &need) != FALSE;
+}
+
+void AppendTypeToName(std::vector<Nyomtato>& nyomtatoList) {
+    for (auto& printer : nyomtatoList) {
+        switch (static_cast<int>(printer.tipus)) {
+        case 1:
+            printer.name += L" : (helyi)";
+            break;
+        case 2:
+            printer.name += L" : (helyi virtuális)";
+            break;
+        case 3:
+            printer.name += L" : (hálózati)";
+            break;
+        case 4:
+            printer.name += L" : (hálózati virtuális)";
+            break;
+        default:
+            printer.name += L" : (ismeretlen típus)";
+            break;
+        }
     }
 }
 /*void GetPrintersByType(std::vector<Nyomtato>& ny)

@@ -16,12 +16,15 @@ struct Nyomtato
 {
     std::wstring name{};
     std::byte tipus{ 0 };
+	bool alap{ false };
 };
 
 extern std::vector<Nyomtato> nyomtato;
 
 // Lekérdezi az összes elérhető nyomtató nevét, külön helyi és hálózati csoportba
 void GetPrintersByType(std::vector<Nyomtato>& nyomtato, bool);
+void AppendTypeToName(std::vector<Nyomtato>& nyomtatoList);
+bool GetDefaultPrinterName(std::wstring& out);
 
 inline int iroundf(float v) {
     long t = std::lroundf(v); // kerekít, nem truncál
