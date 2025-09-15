@@ -114,6 +114,7 @@ HRESULT MainWindow::CreateGraphicsResources()
 			);
 			TF1->SetTextAlignment(DWRITE_TEXT_ALIGNMENT_CENTER);
 			TF1->SetParagraphAlignment(DWRITE_PARAGRAPH_ALIGNMENT_CENTER);
+			TF1->SetWordWrapping(DWRITE_WORD_WRAPPING_NO_WRAP);
 			pDWriteFactory->CreateTextFormat(
 				L"Ariel",                // Font family name.
 				nullptr,                       // Font collection (nullptr sets it to use the system font collection).
@@ -126,6 +127,7 @@ HRESULT MainWindow::CreateGraphicsResources()
 			);
 			TF2->SetTextAlignment(DWRITE_TEXT_ALIGNMENT_LEADING);
 			TF2->SetParagraphAlignment(DWRITE_PARAGRAPH_ALIGNMENT_CENTER);
+			TF2->SetWordWrapping(DWRITE_WORD_WRAPPING_NO_WRAP);
 			pDWriteFactory->CreateTextFormat(
 				L"Georgia",                // Font family name.
 				nullptr,                       // Font collection (nullptr sets it to use the system font collection).
@@ -138,6 +140,7 @@ HRESULT MainWindow::CreateGraphicsResources()
 			);
 			TF2_dir->SetTextAlignment(DWRITE_TEXT_ALIGNMENT_LEADING);
 			TF2_dir->SetParagraphAlignment(DWRITE_PARAGRAPH_ALIGNMENT_CENTER);
+			TF2_dir->SetWordWrapping(DWRITE_WORD_WRAPPING_NO_WRAP);
 			pFactory->CreatePathGeometry(&pPathGeometry);
 			pFactory->CreatePathGeometry(&pPathGeometry_2);
 			pFactory->CreatePathGeometry(&pPathGeometry_3);

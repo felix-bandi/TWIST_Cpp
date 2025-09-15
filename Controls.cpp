@@ -328,7 +328,7 @@ void MainWindow::Filedialog_rajzol()
 					sorBuf[prefixLen + n] = fname[n];
 				size_t total = prefixLen + nameLen;
 				if (total > 255) total = 255;
-				pRenderTarget->DrawText(sorBuf, (UINT32)total, TF2_dir, rect, Brush);
+				pRenderTarget->DrawText(sorBuf, (UINT32)total, TF2_dir, rect, Brush, D2D1_DRAW_TEXT_OPTIONS_CLIP);
 			}
 			else
 			{
@@ -340,12 +340,12 @@ void MainWindow::Filedialog_rajzol()
 				size_t tagLen = wcslen(tag);
 				size_t total = n;
 				for (size_t k = 0; k < tagLen && total < maxLen; ++k) sorBuf[total++] = tag[k];
-				pRenderTarget->DrawText(sorBuf, (UINT32)total, TF2_dir, rect, Brush);
+				pRenderTarget->DrawText(sorBuf, (UINT32)total, TF2_dir, rect, Brush, D2D1_DRAW_TEXT_OPTIONS_CLIP);
 			}
 		}
 		else
 		{
-			pRenderTarget->DrawText(fname, (UINT32)nameLen, TF2, rect, Brush);
+			pRenderTarget->DrawText(fname, (UINT32)nameLen, TF2, rect, Brush, D2D1_DRAW_TEXT_OPTIONS_CLIP);
 		}
 	}
 
@@ -358,7 +358,7 @@ void MainWindow::Filedialog_rajzol()
 		const wchar_t* msg = (dialog.lastEnumError == ERROR_NOT_READY)
 			? L"Meghajtó nem elérhető"
 			: L"Hiba az olvasás során";
-		pRenderTarget->DrawText(msg, (UINT32)wcslen(msg), TF2, rr1, Brush);
+		pRenderTarget->DrawText(msg, (UINT32)wcslen(msg), TF2, rr1, Brush, D2D1_DRAW_TEXT_OPTIONS_CLIP);
 	}
 
 	// Edit mező
@@ -374,7 +374,7 @@ void MainWindow::Filedialog_rajzol()
 	pRenderTarget->DrawRectangle(dialog.edit, Brush, 1);
 	for (int i = 0; i < (int)dialog.edit.c.size(); i++)
 		dialog.filepath[i] = dialog.edit.c[i];
-	pRenderTarget->DrawText(dialog.filepath, (UINT32)dialog.edit.c.size(), TF2, dialog.edit, Brush);
+	pRenderTarget->DrawText(dialog.filepath, (UINT32)dialog.edit.c.size(), TF2, dialog.edit, Brush, D2D1_DRAW_TEXT_OPTIONS_CLIP);
 
 	// Mentés gomb
 	save1.bottom = dialog.bottom - 10;
@@ -395,7 +395,7 @@ void MainWindow::Filedialog_rajzol()
 	pRenderTarget->DrawRoundedRectangle(rrect, Brush, 1);
 	Brush->SetColor(D2D1::ColorF(D2D1::ColorF::White));
 	for (int i = 0; i < (int)save1.t.size(); i++) text[i] = save1.t[i];
-	pRenderTarget->DrawText(text, (UINT32)save1.t.size(), TF1, save1, Brush);
+	pRenderTarget->DrawText(text, (UINT32)save1.t.size(), TF1, save1, Brush, D2D1_DRAW_TEXT_OPTIONS_CLIP);
 }
 
 void MainWindow::Printdialog_rajzol()

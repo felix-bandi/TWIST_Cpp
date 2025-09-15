@@ -115,7 +115,7 @@ class MainWindow : public BaseWindow<MainWindow>
 	D2D1_POINT_2F eltolas, hely, ak, av, mouse_grid, p1, p2, p3, p4, f1, f2, mouse;
 	D2D1_SIZE_F meret;
 	D2D1_POINT_2F pontok[100], ablak;
-	
+	const int sorMag = 20;
 	double alfa, alfa_, beta, gamma, h_;
 	float vv = 10, szt, save=77, delta, delta_, sz_max, flo1=0, flo2=0, flo3=0;
 	//int vonal_d = 40, arc_v = 40, EL_pad_dx = 40, EL_pad_dy = 40, EL_pad_d = 10, SQ_pad_dx = 40, SQ_pad_dy = 40, SQ_pad_d = 10;

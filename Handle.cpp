@@ -94,7 +94,7 @@ LRESULT MainWindow::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			if (mx >= dialog.client.left && mx <= dialog.client.right &&
 				my >= dialog.client.top && my < dialog.client.bottom)
 			{
-				const int sorMag = 16;
+				
 				int relatívSor = (my - (int)dialog.client.top) / sorMag;
 				if (relatívSor >= 0)
 				{
