@@ -503,7 +503,7 @@ void MainWindow::Printdialog_rajzol()
 			std::wstring displayName = nyomtato[i + kOffset].name;
 			//if (nyomtato[i + kOffset].alap)
 			displayName = L"★ " + displayName;
-			UINT32 nameLen = static_cast<UINT32>(displayName.length());
+			nameLen = static_cast<UINT32>(displayName.length());
 			pRenderTarget->DrawText(displayName.c_str(), nameLen, TF2_dir, rect, Brush, D2D1_DRAW_TEXT_OPTIONS_CLIP);
 		}
 		else pRenderTarget->DrawText(nyomtato[i + kOffset].name.c_str(), nameLen, TF2, rect, Brush, D2D1_DRAW_TEXT_OPTIONS_CLIP);
@@ -831,9 +831,9 @@ void MainWindow::UpdateDialogContents()
 	if (dialog.ini)
 	{
 		dialog.sb.isHover = false;
-		size_t TF = 20;
+		//size_t TF = 20;
 		size_t fileN = File_vector.size();
-		size_t helyN = (size_t)((dialog.client.bottom - dialog.client.top) / TF);
+		size_t helyN = (size_t)((dialog.client.bottom - dialog.client.top) / sorMag);
 
 		if (fileN == 0)
 		{
