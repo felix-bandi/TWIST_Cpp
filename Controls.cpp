@@ -807,9 +807,9 @@ void MainWindow::UpdateDialogContents()
 	if (dialog.ini)
 	{
 		dialog.sb.isHover = false;
-		size_t TF = 20;
+		//size_t TF = 20;
 		size_t fileN = File_vector.size();
-		size_t helyN = (size_t)((dialog.client.bottom - dialog.client.top) / TF);
+		size_t helyN = (size_t)((dialog.client.bottom - dialog.client.top) / sorMag);
 
 		if (fileN == 0)
 		{
