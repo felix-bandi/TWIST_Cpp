@@ -282,9 +282,38 @@ void MainWindow::Filedialog_rajzol()
 	
 	// Fájl lista
 	dialog.k = -1;
-	WCHAR dirPrefix[] = L"<DIR>  ";
+	/*WCHAR dirPrefix[] = L"<DIR>  ";
 	WCHAR sorBuf[MAX_PATH] = { 0 };
 	size_t prefixLen = wcslen(dirPrefix);
+	if (ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
+	{
+		if (dialogSortMode == DIALOG_SORT_DIR_FIRST)
+		{
+			// Régi: <DIR> előtag
+			for (size_t n = 0; n < prefixLen; n++) sorBuf[n] = dirPrefix[n];
+			for (size_t n = 0; n < nameLen && (n + prefixLen) < 255; n++)
+				sorBuf[prefixLen + n] = fname[n];
+			size_t total = prefixLen + nameLen;
+			if (total > 255) total = 255;
+			pRenderTarget->DrawText(sorBuf, (UINT32)total, TF2_dir, rect, Brush, D2D1_DRAW_TEXT_OPTIONS_CLIP);
+		}
+		else
+		{
+			// Kevert mód: név + <DIR> utótag
+			size_t maxLen = 255;
+			size_t n = (nameLen > maxLen) ? maxLen : nameLen;
+			for (size_t k = 0; k < n; ++k) sorBuf[k] = fname[k];
+			const wchar_t tag[] = L"  <DIR>";
+			size_t tagLen = wcslen(tag);
+			size_t total = n;
+			for (size_t k = 0; k < tagLen && total < maxLen; ++k) sorBuf[total++] = tag[k];
+			pRenderTarget->DrawText(sorBuf, (UINT32)total, TF2_dir, rect, Brush, D2D1_DRAW_TEXT_OPTIONS_CLIP);
+		}
+	}
+	else
+	{
+		pRenderTarget->DrawText(fname, (UINT32)nameLen, TF2, rect, Brush, D2D1_DRAW_TEXT_OPTIONS_CLIP);
+	}*/
 
 	size_t fileN = File_vector.size();
 	size_t kOffset = 0;
@@ -319,11 +348,16 @@ void MainWindow::Filedialog_rajzol()
 		const WIN32_FIND_DATAW &ffd = File_vector[kOffset + i];
 		const WCHAR* fname = ffd.cFileName;
 		size_t nameLen = wcslen(fname);
-		//WCHAR *brrr = File_vector[kOffset + i].cFileName;
-		const WCHAR* borzalom = L"CON";
-		nameLen = wcslen(borzalom);
-		if (fdini2) { OutputDebugStringW(borzalom); OutputDebugStringW(L"\n"); }
-		pRenderTarget->DrawText(borzalom, (UINT32)nameLen, TF2, rect, Brush, D2D1_DRAW_TEXT_OPTIONS_CLIP);
+		WCHAR *brrr = File_vector[kOffset + i].cFileName;
+		//const WCHAR* borzalom = L"CON";
+		//nameLen = wcslen(borzalom);
+		pRenderTarget->DrawText(brrr, (UINT32)nameLen, TF2, rect, Brush, D2D1_DRAW_TEXT_OPTIONS_CLIP);
+		if (fdini2) 
+		{
+			OutputDebugStringW(brrr); OutputDebugStringW(L"\n");
+			
+			//OutputDebugStringW(brrr); OutputDebugStringW(L"\n");
+		}
 	}
 	fdini2 = false;
 	// Hiba kijelzés
@@ -802,10 +836,10 @@ void MainWindow::UpdateDialogContents()
 
 		dialog.edit.bottom = dialog.edit.top + newHeight;
 
-	}
+	//}
 
-	if (dialog.ini)
-	{
+	//if (dialog.ini)
+	//{
 		dialog.sb.isHover = false;
 		//size_t TF = 20;
 		size_t fileN = File_vector.size();
@@ -850,35 +884,7 @@ void MainWindow::UpdateDialogContents()
 				}
 			}
 		}
-		/*if (ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
-		{
-			if (dialogSortMode == DIALOG_SORT_DIR_FIRST)
-			{
-				// Régi: <DIR> előtag
-				for (size_t n = 0; n < prefixLen; n++) sorBuf[n] = dirPrefix[n];
-				for (size_t n = 0; n < nameLen && (n + prefixLen) < 255; n++)
-					sorBuf[prefixLen + n] = fname[n];
-				size_t total = prefixLen + nameLen;
-				if (total > 255) total = 255;
-				pRenderTarget->DrawText(sorBuf, (UINT32)total, TF2_dir, rect, Brush, D2D1_DRAW_TEXT_OPTIONS_CLIP);
-			}
-			else
-			{
-				// Kevert mód: név + <DIR> utótag
-				size_t maxLen = 255;
-				size_t n = (nameLen > maxLen) ? maxLen : nameLen;
-				for (size_t k = 0; k < n; ++k) sorBuf[k] = fname[k];
-				const wchar_t tag[] = L"  <DIR>";
-				size_t tagLen = wcslen(tag);
-				size_t total = n;
-				for (size_t k = 0; k < tagLen && total < maxLen; ++k) sorBuf[total++] = tag[k];
-				pRenderTarget->DrawText(sorBuf, (UINT32)total, TF2_dir, rect, Brush, D2D1_DRAW_TEXT_OPTIONS_CLIP);
-			}
-		}
-		else
-		{
-			pRenderTarget->DrawText(fname, (UINT32)nameLen, TF2, rect, Brush, D2D1_DRAW_TEXT_OPTIONS_CLIP);
-		}*/
 		dialog.ini = false;
+		dialog.dirchange = false;
 	}
 }
