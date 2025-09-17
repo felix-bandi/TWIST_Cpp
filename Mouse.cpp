@@ -271,6 +271,7 @@ void MainWindow::OnLButtonDown(int X, int Y, DWORD flags)
 			dialog.ini = true;
 			dialog_2.ini = true;
 			dialog.dirchange = true;
+			fdini2 = true;
 			break;
 		case 3:
 			mode = _print;

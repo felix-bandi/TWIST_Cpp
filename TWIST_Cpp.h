@@ -99,7 +99,7 @@ class MainWindow : public BaseWindow<MainWindow>
 	D2D1_RECT_F				BOX_GC{}, BOX_XY{}, BOX_ALAK{}, BOX_CUSTOM{}, BOX_MODE{}, BOX_SZINT{}, BOX_FILE{};
 	D2D1_MATRIX_3X2_F		sc, tr, sc_alk, tr_alk;
 	HDC						hdc;
-	// ReSharper disable once IdentifierTypo
+	bool fdini2 = false;
 	bool krv = false, vonalfolyamatban = false, arcfolyamatban = false, polifolyamatban = false;
 	bool EL_folyamatban = false, SQ_folyamatban = false, RR_folyamatban = false, BOX_GC_k = false, BOX_CUSTOM_k = false;
 	bool EV_folyamatban = false, SV_folyamatban = false, RV_folyamatban = false, ny_kep = false;
