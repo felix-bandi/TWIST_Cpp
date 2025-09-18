@@ -91,7 +91,7 @@ LRESULT MainWindow::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			int my = GET_Y_LPARAM(lParam);
 
 			// Ellenőrizzük hogy a lista kliens területén belül vagyunk-e
-			if (mx >= dialog.client.left && mx <= dialog.client.right &&
+			if (mx >= dialog.client.left+10 && mx <= dialog.client.right-20 &&
 				my >= dialog.client.top && my < dialog.client.bottom)
 			{
 

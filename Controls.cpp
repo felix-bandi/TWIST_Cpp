@@ -208,12 +208,12 @@ void MainWindow::Filedialog_rajzol()
 	pRenderTarget->DrawLine(dialog.p1, dialog.p2, Brush, 2);
 
 	// Ellenőrizzük a kiválasztott meghajtót (ha nincs, fallback 0)
-	bool talált = false;
+	bool talalt = false;
 	for (size_t i = 0; i < drivers.size(); ++i)
 	{
-		if (drivers[i].ch == kiv_drv) { talált = true; dialog.kkd = i; break; }
+		if (drivers[i].ch == kiv_drv) { talalt = true; dialog.kkd = i; break; }
 	}
-	if (!talált && !drivers.empty())
+	if (!talalt && !drivers.empty())
 	{
 		dialog.kkd = 0;
 		kiv_drv = drivers[0].ch;
@@ -249,8 +249,7 @@ void MainWindow::Filedialog_rajzol()
 		pRenderTarget->DrawText(text, 3, TF1, driver, Brush, D2D1_DRAW_TEXT_OPTIONS_CLIP);
 	}
 
-	// --- RÉGI enumerációs kód TÖRÖLVE ---
-	// Helyette: központosított frissítés
+	
 	UpdateDialogContents();
 	
 	// Görgetősáv (ha kell)
@@ -282,38 +281,10 @@ void MainWindow::Filedialog_rajzol()
 	
 	// Fájl lista
 	dialog.k = -1;
-	/*WCHAR dirPrefix[] = L"<DIR>  ";
+	WCHAR dirPrefix[] = L"<DIR>  ";
 	WCHAR sorBuf[MAX_PATH] = { 0 };
 	size_t prefixLen = wcslen(dirPrefix);
-	if (ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
-	{
-		if (dialogSortMode == DIALOG_SORT_DIR_FIRST)
-		{
-			// Régi: <DIR> előtag
-			for (size_t n = 0; n < prefixLen; n++) sorBuf[n] = dirPrefix[n];
-			for (size_t n = 0; n < nameLen && (n + prefixLen) < 255; n++)
-				sorBuf[prefixLen + n] = fname[n];
-			size_t total = prefixLen + nameLen;
-			if (total > 255) total = 255;
-			pRenderTarget->DrawText(sorBuf, (UINT32)total, TF2_dir, rect, Brush, D2D1_DRAW_TEXT_OPTIONS_CLIP);
-		}
-		else
-		{
-			// Kevert mód: név + <DIR> utótag
-			size_t maxLen = 255;
-			size_t n = (nameLen > maxLen) ? maxLen : nameLen;
-			for (size_t k = 0; k < n; ++k) sorBuf[k] = fname[k];
-			const wchar_t tag[] = L"  <DIR>";
-			size_t tagLen = wcslen(tag);
-			size_t total = n;
-			for (size_t k = 0; k < tagLen && total < maxLen; ++k) sorBuf[total++] = tag[k];
-			pRenderTarget->DrawText(sorBuf, (UINT32)total, TF2_dir, rect, Brush, D2D1_DRAW_TEXT_OPTIONS_CLIP);
-		}
-	}
-	else
-	{
-		pRenderTarget->DrawText(fname, (UINT32)nameLen, TF2, rect, Brush, D2D1_DRAW_TEXT_OPTIONS_CLIP);
-	}*/
+	
 
 	size_t fileN = File_vector.size();
 	size_t kOffset = 0;
@@ -348,18 +319,38 @@ void MainWindow::Filedialog_rajzol()
 		const WIN32_FIND_DATAW &ffd = File_vector[kOffset + i];
 		const WCHAR* fname = ffd.cFileName;
 		size_t nameLen = wcslen(fname);
-		WCHAR *brrr = File_vector[kOffset + i].cFileName;
-		//const WCHAR* borzalom = L"CON";
-		//nameLen = wcslen(borzalom);
-		pRenderTarget->DrawText(brrr, (UINT32)nameLen, TF2, rect, Brush, D2D1_DRAW_TEXT_OPTIONS_CLIP);
-		if (fdini2) 
+		
+		if (ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
 		{
-			OutputDebugStringW(brrr); OutputDebugStringW(L"\n");
-			
-			//OutputDebugStringW(brrr); OutputDebugStringW(L"\n");
+			if (dialogSortMode == DIALOG_SORT_DIR_FIRST)
+			{
+				// Régi: <DIR> előtag
+				for (size_t n = 0; n < prefixLen; n++) sorBuf[n] = dirPrefix[n];
+				for (size_t n = 0; n < nameLen && (n + prefixLen) < 255; n++)
+					sorBuf[prefixLen + n] = fname[n];
+				size_t total = prefixLen + nameLen;
+				if (total > 255) total = 255;
+				pRenderTarget->DrawText(sorBuf, (UINT32)total, TF2_dir, rect, Brush, D2D1_DRAW_TEXT_OPTIONS_CLIP);
+			}
+			else
+			{
+				// Kevert mód: név + <DIR> utótag
+				size_t maxLen = 255;
+				size_t n = (nameLen > maxLen) ? maxLen : nameLen;
+				for (size_t k = 0; k < n; ++k) sorBuf[k] = fname[k];
+				const wchar_t tag[] = L"  <DIR>";
+				size_t tagLen = wcslen(tag);
+				size_t total = n;
+				for (size_t k = 0; k < tagLen && total < maxLen; ++k) sorBuf[total++] = tag[k];
+				pRenderTarget->DrawText(sorBuf, (UINT32)total, TF2_dir, rect, Brush, D2D1_DRAW_TEXT_OPTIONS_CLIP);
+			}
+		}
+		else
+		{
+			pRenderTarget->DrawText(fname, (UINT32)nameLen, TF2, rect, Brush, D2D1_DRAW_TEXT_OPTIONS_CLIP);
 		}
 	}
-	fdini2 = false;
+	
 	// Hiba kijelzés
 	if (fileN == 0 && dialog.lastEnumError != 0)
 	{
@@ -774,9 +765,9 @@ void MainWindow::UpdateDialogContents()
 {
 	WCHAR base[MAX_PATH];
 	if (dialog_path[0] == 0)
-		swprintf_s(base, L"%c:\\", drivers[dialog.kkd].ch);
+		swprintf_s(base, MAX_PATH, L"%c:\\", drivers[dialog.kkd].ch);
 	else
-		swprintf_s(base, L"%c:\\%s", drivers[dialog.kkd].ch, dialog_path);
+		swprintf_s(base, MAX_PATH, L"%c:\\%s", drivers[dialog.kkd].ch, dialog_path);
 
 	WCHAR pattern[MAX_PATH];
 	swprintf_s(pattern, L"%s*.*", base);
