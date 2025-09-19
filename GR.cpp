@@ -207,8 +207,10 @@ void MainWindow::ALAK_init()
 	 dialog.right = 4 * w1;
 	 dialog.top = h1;
 	 dialog.bottom = 7 * h1;
-	 dialog.p1.x = dialog.left; dialog.p2.x = dialog.right;
+	 dialog.p1.x = dialog.p3.x = dialog.left; 
+	 dialog.p2.x = dialog.p4.x = dialog.right;
 	 dialog.p1.y = dialog.p2.y = dialog.top + 50;
+	 dialog.p3.y = dialog.p4.y = dialog.top + 80;
 	 dialog.sb.isPressed = false;
 	 dialog.sb.isDragging = false;
 	 dialog.kk = -1;
@@ -218,7 +220,7 @@ void MainWindow::ALAK_init()
 	 dialog.out_N = 0;
 	 dialog.client.left = dialog.left + 10;
 	 dialog.client.right = dialog.right - 10;
-	 dialog.client.top = dialog.top + 60;
+	 dialog.client.top = dialog.top + 90;
 	 dialog.client.bottom = dialog.bottom - 90;
 	 dialog.sb.top = dialog.client.top + 4;
 	 dialog.sb.bottom = dialog.client.bottom - 4;

@@ -268,7 +268,7 @@ struct Dialog :D2D1_RECT_F
 	std::vector<WCHAR[MAX_PATH]> path;
 	D2D1_RECT_F client = {};
 	EDIT_W edit;
-	D2D1_POINT_2F p1 = {}, p2 = {};
+	D2D1_POINT_2F p1 = {}, p2 = {}, p3 = {}, p4 = {};
 	DWORD lastEnumError = 0; 
 	Dialog() { top = 0; left = 0; bottom = 0; right = 0; }	
 };

@@ -385,7 +385,7 @@ void MainWindow::Kiir(bool v, float x, float y)
 	const size_t cap = std::size(text);                 // ha C++17: works
 	const size_t len = std::min(wst.size(), cap);
 	std::copy_n(wst.data(), len, text);
-	D2D1_RECT_F layoutRect = D2D1::RectF(x, y, x + 300, y);
+	D2D1_RECT_F layoutRect = D2D1::RectF(x, y, x + 300, y + sorMag);
 	pRenderTarget->DrawText(text, static_cast<UINT32>(len), TF1, layoutRect, Brush, D2D1_DRAW_TEXT_OPTIONS_CLIP);
 }
 
@@ -396,7 +396,7 @@ void MainWindow::Kiir(int v, float x, float y)
 	const size_t cap = std::size(text);                 // ha C++17: works
 	const size_t len = std::min(wst.size(), cap);
 	std::copy_n(wst.data(), len, text);
-	D2D1_RECT_F layoutRect = D2D1::RectF(x, y, x + 300, y);
+	D2D1_RECT_F layoutRect = D2D1::RectF(x, y, x + 300, y + sorMag);
 	pRenderTarget->DrawText(text, static_cast<UINT32>(len), TF1, layoutRect, Brush, D2D1_DRAW_TEXT_OPTIONS_CLIP);
 }
 
@@ -446,6 +446,6 @@ void MainWindow::Kiir(const char* s, float v, float x, float y)
 	const size_t cap = std::size(text);                 // ha C++17: works
 	const size_t len = std::min(wst.size(), cap);
 	std::copy_n(wst.data(), len, text);
-	D2D1_RECT_F layoutRect = D2D1::RectF(x, y, x + 300, y);
-	pRenderTarget->DrawText(text, static_cast<UINT32>(len), TF1, layoutRect, Brush, D2D1_DRAW_TEXT_OPTIONS_CLIP);
+	D2D1_RECT_F layoutRect = D2D1::RectF(x, y, x + 300, y + sorMag);
+	pRenderTarget->DrawText(text, static_cast<UINT32>(len), TF2_dir, layoutRect, Brush, D2D1_DRAW_TEXT_OPTIONS_CLIP);
 }

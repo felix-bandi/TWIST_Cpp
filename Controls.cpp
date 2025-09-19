@@ -203,10 +203,13 @@ void MainWindow::Filedialog_rajzol()
 			col++;
 		}
 	}
-
+	
+	
 	Brush->SetColor(D2D1::ColorF(D2D1::ColorF::DarkGreen));
 	pRenderTarget->DrawLine(dialog.p1, dialog.p2, Brush, 2);
-
+	pRenderTarget->DrawLine(dialog.p3, dialog.p4, Brush, 2);
+	Kiir("P3: ", dialog.p3.x, 100, 100);
+	Kiir("P4: ", dialog.p4.x, 100, 120);
 	// Ellenőrizzük a kiválasztott meghajtót (ha nincs, fallback 0)
 	bool talalt = false;
 	for (size_t i = 0; i < drivers.size(); ++i)
