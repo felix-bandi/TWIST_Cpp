@@ -91,7 +91,8 @@ class MainWindow : public BaseWindow<MainWindow>
 	RR_PAD					rr; RR_VIA rv;
 	GOMB					gomb, edit, grid, origo;
 	//GOMB_1					File_gomb;
-	vector<GOMB_2>			drivers; GOMB_2 driver, save1, save2, load;
+	vector<GOMB_2>			drivers; 
+	GOMB_2					driver, save1, save2, load;
 	vector<WIN32_FIND_DATAW>	File_vector;
 	GC						gc;
 	WCHAR					text[MAX_PATH], kiv_drv, dialog_path[MAX_PATH];
