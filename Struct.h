@@ -198,7 +198,7 @@ struct GOMB_1
 struct GOMB_2:D2D1_RECT_F
 {
 	char ch = '\0'; // Initialize to null character
-	std::wstring t;
+	std::wstring filepath;
 	WCHAR tt[MAX_PATH] = { 0 }; // Initialize all elements to zero
 	bool k = false; // Initialize to false
 	GOMB_2() { top = 0; left = 0; bottom = 0; right = 0; }

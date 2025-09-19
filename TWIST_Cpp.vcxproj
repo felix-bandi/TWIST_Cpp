@@ -209,6 +209,7 @@
     <ClCompile Include="Alkatresz.cpp" />
     <ClCompile Include="Mouse.cpp" />
     <ClCompile Include="nemhasznalt.cpp" />
+    <ClCompile Include="NormalizePath.cpp" />
     <ClCompile Include="Nyomtat.cpp" />
     <ClCompile Include="PrintHelpers.cpp" />
     <ClCompile Include="Rajzol.cpp" />

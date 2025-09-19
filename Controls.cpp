@@ -12,15 +12,15 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 #include <stdlib.h>
-//#include <time.h>
 using namespace std;
 #include "TWIST_Cpp.h"
+#include <iostream>
 #include <strsafe.h>
 #include <stdio.h>
 #include <algorithm>
 #include "PrintHelpers.h"
 #include <wrl/client.h>
-#include <iostream>
+
 
 static bool IsDriveReady(wchar_t letter)
 {
@@ -306,7 +306,7 @@ void MainWindow::Filedialog_rajzol()
 
 		rect.left = dialog.client.left + 10;
 		rect.right = dialog.client.right - 20;
-		rect.top = dialog.client.top + i * 20;
+		rect.top = dialog.client.top + (i + 1) * 20;
 		rect.bottom = rect.top + 20;
 
 		bool hover = (rect.left <= mouse.x && rect.right >= mouse.x &&
@@ -387,7 +387,7 @@ void MainWindow::Filedialog_rajzol()
 	save1.top = save1.bottom - 30;
 	save1.left = dialog.client.left;
 	save1.right = save1.left + 170;
-	save1.t = L"Mentés alkatrészként";
+	save1.filepath = L"Mentés alkatrészként";
 	rrect.rect = save1;  rrect.radiusX = 5;  rrect.radiusY = 5;
 
 	bool saveHover = (save1.left <= mouse.x && save1.right >= mouse.x &&
@@ -400,8 +400,8 @@ void MainWindow::Filedialog_rajzol()
 	Brush->SetColor(D2D1::ColorF(D2D1::ColorF::DarkCyan));
 	pRenderTarget->DrawRoundedRectangle(rrect, Brush, 1);
 	Brush->SetColor(D2D1::ColorF(D2D1::ColorF::White));
-	for (int i = 0; i < (int)save1.t.size(); i++) text[i] = save1.t[i];
-	pRenderTarget->DrawText(text, (UINT32)save1.t.size(), TF1, save1, Brush, D2D1_DRAW_TEXT_OPTIONS_CLIP);
+	for (int i = 0; i < (int)save1.filepath.size(); i++) text[i] = save1.filepath[i];
+	pRenderTarget->DrawText(text, (UINT32)save1.filepath.size(), TF1, save1, Brush, D2D1_DRAW_TEXT_OPTIONS_CLIP);
 }
 
 void MainWindow::Printdialog_rajzol()
@@ -786,8 +786,9 @@ void MainWindow::UpdateDialogContents()
 			if (dialog.hFind != INVALID_HANDLE_VALUE)
 			{
 				do {
-					if (wcscmp(dialog.FindFileData.cFileName, L".") == 0)
-						continue;
+					if (wcscmp(dialog.FindFileData.cFileName, L".") == 0) continue;
+					if (wcscmp(dialog.FindFileData.cFileName, L"..") == 0) continue;
+					if (dialog.FindFileData.dwFileAttributes & FILE_ATTRIBUTE_REPARSE_POINT) continue;
 					File_vector.push_back(dialog.FindFileData);
 				} while (FindNextFileW(dialog.hFind, &dialog.FindFileData));
 				FindClose(dialog.hFind);

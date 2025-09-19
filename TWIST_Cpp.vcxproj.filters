@@ -89,6 +89,12 @@
     <ClCompile Include="nemhasznalt.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="PrintHelpers.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="NormalizePath.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="input.rc">

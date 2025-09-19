@@ -15,10 +15,17 @@
 using namespace std;
 #include "TWIST_Cpp.h"
 #include <iostream>
+#include <strsafe.h>
+#include <stdio.h>
+#include <algorithm>
+#include "PrintHelpers.h"
+#include <wrl/client.h>
+
 #include <fstream>
 #include <cstring>
 #include "DPIScale.h"
-#include "PrintHelpers.h"
+#include <crtdbg.h>
+#include "StringConv.h"
 
 
 LRESULT MainWindow::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
@@ -95,7 +102,8 @@ LRESULT MainWindow::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 				my >= dialog.client.top && my < dialog.client.bottom)
 			{
 
-				int relativSor = (my - (int)dialog.client.top) / sorMag;
+				int relativSor = (my - (int)dialog.client.top) / sorMag - 1;
+				int1 = relativSor;//Kiir(relativSor,100,200);
 				if (relativSor >= 0)
 				{
 					// Görgetési offset kiszámítása

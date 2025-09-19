@@ -296,7 +296,7 @@ void MainWindow::OnPaint()
 		SZINT_rajzol();
 		ORIGO_rajzol();
 		XY_rajzol();
-
+		Kiir(int1, 100, 300);
 		/*Kiir("Mentees", save, 100, 100);
 		Kiir("arc.ksz", arc.ksz, 100, 150);
 		Kiir("arc.vsz", arc.vsz, 100, 200);
@@ -397,7 +397,7 @@ void MainWindow::Kiir(int v, float x, float y)
 	const size_t len = std::min(wst.size(), cap);
 	std::copy_n(wst.data(), len, text);
 	D2D1_RECT_F layoutRect = D2D1::RectF(x, y, x + 300, y + sorMag);
-	pRenderTarget->DrawText(text, static_cast<UINT32>(len), TF1, layoutRect, Brush, D2D1_DRAW_TEXT_OPTIONS_CLIP);
+	pRenderTarget->DrawText(text, static_cast<UINT32>(len), TF1, layoutRect, feher, D2D1_DRAW_TEXT_OPTIONS_CLIP);
 }
 
 void MainWindow::Kiir(int v, D2D1_RECT_F t)
