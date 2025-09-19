@@ -264,7 +264,7 @@ struct Dialog :D2D1_RECT_F
 	bool ini = FALSE, dirchange = FALSE;
 	WIN32_FIND_DATAW FindFileData = {}; // Initialize to zero
 	HANDLE hFind = nullptr;
-	WCHAR filepath[MAX_PATH] = { 0 };
+	//WCHAR filepath[MAX_PATH] = { 0 };
 	std::vector<WCHAR[MAX_PATH]> path;
 	D2D1_RECT_F client = {};
 	EDIT_W edit;

@@ -378,7 +378,7 @@ void MainWindow::Filedialog_rajzol()
 
 	pRenderTarget->DrawRectangle(dialog.edit, Brush, 1);
 	for (int i = 0; i < (int)dialog.edit.c.size(); i++)
-		dialog.filepath[i] = dialog.edit.c[i];
+		//dialog.filepath[i] = dialog.edit.c[i];
 	
 	pRenderTarget->DrawText(dialog.edit.c.c_str(), static_cast<UINT32>(dialog.edit.c.length()), TF2, dialog.edit, Brush);
 
@@ -774,7 +774,7 @@ void MainWindow::UpdateDialogContents()
 
 	WCHAR pattern[MAX_PATH];
 	swprintf_s(pattern, L"%s*.*", base);
-
+	dialog.edit.c = base;
 	if (dialog.dirchange)
 	{
 		File_vector.clear();
