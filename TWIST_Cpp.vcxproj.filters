@@ -45,6 +45,9 @@
     <ClInclude Include="StringConv.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="RajzMentes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TWIST_Cpp.cpp">
@@ -93,6 +96,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="NormalizePath.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RajzMentes.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="NormalizePath_Compat.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
